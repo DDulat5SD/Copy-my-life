@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore routines — CopyMyLife</title>
+
+  <!-- Шрифты: Manrope, Inter + Lora (курсив в карточке справа) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital@1&family=Manrope:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Тот же файл стилей, что и у Home page -->
+  <link rel="stylesheet" href="Explore_Style.css">
+</head>
+<body>
+
+  <!-- ==================== HEADER ==================== -->
+  <header class="header header-white">
+    <div class="container header-inner">
+      <a href="#" class="logo">
+        <span class="logo-icon">
+          <img src="https://i.ibb.co/chRY80xC/image.png" alt="">
+        </span>
+        <span class="logo-text">CopyMyLife</span>
+      </a>
+
+      <nav class="nav">
+        <a href="#" class="nav-link">Features</a>
+        <a href="#" class="nav-link nav-link-active">Explore</a>
+        <a href="#" class="nav-link">About</a>
+
+        <!-- Профиль пользователя -->
+        <a href="#" class="user">
+          <span class="user-avatar">
+            <!-- АВАТАР: убери комментарий и вставь ссылку -->
+            <!-- <img src="ССЫЛКА" alt=""> -->
+          </span>
+          Dulat
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ==================== HERO: поиск и фильтры ==================== -->
+    <section class="explore-hero">
+      <div class="container explore-hero-inner">
+
+        <div>
+          <span class="badge">Discover a better you</span>
+          <h1 class="explore-title">Explore routines</h1>
+          <p class="explore-subtitle">Find routines, habits, and daily systems you can adapt to your own life.</p>
+
+          <!-- Поиск -->
+          <label class="search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M20 20l-4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <input type="search" placeholder="Search routines, people, or keywords..." aria-label="Search routines">
+          </label>
+
+          <!-- Фильтры (кнопки) -->
+          <div class="filters">
+            <a href="#" class="chip chip-active">All</a>
+
+            <a href="#" class="chip">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+              Morning
+            </a>
+
+            <a href="#" class="chip">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M2 12h4l3-8 6 16 3-8h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Fitness
+            </a>
+
+            <a href="#" class="chip">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              </svg>
+              Study
+            </a>
+
+            <a href="#" class="chip">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              </svg>
+              Wellness
+            </a>
+
+            <a href="#" class="chip">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              </svg>
+              Productivity
+            </a>
+
+            <a href="#" class="chip">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="9" cy="8" r="3.5" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M2.5 20c.5-3.5 3.2-5.5 6.5-5.5s6 2 6.5 5.5M16 4.8a3.5 3.5 0 0 1 0 6.4M18.5 14.8c1.7.8 2.8 2.6 3 5.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+              Creators
+            </a>
+          </div>
+        </div>
+
+        <!-- Карточка справа -->
+        <aside class="promo">
+          <svg class="promo-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M10 3l1.8 5.2L17 10l-5.2 1.8L10 17l-1.8-5.2L3 10l5.2-1.8L10 3zM18 14l.9 2.1 2.1.9-2.1.9L18 20l-.9-2.1-2.1-.9 2.1-.9L18 14z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+          </svg>
+          <h2 class="promo-title">Better habits.<br>A brighter you.</h2>
+          <p class="promo-text">Explore how real people structure their days — and find what works for you.</p>
+          <p class="promo-note">Small steps.<br>Big change.</p>
+        </aside>
+
+      </div>
+    </section>
+
+    <!-- ==================== КАРТОЧКИ С РУТИНАМИ ==================== -->
+    <section>
+      <div class="container">
+
+        <!-- Первый ряд: большая карточка + 2 обычные -->
+        <div class="featured-row">
+
+          <!-- Большая карточка: Elon Musk -->
+          <article class="featured">
+            <div class="featured-body">
+              <span class="pill">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9L12 3.5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                </svg>
+                Featured routine
+              </span>
+              <h2 class="featured-title">Elon Musk’s Productivity System</h2>
+              <p class="featured-name">Elon Musk</p>
+              <p class="featured-role">Billionaire entrepreneur</p>
+              <p class="featured-text">A structured day focused on deep work, learning, and long-term thinking.</p>
+              <div class="meta">
+                <span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  12 habits
+                </span>
+                <span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                  ~ 14 hours
+                </span>
+              </div>
+              <a href="#" class="btn btn-dark featured-btn">
+                View routine
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+
+            <div class="featured-img">
+              <img src="https://i.ibb.co/C52sMxMH/photo-5282767902903836637-y.jpg" alt="Elon Musk">
+              <p class="featured-quote">“Focus on signal<br>over noise.”</p>
+            </div>
+          </article>
+
+          <!-- Карточка: David Goggins -->
+          <article class="card">
+            <div class="card-img card-img-wide">
+              <img src="https://i.ibb.co/5gfVFSq0/photo-5274141405255250420-x.jpg" alt="David Goggins">
+            </div>
+            <h3 class="card-name">David Goggins</h3>
+            <p class="card-tag">Discipline &amp; mindset</p>
+            <p class="card-desc">Mental toughness, early mornings, and relentless action.</p>
+            <div class="meta card-meta">
+              <span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                8 habits
+              </span>
+              <span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                ~ 6 hours
+              </span>
+            </div>
+            <a href="#" class="card-btn">
+              View routine
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </article>
+
+          <!-- Карточка: Cristiano Ronaldo -->
+          <article class="card">
+            <div class="card-img card-img-wide">
+              <img src="https://i.ibb.co/bjDKgTKD/photo-5274141405255250419-x.jpg" alt="Cristiano Ronaldo">
+            </div>
+            <h3 class="card-name">Cristiano Ronaldo</h3>
+            <p class="card-tag">Athlete</p>
+            <p class="card-desc">Training, recovery, nutrition and a winning mindset.</p>
+            <div class="meta card-meta">
+              <span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                10 habits
+              </span>
+              <span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                ~ 8 hours
+              </span>
+            </div>
+            <a href="#" class="card-btn">
+              View routine
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </article>
+
+        </div>
+
+        <!-- Второй ряд: 3 маленькие карточки -->
+        <div class="mini-row">
+
+          <!-- Taylor Swift -->
+          <article class="mini-card">
+            <div class="mini-img">
+              <img src="https://i.ibb.co/Z6zTmhkm/taylor-swift.jpg" alt="Taylor Swift">
+            </div>
+            <div class="mini-body">
+              <h3 class="mini-name">Taylor Swift</h3>
+              <p class="mini-role">Singer-Songwriter &amp; Producer</p>
+              <p class="mini-text">Creative work, songwriting, rehearsals, fitness, reading, and structured preparation.</p>
+              <div class="meta mini-meta">
+                <span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.2"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  9 habits
+                </span>
+                <span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.2"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+                  ~ 8 hours
+                </span>
+                <a href="#" class="link-small">
+                  View routine
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Michael Jordan -->
+          <article class="mini-card">
+            <div class="mini-img">
+              <img src="https://i.ibb.co/kV9m3b5t/photo-5262830132139860025-y.jpg" alt="Michael Jordan">
+            </div>
+            <div class="mini-body">
+              <h3 class="mini-name">Michael Jordan</h3>
+              <p class="mini-role">Athlete</p>
+              <p class="mini-text">Discipline, practice, and the pursuit of greatness.</p>
+              <div class="meta mini-meta">
+                <span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.2"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  11 habits
+                </span>
+                <span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.2"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+                  ~ 10 hours
+                </span>
+                <a href="#" class="link-small">
+                  View routine
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Bill Gates -->
+          <article class="mini-card">
+            <div class="mini-img">
+              <img class="img-crop-bottom" src="https://i.ibb.co/Yrpgvyk/photo-5274141405255250416-x.jpg" alt="Bill Gates">
+            </div>
+            <div class="mini-body">
+              <h3 class="mini-name">Bill Gates</h3>
+              <p class="mini-role">Entrepreneur &amp; Philanthropist</p>
+              <p class="mini-text">Reading, focused work, learning, planning, exercise, and reflection.</p>
+              <div class="meta mini-meta">
+                <span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.2"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  10 habits
+                </span>
+                <span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.2"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+                  ~ 10 hours
+                </span>
+                <a href="#" class="link-small">
+                  View routine
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== БАННЕР ==================== -->
+    <section class="explore-cta">
+      <div class="container">
+        <div class="cta-box cta-box-compact">
+          <div class="cta-text">
+            <p class="eyebrow eyebrow-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M10 3l1.8 5.2L17 10l-5.2 1.8L10 17l-1.8-5.2L3 10l5.2-1.8L10 3zM18 14l.9 2.1 2.1.9-2.1.9L18 20l-.9-2.1-2.1-.9 2.1-.9L18 14z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              </svg>
+              Your next routine is a click away
+            </p>
+            <h2 class="cta-title">Get inspired. Build a better you.</h2>
+            <p class="cta-subtitle">Explore routines from people who are living the life you want.</p>
+          </div>
+
+          <div class="cta-action">
+            <a href="#" class="btn btn-dark">
+              Start exploring
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>
