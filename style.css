@@ -1,19 +1,14 @@
-/* =========================================================
-   CopyMyLife — Home page
-   ========================================================= */
-
-/* ---------- Переменные: цвета, шрифты, скругления ---------- */
 :root {
   --bg: #FAFCFF;
   --white: #FFFFFF;
-  --navy: #15213B;          /* заголовки, тёмная кнопка */
+  --navy: #15213B;          
   --navy-hover: #25355A;
-  --text: #334155;          /* ссылки в меню */
-  --gray: #64748B;          /* подзаголовки, подписи */
+  --text: #334155;          
+  --gray: #64748B;          
   --border: #E6EAF1;
-  --accent: #5B6BF0;        /* синий акцент */
+  --accent: #5B6BF0;        
   --accent-soft: #EEF0FE;
-  --placeholder: #E8ECF3;   /* фон, пока нет картинки */
+  --placeholder: #E8ECF3;   
 
   --font-head: "Manrope", system-ui, sans-serif;
   --font-body: "Inter", system-ui, sans-serif;
@@ -21,7 +16,7 @@
   --shadow: 0 12px 32px rgba(21, 33, 59, 0.08);
 }
 
-/* ---------- Сброс ---------- */
+
 * {
   margin: 0;
   padding: 0;
@@ -45,14 +40,14 @@ a {
   text-decoration: none;
 }
 
-/* Видимая обводка при навигации с клавиатуры (Tab) */
+
 a:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 3px;
   border-radius: 10px;
 }
 
-/* Контейнер: контент 1240px по центру */
+
 .container {
   max-width: 1288px;
   margin: 0 auto;
@@ -60,7 +55,7 @@ a:focus-visible {
   padding-right: 24px;
 }
 
-/* ---------- Кнопки ---------- */
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -76,7 +71,7 @@ a:focus-visible {
   transition: background-color 0.15s, border-color 0.15s, transform 0.1s;
 }
 
-/* Эффект нажатия */
+
 .btn:active {
   transform: scale(0.97);
 }
@@ -122,7 +117,7 @@ a:focus-visible {
   gap: 10px;
 }
 
-/* Место под логотип */
+
 .logo-icon {
   width: 32px;
   height: 32px;
@@ -161,7 +156,7 @@ a:focus-visible {
   color: var(--accent);
 }
 
-/* ---------- Hero ---------- */
+
 .hero-inner {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -183,7 +178,7 @@ a:focus-visible {
   font-weight: 500;
 }
 
-/* точка внутри бейджа */
+
 .badge::before {
   content: "";
   width: 6px;
@@ -215,13 +210,13 @@ a:focus-visible {
   margin-top: 36px;
 }
 
-/* Две фотографии справа */
+
 .hero-photos {
   display: flex;
   gap: 18px;
 }
 
-/* Рамка под картинку: 265 × 408 как в Figma */
+
 .photo-card {
   position: relative;
   flex: 0 1 265px;
@@ -238,7 +233,7 @@ a:focus-visible {
   object-fit: cover;   /* картинка заполняет рамку без искажений */
 }
 
-/* Белая плашка снизу: "Morning routine" */
+
 .photo-info {
   position: absolute;
   left: 16px;
@@ -259,7 +254,7 @@ a:focus-visible {
   color: var(--gray);
 }
 
-/* Белая плашка сверху: "Read 30 min" */
+
 .photo-tag {
   position: absolute;
   top: 16px;
@@ -278,7 +273,7 @@ a:focus-visible {
   color: var(--accent);
 }
 
-/* ---------- Статистика ---------- */
+
 .stats-wrap {
   border-top: 1px solid var(--border);
 }
@@ -308,7 +303,7 @@ a:focus-visible {
   color: var(--gray);
 }
 
-/* ---------- Popular Routines ---------- */
+
 .popular {
   padding: 84px 0;
 }
@@ -359,7 +354,7 @@ a:focus-visible {
   gap: 12px;
 }
 
-/* Сетка из 4 карточек */
+
 .cards {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -376,7 +371,7 @@ a:focus-visible {
   box-shadow: 0 4px 16px rgba(21, 33, 59, 0.04);
 }
 
-/* Рамка под фото человека */
+
 .card-img {
   aspect-ratio: 262 / 248;
   border-radius: 12px;
@@ -388,7 +383,7 @@ a:focus-visible {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 20%;   /* чтобы лицо не обрезалось сверху */
+  object-position: center 20%;   
 }
 
 .card-name {
@@ -400,7 +395,7 @@ a:focus-visible {
 
 .card-role {
   margin-top: 2px;
-  margin-bottom: 16px;           /* отступ до кнопки */
+  margin-bottom: 16px;          
   font-size: 13px;
   color: var(--gray);
 }
@@ -410,7 +405,7 @@ a:focus-visible {
   justify-content: space-between;
   align-items: center;
   height: 44px;
-  margin-top: auto;              /* прижимает кнопку к низу карточки */
+  margin-top: auto;             
   padding: 0 16px 0 18px;
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -433,7 +428,7 @@ a:focus-visible {
   transform: scale(0.98);
 }
 
-/* ---------- Motivation banner ---------- */
+
 .cta {
   padding: 56px 0;
 }
@@ -451,7 +446,7 @@ a:focus-visible {
   box-shadow: var(--shadow);
 }
 
-/* Декоративные круги */
+
 .cta-box::before {
   content: "";
   position: absolute;
@@ -474,7 +469,7 @@ a:focus-visible {
   background: rgba(248, 210, 190, 0.4);
 }
 
-/* текст и кнопка поверх кругов */
+
 .cta-text,
 .cta-action {
   position: relative;
@@ -511,11 +506,11 @@ a:focus-visible {
   color: var(--gray);
 }
 
-/* =========================================================
-   Адаптив
-   ========================================================= */
 
-/* Планшет */
+
+
+
+
 @media (max-width: 1024px) {
   .hero-title {
     font-size: 48px;
@@ -526,7 +521,7 @@ a:focus-visible {
   }
 }
 
-/* Узкий планшет: hero в одну колонку */
+
 @media (max-width: 860px) {
   .hero-inner {
     grid-template-columns: 1fr;
@@ -550,7 +545,7 @@ a:focus-visible {
   }
 }
 
-/* Телефон */
+
 @media (max-width: 600px) {
   .nav-link {
     display: none;
@@ -586,7 +581,7 @@ a:focus-visible {
   }
 }
 
-/* Если у пользователя отключены анимации */
+
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;
