@@ -5,17 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Explore routines — CopyMyLife</title>
 
-  <!-- Шрифты: Manrope, Inter + Lora (курсив в карточке справа) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital@1&family=Manrope:wght@600;700&display=swap" rel="stylesheet">
 
-  <!-- Тот же файл стилей, что и у Home page -->
   <link rel="stylesheet" href="Explore_Style.css">
 </head>
 <body>
 
-  <!-- ==================== HEADER ==================== -->
   <header class="header header-white">
     <div class="container header-inner">
       <a href="#" class="logo">
@@ -28,13 +25,9 @@
       <nav class="nav">
         <a href="#" class="nav-link">Features</a>
         <a href="#" class="nav-link nav-link-active">Explore</a>
-        <a href="#" class="nav-link">About</a>
 
-        <!-- Профиль пользователя -->
         <a href="#" class="user">
           <span class="user-avatar">
-            <!-- АВАТАР: убери комментарий и вставь ссылку -->
-            <!-- <img src="ССЫЛКА" alt=""> -->
           </span>
           Dulat
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -47,7 +40,6 @@
 
   <main>
 
-    <!-- ==================== HERO: поиск и фильтры ==================== -->
     <section class="explore-hero">
       <div class="container explore-hero-inner">
 
@@ -56,7 +48,6 @@
           <h1 class="explore-title">Explore routines</h1>
           <p class="explore-subtitle">Find routines, habits, and daily systems you can adapt to your own life.</p>
 
-          <!-- Поиск -->
           <label class="search">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/>
@@ -65,7 +56,6 @@
             <input type="search" placeholder="Search routines, people, or keywords..." aria-label="Search routines">
           </label>
 
-          <!-- Фильтры (кнопки) -->
           <div class="filters">
             <a href="#" class="chip chip-active">All</a>
 
@@ -115,7 +105,6 @@
           </div>
         </div>
 
-        <!-- Карточка справа -->
         <aside class="promo">
           <svg class="promo-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M10 3l1.8 5.2L17 10l-5.2 1.8L10 17l-1.8-5.2L3 10l5.2-1.8L10 3zM18 14l.9 2.1 2.1.9-2.1.9L18 20l-.9-2.1-2.1-.9 2.1-.9L18 14z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
@@ -128,14 +117,11 @@
       </div>
     </section>
 
-    <!-- ==================== КАРТОЧКИ С РУТИНАМИ ==================== -->
     <section>
       <div class="container">
 
-        <!-- Первый ряд: большая карточка + 2 обычные -->
         <div class="featured-row">
 
-          <!-- Большая карточка: Elon Musk -->
           <article class="featured">
             <div class="featured-body">
               <span class="pill">
@@ -198,7 +184,6 @@
             </a>
           </article>
 
-          <!-- Карточка: Cristiano Ronaldo -->
           <article class="card">
             <div class="card-img card-img-wide">
               <img src="https://i.ibb.co/bjDKgTKD/photo-5274141405255250419-x.jpg" alt="Cristiano Ronaldo">
@@ -226,10 +211,8 @@
 
         </div>
 
-        <!-- Второй ряд: 3 маленькие карточки -->
         <div class="mini-row">
 
-          <!-- Taylor Swift -->
           <article class="mini-card">
             <div class="mini-img">
               <img src="https://i.ibb.co/Z6zTmhkm/taylor-swift.jpg" alt="Taylor Swift">
@@ -255,7 +238,6 @@
             </div>
           </article>
 
-          <!-- Michael Jordan -->
           <article class="mini-card">
             <div class="mini-img">
               <img src="https://i.ibb.co/kV9m3b5t/photo-5262830132139860025-y.jpg" alt="Michael Jordan">
@@ -281,7 +263,6 @@
             </div>
           </article>
 
-          <!-- Bill Gates -->
           <article class="mini-card">
             <div class="mini-img">
               <img class="img-crop-bottom" src="https://i.ibb.co/Yrpgvyk/photo-5274141405255250416-x.jpg" alt="Bill Gates">
@@ -310,34 +291,6 @@
         </div>
       </div>
     </section>
-
-    <!-- ==================== БАННЕР ==================== -->
-    <section class="explore-cta">
-      <div class="container">
-        <div class="cta-box cta-box-compact">
-          <div class="cta-text">
-            <p class="eyebrow eyebrow-icon">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M10 3l1.8 5.2L17 10l-5.2 1.8L10 17l-1.8-5.2L3 10l5.2-1.8L10 3zM18 14l.9 2.1 2.1.9-2.1.9L18 20l-.9-2.1-2.1-.9 2.1-.9L18 14z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-              </svg>
-              Your next routine is a click away
-            </p>
-            <h2 class="cta-title">Get inspired. Build a better you.</h2>
-            <p class="cta-subtitle">Explore routines from people who are living the life you want.</p>
-          </div>
-
-          <div class="cta-action">
-            <a href="#" class="btn btn-dark">
-              Start exploring
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
   </main>
 
 </body>
