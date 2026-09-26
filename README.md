@@ -9,4 +9,4 @@ The goal of the project is to help users track progress and learn from others.
 - Zamanbek Sailau — Backend Developer
 - Beknur Kurishbayev — Frontend Developer
 - Daulet Akhmetzhaunly — Designer
-- Project Manager and 2nd Frontend Developer
+- Dulat Daniyar Project Manager and 2nd Frontend Developer
