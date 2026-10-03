@@ -106,14 +106,8 @@ As a creator, I want to see how many followers I have and how many times my rout
 As a user, I want to follow and unfollow creators so that I can keep up with the people whose lifestyle I want to repeat.
 - Given the user views a creator's profile, when they select Follow, then the creator is added to their following list and the follower count increases by one.
 - Given the user already follows the creator, when they select Unfollow, then the creator is removed and the count decreases.
-
-**US-14. Personal Feed**  
-As a user, I want a feed with new posts and routine updates from creators I follow so that I see their latest activity in one place.
-- Given the user follows creators with new content, when they open the main page, then posts are shown newest first.
-- Given the user follows nobody, when they open the feed, then a suggestion to explore creators is shown.
-
 **US-15. Like and Comment**  
-As a user, I want to like and comment on posts and routines so that I can support creators and ask questions about their schedule.
+As a user, I want to like and comment on routines so that I can support creators and ask questions about their schedule.
 - Given the user is authenticated, when they like a post, then the like count increases and liking again removes the like.
 - Given the user writes a non-empty comment, when they submit, then it appears under the post with their name.
 - Given the user is a visitor, when they try to like or comment, then they are asked to sign in.
@@ -126,7 +120,7 @@ As a user, I want to bookmark routines and posts so that I can come back to them
 ### Epic 5: Copying Routines
 
 **US-17. Copy Full Routine**  
-As a user, I want to copy another person's complete public routine into my account so that I can use it as a template instead of starting from zero.
+As a user, I want to save another person's complete public routine into my routine's favourites so that I can use it as a template instead of starting from zero.
 - Given the user views a public routine, when they select Copy Routine, then a personal copy is created and the original remains unchanged.
 - Given the routine is private, when the user attempts to copy it, then the copy is blocked and private content is not exposed.
 
@@ -228,7 +222,6 @@ As an administrator, I want to create, edit, hide, and remove public profiles, c
 | US-20 | Daily Habit Tracking | Tracking & Progress | 6 | **Must** |
 | US-23 | Privacy Settings | Privacy & Moderation | 5 | **Must** |
 | US-05 | Search and Filter | Discovery | 5 | Should |
-| US-14 | Personal Feed | Social Interaction | 6 | Should |
 | US-18 | Copy a Single Habit | Copying Routines | 5 | Should |
 | US-19 | Adapt a Copied Routine | Copying Routines | 7 | Should |
 | US-21 | Progress and Streaks | Tracking & Progress | 6 | Should |
