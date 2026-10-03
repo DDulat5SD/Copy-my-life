@@ -95,13 +95,6 @@ As a user, I want to create my own routine by adding activities with time, durat
 As a user, I want to add, edit, reorder, pause, and delete activities so that my routine stays accurate when my schedule changes.
 - Given the user owns an activity, when they edit and save, then changes are stored and remain after refresh.
 - Given the user owns an activity, when they confirm deletion, then it is removed and no longer appears.
-
-**US-11. Daily To-Do List**  
-As a user, I want to create a to-do list for a day and optionally make it public so that I can plan tasks and show my followers what I am working on.
-- Given the user adds tasks, when they save, then the list is stored for the selected date.
-- Given a task exists, when the user checks it off, then it is marked done.
-- Given the list is set to public, when a follower opens the creator's profile, then the list is visible; if private, it is not.
-
 **US-12. Creator Statistics**  
 As a creator, I want to see how many followers I have and how many times my routines were copied so that I understand how useful my content is to others.
 - Given the creator has public routines, when they open their statistics, then follower count and copy count per routine are shown.
@@ -240,10 +233,8 @@ As an administrator, I want to create, edit, hide, and remove public profiles, c
 | US-19 | Adapt a Copied Routine | Copying Routines | 7 | Should |
 | US-21 | Progress and Streaks | Tracking & Progress | 6 | Should |
 | US-25 | Admin Content Management | Privacy & Moderation | 6 | Should |
-| US-11 | Daily To-Do List | Content Sharing | 4 | Could |
 | US-15 | Like and Comment | Social Interaction | 5 | Could |
 | US-16 | Save Routines | Social Interaction | 3 | Could |
-| US-07 | Source Information | Discovery | 3 | Could |
 | US-12 | Creator Statistics | Content Sharing | 4 | Could |
 | US-22 | Routine Reminders | Tracking & Progress | 6 | Could |
 | US-24 | Report Content | Privacy & Moderation | 3 | Could |
