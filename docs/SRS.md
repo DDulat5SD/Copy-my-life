@@ -135,7 +135,11 @@ As a user, I want to change the time, duration, frequency, and repeat days of co
 - Given invalid values, when the user saves, then saving is blocked and validation identifies the problem.
 
 ### Epic 6: Tracking & Progress
-
+**US-07. Progress Status**
+As a user, I want to see my status based on completed tasks so that I can track my progress and stay motivated.
+- Given the user has completed a certain number of tasks, when they view their profile, then their current status is displayed.
+- Given the user reaches the requirements for the next status, when the system updates their progress, then their status is automatically upgraded.
+- Given the user has not completed enough tasks, when they check their status, then they remain at their current level and can see the requirements for the next status.
 **US-20. Daily Habit Tracking**  
 As a user, I want to mark planned activities as completed, skipped, or postponed so that I can see how consistently I follow my routine.
 - Given a planned activity for today, when the user marks it Completed, then the status is stored and today's tracker updates.
@@ -231,6 +235,7 @@ As an administrator, I want to create, edit, hide, and remove public profiles, c
 | US-12 | Creator Statistics | Content Sharing | 4 | Could |
 | US-22 | Routine Reminders | Tracking & Progress | 6 | Could |
 | US-24 | Report Content | Privacy & Moderation | 3 | Could |
+| US-07 | Progress Status | Tracking & Progress | 5 | Could |
 
 **Won't have (this version):** direct messaging, live streaming, paid content or subscriptions, advertising, native iOS/Android apps.
 
