@@ -140,6 +140,7 @@ As a user, I want to see my status based on completed tasks so that I can track 
 - Given the user has completed a certain number of tasks, when they view their profile, then their current status is displayed.
 - Given the user reaches the requirements for the next status, when the system updates their progress, then their status is automatically upgraded.
 - Given the user has not completed enough tasks, when they check their status, then they remain at their current level and can see the requirements for the next status.
+
 **US-20. Daily Habit Tracking**  
 As a user, I want to mark planned activities as completed, skipped, or postponed so that I can see how consistently I follow my routine.
 - Given a planned activity for today, when the user marks it Completed, then the status is stored and today's tracker updates.
