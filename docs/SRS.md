@@ -101,12 +101,6 @@ As a user, I want to add, edit, reorder, pause, and delete activities so that my
 - Given the user owns an activity, when they edit and save, then changes are stored and remain after refresh.
 - Given the user owns an activity, when they confirm deletion, then it is removed and no longer appears.
 
-**US-10. Publish Photo/Video Post**  
-As a creator, I want to upload photos and short videos with a caption and optionally link them to a routine so that followers can see how I actually live my day.
-- Given a supported file (JPG, PNG, MP4) within the size limit, when the creator publishes, then the post appears on their profile and in followers' feeds.
-- Given an unsupported format or a file over the limit, when the creator uploads, then the upload is rejected with a clear message.
-- Given the creator owns a post, when they delete it, then it disappears from their profile and all feeds.
-
 **US-11. Daily To-Do List**  
 As a user, I want to create a to-do list for a day and optionally make it public so that I can plan tasks and show my followers what I am working on.
 - Given the user adds tasks, when they save, then the list is stored for the selected date.
@@ -241,7 +235,6 @@ As an administrator, I want to create, edit, hide, and remove public profiles, c
 | US-06 | Routine Details and Timeline | Discovery | 5 | **Must** |
 | US-08 | Create Personal Routine | Content Sharing | 6 | **Must** |
 | US-09 | Manage Habits and Activities | Content Sharing | 5 | **Must** |
-| US-10 | Publish Photo/Video Post | Content Sharing | 7 | **Must** |
 | US-13 | Follow a Creator | Social Interaction | 4 | **Must** |
 | US-17 | Copy Full Routine | Copying Routines | 7 | **Must** |
 | US-20 | Daily Habit Tracking | Tracking & Progress | 6 | **Must** |
