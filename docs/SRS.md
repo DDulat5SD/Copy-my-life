@@ -84,11 +84,6 @@ As a visitor or user, I want to view a routine as a clear day or week timeline s
 - Given a routine has timed activities, when the user opens it, then activities appear in chronological order with duration and repeat pattern visible.
 - Given a routine has no activities, when the user opens it, then a clear empty state is shown.
 
-**US-07. Source Information**  
-As a visitor or user, I want to see the source of a public figure's routine information so that I can distinguish sourced information from unverified content.
-- Given a routine has source metadata, when the user opens it, then the source is displayed.
-- Given a routine has no verified source, when the user opens it, then it is marked "Unverified" and not presented as confirmed fact.
-
 ### Epic 3: Content Sharing (Creator)
 
 **US-08. Create Personal Routine**  
