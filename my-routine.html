@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Routine — CopyMyLife</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="my-routine.css" />
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <div class="container header__inner">
+      <a href="#" class="logo">
+        <img src="https://i.ibb.co/chRY80xC/image.png" alt="CopyMyLife logo" class="logo__img" />
+        <span class="logo__text">CopyMyLife</span>
+      </a>
+      <nav class="nav">
+        <a href="#" class="nav__link">Home</a>
+        <a href="#" class="nav__link">Explore</a>
+        <button class="user-menu" type="button">
+          <span class="avatar avatar--sm" id="currentUserAvatar">D</span>
+          <span class="user-menu__name" id="currentUserName">Daulet</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container main">
+    <a href="#" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to routines
+    </a>
+
+    <!-- ===== ROUTINE HERO ===== -->
+    <section class="card hero">
+      <div class="hero__image" id="routineImage">
+        <span class="hero__clock">10:24</span>
+      </div>
+
+      <div class="hero__body">
+        <div class="hero__top">
+          <div>
+            <span class="tag" id="routineTag">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
+              <span>Study routine</span>
+            </span>
+            <h1 class="hero__title" id="routineTitle">Morning Study Routine</h1>
+          </div>
+          <div class="hero__actions">
+            <button class="btn btn--primary" id="startBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4l14 8-14 8z"/></svg>
+              Start routine
+            </button>
+            <button class="btn btn--light" id="saveBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 3h12v18l-6-4-6 4z"/></svg>
+              Saved <strong id="savedCount">0</strong>
+            </button>
+          </div>
+        </div>
+
+        <div class="author">
+          <span class="avatar avatar--letter" id="authorAvatar">D</span>
+          <div>
+            <div class="author__name" id="authorName">Daulet</div>
+            <div class="author__date" id="routineCreated">Created 2 weeks ago</div>
+          </div>
+        </div>
+
+        <p class="hero__desc" id="routineDesc"></p>
+
+        <div class="hero__meta">
+          <span class="meta">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="m9 12 2 2 4-4"/></svg>
+            <span id="habitsCount">0 habits</span>
+          </span>
+          <span class="meta meta--pill">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
+            <span id="routineCategory">Study</span>
+          </span>
+          <span class="meta">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <span id="routineTimeRange">—</span>
+          </span>
+          <span class="meta">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <span id="routineTotal">Total —</span>
+          </span>
+          <span class="meta__divider"></span>
+          <button class="stat stat--like" id="likeBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.5-9.3C1 8 3.4 4.5 7 4.5c2 0 3.4 1 5 2.8 1.6-1.8 3-2.8 5-2.8 3.6 0 6 3.5 4.5 7.2C19.5 16.4 12 21 12 21z"/></svg>
+            <span id="likesCount">0</span>
+          </button>
+          <a href="#comments" class="stat stat--comments">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H9l-5 4z"/></svg>
+            <span id="commentsCountTop">0</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ROUTINE SCHEDULE ===== -->
+    <section class="card schedule">
+      <h2 class="section-title">Routine schedule</h2>
+      <p class="section-sub">Follow these habits in order for the best results.</p>
+      <ol class="habits" id="habitsList">
+        <!-- habits are rendered from data (my-routine.js) -->
+      </ol>
+    </section>
+
+    <!-- ===== COMMENTS ===== -->
+    <section class="card comments" id="comments">
+      <div class="comments__head">
+        <h2 class="section-title">Comments (<span id="commentsCount">0</span>)</h2>
+        <select class="sort-select" id="sortSelect">
+          <option value="recent">Most recent</option>
+          <option value="oldest">Oldest</option>
+          <option value="popular">Most liked</option>
+        </select>
+      </div>
+
+      <form class="comment-form" id="commentForm">
+        <span class="avatar avatar--md" id="formAvatar">D</span>
+        <input type="text" class="comment-form__input" id="commentInput" placeholder="Write a comment..." maxlength="500" autocomplete="off" />
+        <button type="submit" class="btn btn--post" id="postBtn" disabled>Post</button>
+      </form>
+
+      <ul class="comment-list" id="commentList">
+        <!-- comments are rendered from data (my-routine.js) -->
+      </ul>
+    </section>
+  </main>
+
+  <script src="my-routine.js"></script>
+</body>
+</html>
