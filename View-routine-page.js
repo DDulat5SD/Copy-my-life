@@ -1,26 +1,18 @@
-/* =========================================================
-   my-routine.js
-   Вся страница рисуется из данных (routine + comments).
-   Сейчас используются тестовые данные (MOCK).
-   Когда будет бэкэнд — поставь USE_API = true и проверь пути в API.
-   ========================================================= */
-
 const USE_API = false;
 const API_BASE = "/api";
 const ROUTINE_ID = new URLSearchParams(location.search).get("id") || 1;
 
 const API = {
-  routine:     (id) => `${API_BASE}/routines/${id}`,           // GET
-  comments:    (id) => `${API_BASE}/routines/${id}/comments`,  // GET, POST { text, parentId }
-  likeComment: (id) => `${API_BASE}/comments/${id}/like`,      // POST (toggle)
-  likeRoutine: (id) => `${API_BASE}/routines/${id}/like`,      // POST (toggle)
-  saveRoutine: (id) => `${API_BASE}/routines/${id}/save`,      // POST (toggle)
+  routine:     (id) => `${API_BASE}/routines/${id}`,
+  comments:    (id) => `${API_BASE}/routines/${id}/comments`,
+  likeComment: (id) => `${API_BASE}/comments/${id}/like`,
+  likeRoutine: (id) => `${API_BASE}/routines/${id}/like`,
+  saveRoutine: (id) => `${API_BASE}/routines/${id}/save`,
+  saveHabit:   (id) => `${API_BASE}/habits/${id}/save`,
 };
 
-/* ---------- Текущий пользователь (потом придёт из авторизации) ---------- */
 const currentUser = { id: 1, name: "Daulet" };
 
-/* ---------- Тестовые данные: такой же формат должен отдавать бэкэнд ---------- */
 const daysAgo = (d) => new Date(Date.now() - d * 86400000).toISOString();
 
 const MOCK_ROUTINE = {
@@ -30,7 +22,7 @@ const MOCK_ROUTINE = {
   category: "Study",
   description:
     "A focused morning routine to start the day with clarity, energy and deep work. These habits help me stay consistent, plan better and make real progress on my goals.",
-  imageUrl: "", // ссылка на обложку; пусто = заглушка
+  imageUrl: "",
   author: { id: 1, name: "Daulet" },
   createdAt: daysAgo(14),
   likes: 243,
@@ -38,11 +30,11 @@ const MOCK_ROUTINE = {
   likedByMe: false,
   savedByMe: false,
   habits: [
-    { id: 1, title: "Drink water",       description: "Rehydrate and wake up your body.",   icon: "water", color: "blue",   startTime: "07:00", duration: 5 },
-    { id: 2, title: "Light stretching",  description: "Loosen up and get some energy flowing.", icon: "bolt", color: "orange", startTime: "07:05", duration: 10 },
-    { id: 3, title: "Plan the day",      description: "Set your priorities and write a short plan.", icon: "notes", color: "purple", startTime: "07:15", duration: 10 },
-    { id: 4, title: "Deep work session", description: "Focus on your most important task.", icon: "cap",   color: "yellow", startTime: "07:25", duration: 25 },
-    { id: 5, title: "Read notes",        description: "Review your notes and reinforce learning.", icon: "book", color: "purple", startTime: "07:50", duration: 45 },
+    { id: 1, title: "Drink water",       description: "Rehydrate and wake up your body.",   icon: "water", color: "blue",   startTime: "07:00", duration: 5, savedByMe: false },
+    { id: 2, title: "Light stretching",  description: "Loosen up and get some energy flowing.", icon: "bolt", color: "orange", startTime: "07:05", duration: 10, savedByMe: false },
+    { id: 3, title: "Plan the day",      description: "Set your priorities and write a short plan.", icon: "notes", color: "purple", startTime: "07:15", duration: 10, savedByMe: false },
+    { id: 4, title: "Deep work session", description: "Focus on your most important task.", icon: "cap",   color: "yellow", startTime: "07:25", duration: 25, savedByMe: false },
+    { id: 5, title: "Read notes",        description: "Review your notes and reinforce learning.", icon: "book", color: "purple", startTime: "07:50", duration: 45, savedByMe: false },
   ],
 };
 
@@ -54,7 +46,6 @@ const MOCK_COMMENTS = [
   { id: 5, parentId: null, author: { id: 4, name: "Emma Wilson" }, text: "I've been following this routine for a week now and it's amazing! The morning feels so much calmer and I actually get things done. The planning step makes a huge difference for me.", createdAt: daysAgo(3), likes: 9, likedByMe: false },
 ];
 
-/* ---------- Иконки привычек ---------- */
 const ICONS = {
   water: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/></svg>',
   bolt:  '<svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>',
@@ -66,15 +57,14 @@ const ICONS = {
 const CLOCK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
 const ARROW = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 const HEART = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.5-9.3C1 8 3.4 4.5 7 4.5c2 0 3.4 1 5 2.8 1.6-1.8 3-2.8 5-2.8 3.6 0 6 3.5 4.5 7.2C19.5 16.4 12 21 12 21z"/></svg>';
+const BOOKMARK = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"/></svg>';
 const REPLY = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 6 6v4"/></svg>';
 
-/* ---------- Состояние ---------- */
 let routine = null;
 let comments = [];
 let sortMode = "recent";
 let nextLocalId = 1000;
 
-/* ---------- Утилиты ---------- */
 const $ = (id) => document.getElementById(id);
 
 function escapeHTML(str) {
@@ -86,8 +76,6 @@ function escapeHTML(str) {
 function initials(name) {
   return name.split(" ").map((p) => p[0]).join("").slice(0, 2).toUpperCase();
 }
-
-// Цвет аватарки зависит от имени — у каждого свой
 function avatarColor(name) {
   const palette = [["#5b7cfa", "#2f5bea"], ["#f78ca0", "#e0457b"], ["#43c59e", "#1f9d74"], ["#f5a742", "#e07b1b"], ["#9b7bf7", "#6b4fe0"], ["#4fc3e8", "#1e94c4"]];
   let h = 0;
@@ -135,9 +123,6 @@ async function request(url, options = {}) {
   return res.json();
 }
 
-/* =========================================================
-   ROUTINE
-   ========================================================= */
 async function loadRoutine() {
   routine = USE_API ? await request(API.routine(ROUTINE_ID)) : structuredClone(MOCK_ROUTINE);
   renderRoutine();
@@ -159,7 +144,7 @@ function renderRoutine() {
     img.classList.add("has-photo");
   }
 
-  const habits = [...routine.habits].sort((a, b) => toMinutes(a.startTime) - toMinutes(b.startTime));
+  const habits = sortedHabits();
   const total = habits.reduce((sum, h) => sum + h.duration, 0);
   $("habitsCount").textContent = `${habits.length} habit${habits.length === 1 ? "" : "s"}`;
   $("routineTotal").textContent = `Total ${formatDuration(total)}`;
@@ -173,6 +158,10 @@ function renderRoutine() {
 
   renderRoutineStats();
   renderHabits(habits);
+}
+
+function sortedHabits() {
+  return [...routine.habits].sort((a, b) => toMinutes(a.startTime) - toMinutes(b.startTime));
 }
 
 function renderRoutineStats() {
@@ -197,6 +186,7 @@ function renderHabits(habits) {
           ${CLOCK}<span>${formatTime(start)}</span>${ARROW}<span>${formatTime(start + h.duration)}</span>
         </div>
         <span class="habit__dur">${h.duration} min</span>
+        <button class="habit__save ${h.savedByMe ? "is-active" : ""}" data-id="${h.id}" title="${h.savedByMe ? "Saved" : "Save habit"}" aria-label="Save habit">${BOOKMARK}</button>
       </li>`;
   }).join("");
 }
@@ -211,16 +201,24 @@ async function toggleRoutine(field) {
     try {
       await request(field === "like" ? API.likeRoutine(routine.id) : API.saveRoutine(routine.id), { method: "POST" });
     } catch (e) {
-      routine[flag] = !routine[flag];          // откат при ошибке
+      routine[flag] = !routine[flag];
       routine[count] += routine[flag] ? 1 : -1;
       renderRoutineStats();
     }
   }
 }
 
-/* =========================================================
-   COMMENTS
-   ========================================================= */
+async function toggleHabitSave(id) {
+  const h = routine.habits.find((x) => x.id === id);
+  if (!h) return;
+  h.savedByMe = !h.savedByMe;
+  renderHabits(sortedHabits());
+  if (USE_API) {
+    try { await request(API.saveHabit(id), { method: "POST" }); }
+    catch (e) { h.savedByMe = !h.savedByMe; renderHabits(sortedHabits()); }
+  }
+}
+
 async function loadComments() {
   comments = USE_API ? await request(API.comments(ROUTINE_ID)) : structuredClone(MOCK_COMMENTS);
   renderComments();
@@ -330,9 +328,6 @@ function openReplyForm(parentId, name) {
   });
 }
 
-/* =========================================================
-   EVENTS
-   ========================================================= */
 function bindEvents() {
   const input = $("commentInput");
   input.addEventListener("input", () => { $("postBtn").disabled = !input.value.trim(); });
@@ -346,7 +341,6 @@ function bindEvents() {
 
   $("sortSelect").addEventListener("change", (e) => { sortMode = e.target.value; renderComments(); });
 
-  // Делегирование: одна функция на все кнопки внутри списка
   $("commentList").addEventListener("click", (e) => {
     const btn = e.target.closest("[data-action]");
     if (!btn) return;
@@ -355,12 +349,16 @@ function bindEvents() {
     if (btn.dataset.action === "reply") openReplyForm(id, btn.dataset.name);
   });
 
+  $("habitsList").addEventListener("click", (e) => {
+    const btn = e.target.closest(".habit__save");
+    if (btn) toggleHabitSave(Number(btn.dataset.id));
+  });
+
   $("likeBtn").addEventListener("click", () => toggleRoutine("like"));
   $("saveBtn").addEventListener("click", () => toggleRoutine("save"));
   $("startBtn").addEventListener("click", () => alert("Routine started! 🚀"));
 }
 
-/* ---------- Старт ---------- */
 document.addEventListener("DOMContentLoaded", async () => {
   $("currentUserName").textContent = currentUser.name;
   $("currentUserAvatar").textContent = initials(currentUser.name)[0];
