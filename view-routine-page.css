@@ -1,4 +1,3 @@
-/* ===== Base ===== */
 :root {
   --bg: #f3f6fc;
   --card: #ffffff;
@@ -29,7 +28,6 @@ button { cursor: pointer; border: none; background: none; }
 
 .container { max-width: 1020px; margin: 0 auto; padding: 0 16px; }
 
-/* ===== Header ===== */
 .header {
   background: rgba(255, 255, 255, .92);
   backdrop-filter: blur(8px);
@@ -50,7 +48,6 @@ button { cursor: pointer; border: none; background: none; }
 
 .user-menu { display: flex; align-items: center; gap: 10px; font-weight: 600; color: var(--text); }
 
-/* ===== Avatars (initials) ===== */
 .avatar {
   display: inline-flex; align-items: center; justify-content: center;
   border-radius: 50%; color: #fff; font-weight: 600; flex-shrink: 0;
@@ -62,7 +59,6 @@ button { cursor: pointer; border: none; background: none; }
 .avatar--xs { width: 44px; height: 44px; font-size: 16px; }
 .avatar--letter { width: 42px; height: 42px; font-size: 17px; background: var(--blue-soft); color: var(--blue); }
 
-/* ===== Main ===== */
 .main { padding-top: 18px; padding-bottom: 40px; }
 
 .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; margin-bottom: 18px; color: var(--primary); }
@@ -76,7 +72,7 @@ button { cursor: pointer; border: none; background: none; }
   margin-bottom: 18px;
 }
 
-/* ===== Hero ===== */
+
 .hero { display: flex; gap: 24px; padding: 14px; }
 
 .hero__image {
@@ -142,7 +138,7 @@ button { cursor: pointer; border: none; background: none; }
 .stat--like:not(.is-active) svg { fill: none; stroke: currentColor; stroke-width: 2; }
 .stat--comments { background: var(--blue-soft); color: var(--primary); }
 
-/* ===== Schedule ===== */
+
 .schedule, .comments { padding: 20px 18px; }
 .section-title { font-size: 19px; font-weight: 700; color: var(--primary); }
 .section-sub { color: var(--muted); font-size: 14px; margin-bottom: 16px; }
@@ -185,7 +181,7 @@ button { cursor: pointer; border: none; background: none; }
 .icon--green  { background: #e5f8ee; color: #22a35f; }
 .icon--pink   { background: #ffe8f1; color: #e0457b; }
 
-/* ===== Comments ===== */
+
 .comments__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
 .sort-select {
   border: 1px solid var(--border); background: #f6f8fd;
@@ -230,7 +226,7 @@ button { cursor: pointer; border: none; background: none; }
 
 .empty { color: var(--muted); text-align: center; padding: 20px 0; }
 
-/* ===== Responsive ===== */
+
 @media (max-width: 860px) {
   .hero { flex-direction: column; }
   .hero__image { width: 100%; min-height: 200px; }
