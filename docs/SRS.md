@@ -197,17 +197,18 @@ As an administrator, I want to create, edit, hide, and remove public profiles, c
 | Team | 4 members: UI/UX Designer, Frontend Developer 1, Frontend Developer 2, Backend Developer |
 | UI/UX design | Figma (design completed) |
 | Frontend | HTML, CSS |
-| Backend | Java |
-| Database | _To be decided_ — ________ |
-| Media storage | _To be decided_ — ________ |
-| Hosting | _To be decided_ — ________ |
+| Backend | Java, Spring Boot |
+| Database | PostgreSQL |
+| Media storage | Railway persistent volume |
+| Hosting | Railway |
 | Timeline | 6 iterations, 27.09.2026 – 06.12.2026 (two-week iterations) |
 | Business | The platform is free; no selling, paid subscriptions, or ads in this version |
 | Platform | Web only (desktop and mobile browsers); no native apps |
 
 ### Current status
-- **Done:** UI/UX design in Figma; frontend pages `main.html`, `Explore.html`, `profile.html`, `login.html`, `signin.html` with styles.
-- **In progress:** backend.
+- **Completed for Milestone 1:** SRS, ERD, traceability table, GitHub setup, and initial UI/UX prototype.
+- **Implementation status:** backend development has started and several core features are already implemented.
+- **Next phases:** continue implementation, testing, integration, and preparation for later milestones.
 
 ---
 
@@ -240,4 +241,4 @@ As an administrator, I want to create, edit, hide, and remove public profiles, c
 
 **Won't have (this version):** direct messaging, live streaming, paid content or subscriptions, advertising, native iOS/Android apps.
 
-**Summary:** 12 Must · 6 Should · 7 Could · 5 Won't features.
+**Summary:** 11 Must · 5 Should · 6 Could · 5 Won't features.
