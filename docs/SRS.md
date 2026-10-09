@@ -239,7 +239,7 @@ As an administrator, I want to create, edit, hide, and remove public profiles, c
 | US-17 | Copy Full Routine | Copying Routines | 7 | **Must** |
 | US-20 | Daily Habit Tracking | Tracking & Progress | 6 | **Must** |
 | US-23 | Privacy Settings | Privacy & Moderation | 5 | **Must** |
-| US-27 | AI-Powered Lifestyle Matching | Account & Profile | 6 | **Must** |
+| US-27 | Weekly Routine Calendar | Account & Profile | 6 | **Must** |
 | US-05 | Search and Filter | Discovery | 5 | Should |
 | US-18 | Copy a Single Habit | Copying Routines | 5 | Should |
 | US-19 | Adapt a Copied Routine | Copying Routines | 7 | Should |
