@@ -67,6 +67,12 @@ As a user, I want to create and edit my profile with a name, photo, interests, g
 - Given the user edits valid fields, when they save, then the profile is updated and the values remain after refresh.
 - Given the user is editing, when they select Cancel, then the original data remains unchanged.
 
+- **US-27. Weekly Routine Calendar**
+- As a user, I want to see my daily routines in a weekly calendar so that I can easily organize my schedule and keep track of my planned activities.
+- Given the user has added routines, when they open the weekly calendar, then the system displays their routines on the corresponding days.
+- Given the user selects a day, when they click on a routine, then they can view its details.
+- Given the user adds, edits, or deletes a routine, when they open the calendar, then the changes are reflected automatically.
+
 ### Epic 2: Discovery
 
 **US-04. Explore Public Routines**  
@@ -233,6 +239,7 @@ As an administrator, I want to create, edit, hide, and remove public profiles, c
 | US-17 | Copy Full Routine | Copying Routines | 7 | **Must** |
 | US-20 | Daily Habit Tracking | Tracking & Progress | 6 | **Must** |
 | US-23 | Privacy Settings | Privacy & Moderation | 5 | **Must** |
+| US-27 | AI-Powered Lifestyle Matching | Account & Profile | 6 | **Must** |
 | US-05 | Search and Filter | Discovery | 5 | Should |
 | US-18 | Copy a Single Habit | Copying Routines | 5 | Should |
 | US-19 | Adapt a Copied Routine | Copying Routines | 7 | Should |
@@ -249,4 +256,4 @@ As an administrator, I want to create, edit, hide, and remove public profiles, c
 
 **Won't have (this version):** direct messaging, live streaming, paid content or subscriptions, advertising, native iOS/Android apps.
 
-**Summary:** 11 Must · 5 Should · 6 Could · 5 Won't features.
+**Summary:** 12 Must · 6 Should · 6 Could · 5 Won't features.
