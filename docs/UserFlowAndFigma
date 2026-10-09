@@ -1,0 +1,83 @@
+Figma: https://www.figma.com/design/0kMcfEYDlFdNdsS8dcBQd0/CopyMyLife?node-id=0-1&p=f&t=PHIKRZmdIq89IFqr-0
+
+1. First Visit to the Website
+The user opens the CopyMyLife website → sees the home page → reads about the site's concept:
+routines, habits, and progress → explores popular routines → can go to Explore or sign up.
+2. Sign Up
+The user clicks `Sign up` → enters their full name, email, and password → clicks `Create
+account` → the account is created → the user is taken to the home page as a logged-in user →
+the user's name appears in the header.
+3. Sign In
+The user clicks `Sign in` → enters their email and password → clicks `Sign in` → if the credentials
+are correct, the user is taken to the home page → if they are incorrect, an error message should
+appear.
+4. Explore Routines
+The user opens `Explore` → sees a list of public routines → can search by title, person, or
+keywords → can filter by category: All, Morning, Fitness, Study, Wellness, Productivity, Creators
+→ selects an interesting routine → clicks `View routine`.
+5. View a Routine Page
+The user opens a specific routine page → sees the title, author, description, category, duration,
+number of habits, rating, saves, likes, and comments → reviews the list of habits in the routine →
+can save, like, rate, comment on, or start the routine.
+6. Save Routine
+The user clicks `Save` / `Saved` → the routine is saved to their profile → the save count
+increases → the routine appears in the `Saved Routines` section.
+7. Like Routine
+The user clicks the Like button → the button becomes highlighted → the like count increases →
+the routine appears in the `Liked Routines` section.
+8. Rating
+The user selects a number of stars → the rating is saved → the routine's overall rating is updated
+→ the number of ratings increases.
+9. Comments
+The user types a comment in the comment field → the `Post` button becomes active → the user
+clicks `Post` → the comment appears below the routine → the comment count increases → the
+routine appears in the `Commented Routines` section.
+10. Reply to a Comment
+The user clicks `Reply` under a comment → a reply field appears → the user writes a reply →
+submits it → the reply is displayed under the original comment.
+11. Go to Profile
+The user opens the profile menu in the header → clicks `Profile` → goes to `My Account` → sees
+their avatar, name, username, bio, Edit Profile option, and side menu: Calendar, My Routines, My
+Habits, Progress.
+12. Edit Profile
+The user clicks `Edit profile` → an editing form opens → changes their name, username, bio, or
+avatar → saves the changes → the updated information appears in the profile and header.
+13. My Routines
+The user opens `My Routines` → sees the routines they created → can search, sort, open, edit, or
+delete a routine → can also switch between Created, Saved, Liked, and Commented routines.
+14. Create Routine
+The user clicks `Create routine` → a form opens → enters a title, description, category, and
+duration → provides an image URL or uploads an image → chooses public or private visibility →
+clicks `Create routine` → the routine appears in `My Routines` → if it is public, it may appear in
+Explore.
+15. View Own Routine
+The user opens a routine they created → sees its routine page → can review the description,
+habits, comments, saves, likes, and rating → can use it like any other routine.
+16. My Habits
+The user opens `My Habits` → sees the habits they created → can search, sort, and view saved
+habits → can create a new habit.
+17. Create Habit
+The user clicks `Create habit` → enters a habit name and description → selects a routine and
+duration → clicks `Create habit` → the habit appears in `My Habits` → it also appears within the
+selected routine.
+18. Calendar
+The user opens `Calendar` → sees a weekly calendar → selects a routine → chooses a day →
+chooses a time → selects a repeat option: Doesn't repeat / Every day / Every week → clicks `Add
+to calendar` → the routine appears in the calendar at the chosen day and time.
+19. Start Routine
+The user opens a routine → clicks `Start routine` → begins performing the routine → works
+through the habits in order → marks each habit as completed → after all habits are finished, the
+routine is considered completed.
+20. Complete Routine
+The user finishes all habits → a routine completion state or `Routine completed` modal appears
+→ the user can click Continue / View details / Edit, depending on the design → the completed
+routine is recorded in progress.
+21. Progress
+The user opens `Progress` → selects Day / Week / Month / Year → sees progress for routines and
+habits → sees completed routines, completed habits, categories, and completion percentages.
+22. Saved / Liked / Commented Sections
+The user returns to their profile → opens Saved Routines, Liked Routines, or Commented
+Routines → sees all the routines they have interacted with → can open any of them again.
+23. Log Out
+The user opens the profile menu → clicks `Log Out` → signs out of the account → the header
+shows `Sign in` and `Sign up` again
