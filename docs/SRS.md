@@ -83,6 +83,12 @@ As a visitor or user, I want to search and filter profiles and routines by name,
 As a visitor or user, I want to view a routine as a clear day or week timeline so that I can understand what a person does, when, and how often.
 - Given a routine has timed activities, when the user opens it, then activities appear in chronological order with duration and repeat pattern visible.
 - Given a routine has no activities, when the user opens it, then a clear empty state is shown.
+-
+- **US-26. AI-Powered Lifestyle Matching**
+- As a user, I want AI to help me find people whose lifestyles are most similar to mine, so that I can discover users I might not be able to find through regular search.
+- Given the user has a profile and daily routine, when they use AI matching, then the system recommends people with similar lifestyles.
+- Given the AI finds matching users, when the recommendations are displayed, then the user can view their profiles and daily routines.
+- Given the user updates their interests or routine, when they use AI matching again, then the recommendations are updated accordingly.
 
 ### Epic 3: Content Sharing (Creator)
 
@@ -232,12 +238,14 @@ As an administrator, I want to create, edit, hide, and remove public profiles, c
 | US-19 | Adapt a Copied Routine | Copying Routines | 7 | Should |
 | US-21 | Progress and Streaks | Tracking & Progress | 6 | Should |
 | US-25 | Admin Content Management | Privacy & Moderation | 6 | Should |
+| US-26 | AI-Powered Lifestyle Matching | Discovery | 5 | Should |
 | US-15 | Like and Comment | Social Interaction | 5 | Could |
 | US-16 | Save Routines | Social Interaction | 3 | Could |
 | US-12 | Creator Statistics | Content Sharing | 4 | Could |
 | US-22 | Routine Reminders | Tracking & Progress | 6 | Could |
 | US-24 | Report Content | Privacy & Moderation | 3 | Could |
 | US-07 | Progress Status | Tracking & Progress | 5 | Could |
+
 
 **Won't have (this version):** direct messaging, live streaming, paid content or subscriptions, advertising, native iOS/Android apps.
 
