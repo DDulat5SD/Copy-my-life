@@ -67,8 +67,8 @@ As a user, I want to create and edit my profile with a name, photo, interests, g
 - Given the user edits valid fields, when they save, then the profile is updated and the values remain after refresh.
 - Given the user is editing, when they select Cancel, then the original data remains unchanged.
 
-- **US-27. Weekly Routine Calendar**
-- As a user, I want to see my daily routines in a weekly calendar so that I can easily organize my schedule and keep track of my planned activities.
+**US-27. Weekly Routine Calendar**
+As a user, I want to see my daily routines in a weekly calendar so that I can easily organize my schedule and keep track of my planned activities.
 - Given the user has added routines, when they open the weekly calendar, then the system displays their routines on the corresponding days.
 - Given the user selects a day, when they click on a routine, then they can view its details.
 - Given the user adds, edits, or deletes a routine, when they open the calendar, then the changes are reflected automatically.
@@ -89,12 +89,20 @@ As a visitor or user, I want to search and filter profiles and routines by name,
 As a visitor or user, I want to view a routine as a clear day or week timeline so that I can understand what a person does, when, and how often.
 - Given a routine has timed activities, when the user opens it, then activities appear in chronological order with duration and repeat pattern visible.
 - Given a routine has no activities, when the user opens it, then a clear empty state is shown.
--
-- **US-26. AI-Powered Lifestyle Matching**
-- As a user, I want AI to help me find people whose lifestyles are most similar to mine, so that I can discover users I might not be able to find through regular search.
+  
+ **US-26. AI-Powered Lifestyle Matching**
+As a user, I want AI to help me find people whose lifestyles are most similar to mine, so that I can discover users I might not be able to find through regular search.
 - Given the user has a profile and daily routine, when they use AI matching, then the system recommends people with similar lifestyles.
 - Given the AI finds matching users, when the recommendations are displayed, then the user can view their profiles and daily routines.
 - Given the user updates their interests or routine, when they use AI matching again, then the recommendations are updated accordingly.
+
+  **US-30. Routine Leaderboard**  
+As a user, I want to discover the best routines based on likes and ratings so that I can easily find popular and highly rated routines.
+
+- Given users have liked and rated routines, when the system calculates their rankings, then the highest-rated routines are displayed at the top.
+- Given the user opens the "Top Routines" section, when they select a category such as Morning, Afternoon, or Evening, then the system displays the best routines in that category.
+- Given the user wants to explore routines without selecting a category, when they open "Top Routines", then the system displays the best routines overall.
+- Given a routine receives new likes or ratings, when the rankings are updated, then its position may change.
 
 ### Epic 3: Content Sharing (Creator)
 
@@ -128,6 +136,21 @@ As a user, I want to like and comment on routines so that I can support creators
 As a user, I want to bookmark routines and posts so that I can come back to them later without copying them yet.
 - Given the user saves a routine, when they open "Saved", then it appears in the list.
 - Given a saved routine becomes private, when the user opens "Saved", then it is no longer accessible.
+
+**US-28. Community-Based Routine Categorization**  
+As a user, I want to vote for the category that best fits a routine after liking and rating it so that routines are categorized based on the community's opinion.
+
+- Given the user has liked and rated a routine, when they select a category, then their vote is recorded.
+- Given the voting period has ended, when the system counts all votes, then the routine is automatically assigned to the category with the most votes.
+- Given the user has already voted for a routine, when they try to vote again, then the system prevents duplicate voting.
+
+  **US-29. Friend System**  
+As a user, I want to send and receive friend requests so that I can connect with other users on the platform.
+
+- Given the user visits another user's profile, when they click "Add Friend", then a friend request is sent.
+- Given the user receives a friend request, when they accept it, then both users are added to each other's friend lists.
+- Given the user receives a friend request, when they decline it, then the request is removed.
+- Given two users are already friends, when one of them clicks "Remove Friend", then they are removed from each other's friend lists.
 
 ### Epic 5: Copying Routines
 
@@ -246,6 +269,9 @@ As an administrator, I want to create, edit, hide, and remove public profiles, c
 | US-21 | Progress and Streaks | Tracking & Progress | 6 | Should |
 | US-25 | Admin Content Management | Privacy & Moderation | 6 | Should |
 | US-26 | AI-Powered Lifestyle Matching | Discovery | 5 | Should |
+| US-28 | Community-Based Routine Categorization | Social Interaction | 6 | Should |
+| US-29 | Friend System | Social Interaction | 6 | Should |
+| US-30 | Routine Leaderboard | Discovery | 4 | Should |
 | US-15 | Like and Comment | Social Interaction | 5 | Could |
 | US-16 | Save Routines | Social Interaction | 3 | Could |
 | US-12 | Creator Statistics | Content Sharing | 4 | Could |
@@ -256,4 +282,4 @@ As an administrator, I want to create, edit, hide, and remove public profiles, c
 
 **Won't have (this version):** direct messaging, live streaming, paid content or subscriptions, advertising, native iOS/Android apps.
 
-**Summary:** 12 Must · 6 Should · 6 Could · 5 Won't features.
+**Summary:** 12 Must · 9 Should · 6 Could · 5 Won't features.
