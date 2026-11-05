@@ -282,4 +282,4 @@ As an administrator, I want to create, edit, hide, and remove public profiles, c
 
 **Won't have (this version):** direct messaging, live streaming, paid content or subscriptions, advertising, native iOS/Android apps.
 
-**Summary:** 12 Must · 9 Should · 6 Could · 5 Won't features.
+**Summary:** 13 Must · 9 Should · 5 Could · 5 Won't features.
