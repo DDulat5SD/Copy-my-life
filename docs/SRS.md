@@ -263,6 +263,7 @@ As an administrator, I want to create, edit, hide, and remove public profiles, c
 | US-20 | Daily Habit Tracking | Tracking & Progress | 6 | **Must** |
 | US-23 | Privacy Settings | Privacy & Moderation | 5 | **Must** |
 | US-27 | Weekly Routine Calendar | Account & Profile | 6 | **Must** |
+| US-15 | Like and Comment | Social Interaction | 5 | **Must** |
 | US-05 | Search and Filter | Discovery | 5 | Should |
 | US-18 | Copy a Single Habit | Copying Routines | 5 | Should |
 | US-19 | Adapt a Copied Routine | Copying Routines | 7 | Should |
@@ -272,7 +273,6 @@ As an administrator, I want to create, edit, hide, and remove public profiles, c
 | US-28 | Community-Based Routine Categorization | Social Interaction | 6 | Should |
 | US-29 | Friend System | Social Interaction | 6 | Should |
 | US-30 | Routine Leaderboard | Discovery | 4 | Should |
-| US-15 | Like and Comment | Social Interaction | 5 | Could |
 | US-16 | Save Routines | Social Interaction | 3 | Could |
 | US-12 | Creator Statistics | Content Sharing | 4 | Could |
 | US-22 | Routine Reminders | Tracking & Progress | 6 | Could |
