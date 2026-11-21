@@ -41,7 +41,7 @@ The full requirements are in the [Software Requirements Specification](docs/SRS.
 | AI service | Python 3.13, FastAPI, Uvicorn, ONNX Runtime, the Apache-2.0 model `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2` |
 | E-mail | Mailjet API (password-reset e-mails) |
 | Build and tests | Maven (wrapper included), JUnit 5, Spring Boot Test, Node.js + headless Chrome browser checks, pytest |
-| Hosting and CI | Railway (production and staging), GitHub Actions |
+| Hosting and releases | Railway (production and staging), GitHub Actions for tagged production releases |
 
 ## Architecture
 
@@ -190,14 +190,15 @@ python .github/scripts/check_test_reports.py target/surefire-reports src/test/ja
 
 Maven still passes when tests switch themselves off, so the last command checks that every test
 class really ran. The browser checks find Chrome in its usual install location, or at `CHROME_BIN`.
-The full suite takes a while; GitHub Actions runs it on every pull request
-(`.github/workflows/ci.yml`).
+The full suite takes a while, so GitHub does not run it on pull requests; it runs automatically only
+for a production release ([`.github/workflows/release.yml`](.github/workflows/release.yml)).
 
 ## Deployment
 
 Railway hosts two separate environments, each with its own backend, AI service, PostgreSQL database
-and secrets. Merged pull requests deploy to staging. Deployment, the release process and rollback are
-described in `docs/DEPLOY.md` (added by the Week 11 pull request).
+and secrets. Merged pull requests deploy to staging; pushing a version tag (`v1.2.0`) tests that commit
+and, if every test passes, deploys it to production. Deployment, the release process and rollback are
+described in [docs/DEPLOY.md](docs/DEPLOY.md).
 
 | Environment | URL |
 |---|---|
@@ -210,8 +211,9 @@ described in `docs/DEPLOY.md` (added by the Week 11 pull request).
 - [ERD](docs/CopyMyLife%20ERD.png)
 - [Traceability table](docs/Traceability_Table.md)
 - [User flow and Figma link](docs/UserFlowAndFigma)
-- Quality assurance: the [CI workflow](.github/workflows/ci.yml), the test layout above and the
-  per-story notes in `docs/us-*.md`
+- [Deployment, releases and rollback](docs/DEPLOY.md)
+- Quality assurance: [Running tests](#running-tests), the tests run by the
+  [release workflow](.github/workflows/release.yml) and the per-story notes in `docs/us-*.md`
 - [How the application was integrated into this repository](docs/INTEGRATION.md)
 - [AI service](ai/README.md)
 

@@ -114,53 +114,57 @@ repository, but creates no deployment trigger, so nothing redeploys automaticall
 - Never point a staging service at the production database, and never restore production data into
   staging.
 
-## Continuous integration
+## Testing
 
-`.github/workflows/ci.yml` runs on every pull request into `main` and on every push to `main`
-(the merged commit):
+There is **no CI on pull requests or pushes**: the full suite is long, so it runs only for a
+production release (see below) and, when wanted, locally (see the README's *Running tests*).
+
+The release workflow runs the same tests the project's CI used to run:
 
 - **Backend build and tests**: PostgreSQL 18 test container, Java 21, Node 24 and headless Chrome;
   `mvnw verify` runs all unit, integration and browser tests. A report check fails the job if any
   test class was skipped, because skipped tests still let Maven pass.
-- **AI service tests**: only when `ai/` or the backend's AI clients change; runs pytest with the
-  real model and the Java test that talks to the Python service.
+- **AI service tests**: when `ai/` changed since the previous release tag (or for the first release);
+  runs pytest with the real model and the Java test that talks to the Python service.
 
-Every value in CI is test-only. No production credential is used.
+Every test value is test-only. No production credential is used.
 
-**Branch protection** (repository owner, **Settings → Branches → main**): require a pull request,
-and require the status check **Backend build and tests** to pass before merging. This is what keeps
-untested code out of `main`, and therefore out of staging and production.
+**Branch protection** (repository owner, **Settings → Branches → main**): require a pull request
+before merging, so nothing reaches `main` (and therefore staging) without review. There is no status
+check to require any more.
 
 ## Deploying to staging
 
-1. Open a pull request into `main`. CI runs.
-2. Merge it after CI passes. GitHub pushes the merge commit to `main`.
-3. Railway starts staging deployments of the backend (and of the AI service when `/ai/**` changed).
-   With **Wait for CI** on, they wait in `WAITING` until the CI run on the merged commit passes; a
-   failed run skips the deployment.
+1. Open a pull request into `main` and review it.
+2. Merge it. GitHub pushes the merge commit to `main`.
+3. Railway deploys it to staging: the backend, and the AI service when `/ai/**` changed.
 4. Check https://copymylife-staging-staging.up.railway.app.
 
-To turn on **Wait for CI**: open each staging service in Railway, go to its **Settings**, find the
-connected repository and branch, and enable *Wait for CI*. Railway only offers the option once a
-workflow runs on `push` to `main`, which `ci.yml` does from this release onward.
+Because no tests run on pull requests, a merged change reaches staging untested. Staging is where it
+is tried; production only receives it through a tested release. Run the relevant tests locally
+before merging risky changes.
 
 ## Releasing to production
 
 `.github/workflows/release.yml` runs only when a tag `vMAJOR.MINOR.PATCH` is pushed. It:
 
 1. checks the tag points at a commit on `main`;
-2. checks that `ci.yml` passed on that exact commit (the push run);
-3. deploys the AI service with `railway up` when `ai/` changed since the previous release tag;
+2. runs the full backend test suite on that exact commit, and the AI tests when `ai/` changed since
+   the previous release tag; any failure stops the release before anything is deployed;
+3. deploys the AI service with `railway up` when `ai/` changed;
 4. deploys the backend with `railway up`, then checks the login page and built-in routines answer.
 
 The database, volumes and Railway variables are never changed by a release.
 
 ```bash
 git switch main && git pull
-# Wait until CI on this commit is green, then:
 git tag -a v1.0.0 -m "Release 1.0.0"
 git push origin v1.0.0
+# Watch the "Release" run under GitHub → Actions; it deploys only if every test passes.
 ```
+
+A tag whose tests fail deploys nothing. Fix the problem on `main` and tag a new version
+(`v1.0.1`); do not move an existing tag.
 
 ### One-time setup (before the first release)
 
@@ -176,7 +180,7 @@ Move it to tag releases in this order, so it always has a working deployment pat
    images, which this repository leaves out (see [INTEGRATION.md](INTEGRATION.md)). The first release
    from this repository replaces production with code that does not have them; the cards fall back to
    letter placeholders.
-4. **First release:** tag a commit that passed CI on `main` and watch the *Release* run.
+4. **First release:** tag a commit on `main` and watch the *Release* run (tests, then deploy).
 5. **Only after it succeeded:** in Railway production, disconnect the old GitHub source
    (`Elsico12/CopyMyLife`) from `CopyMyLife` and `copymylife-ai` (**Settings → Source → Disconnect**),
    so that only tags deploy.
@@ -186,8 +190,8 @@ Move it to tag releases in this order, so it always has a working deployment pat
 - **Fastest (no rebuild):** Railway → production → the service → **Deployments** → the last good
   deployment → **⋮ → Redeploy**. Do it for the backend and, if it was released, the AI service.
 - **From Git:** tag the last good commit again with a new patch version
-  (`git tag -a v1.0.2 <good-sha> -m "Roll back to 1.0.0"`, then push the tag); it must still be on `main`
-  with green CI.
+  (`git tag -a v1.0.2 <good-sha> -m "Roll back to 1.0.0"`, then push the tag); it must still be on `main`,
+  and the release workflow tests it again before deploying.
 - **Database:** releases do not migrate the database destructively (Hibernate only adds tables and
   columns), so rolling back code needs no database step. Restoring database data (from a Railway
   volume backup, if backups are enabled for the database service, or from a `pg_dump`) is a separate,
@@ -200,7 +204,7 @@ Move it to tag releases in this order, so it always has a working deployment pat
 |---|---|---|
 | Sign-up or login answers `500`; log shows `io.jsonwebtoken.io.DecodingException: Illegal base64 character` | `JWT_SECRET` contains a carriage return. OpenSSL on Windows (Git Bash) ends Base64 lines with `\r\n`; removing only `\n` leaves a `\r` inside the secret. | Generate it with `openssl rand -base64 64 \| tr -d '\r\n'` and check it with a strict decoder (Python `base64.b64decode(value, validate=True)`; the default decoder silently skips the bad character). |
 | A staging service is connected to GitHub but never redeploys on merge | The Railway GitHub app has no access to the repository, so no deployment trigger exists. | The repository owner grants the Railway app access to `DDulat5SD/Copy-my-life`, then reconnect the service source in Railway. |
-| *Wait for CI* is missing in Railway | Railway only waits for workflows that run on `push` to the deploy branch. | `ci.yml` runs on `push` to `main` (since this release). |
+| *Wait for CI* is missing in Railway | Railway only waits for workflows that run on `push` to the deploy branch, and the project has no such workflow (tests run only for releases). | Expected; leave it off. Staging deploys every merge to `main`. |
 | Backend cannot reach the AI service (`examples` status `UNAVAILABLE`) | The AI service had no private hostname yet when the backend started, so `AI_MATCHING_URL` resolved to `http://:8080`. | Deploy the AI service first, then redeploy the backend. |
 | `railway volume add --mount-path /app/uploads` fails with "Mount path must start with a /" | Git Bash on Windows rewrites arguments that start with `/` into Windows paths. | Prefix the command with `MSYS_NO_PATHCONV=1`. |
 | `railway environment edit --service-config …` prints "No changes to apply" | The CLI command did not apply service settings in our tests. | Set them in the dashboard, or with `railway api` and the `serviceInstanceUpdate` mutation (set `dockerfilePath`; the Builder enum has no Dockerfile value). |
