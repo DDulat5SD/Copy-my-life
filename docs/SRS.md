@@ -5,7 +5,7 @@
 
 ---
 
-## 1. Introduction
+## 1. Introduction 
 
 ### 1.1 Purpose
 This document describes the functional and non-functional requirements for **CopyMyLife**, a social web platform for sharing and copying productive daily routines. It is intended for the development team, the course instructor, and anyone reviewing the project scope.
