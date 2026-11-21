@@ -291,8 +291,10 @@ As an administrator, I want to create, edit, hide, and remove public profiles, c
 
 Status as of Week 12, checked against the code in this repository and its automated tests.
 **Done** means every acceptance criterion above is implemented and exercised by the named tests.
-All of them run in GitHub Actions (`.github/workflows/ci.yml`) against a real PostgreSQL database,
-with a check that fails the run if any test class is skipped. Test classes are under
+All of them ran in GitHub Actions against a real PostgreSQL database, with a check that fails the
+run if any test class is skipped (pull request #5, all checks passed, merged as `0b7b192`).
+Since then they run before every production release (`.github/workflows/release.yml`) and can be run
+locally as described in the README. Test classes are under
 `src/test/java/com/copymylife/copymylife/`; browser checks are in `src/test/e2e/`.
 
 | Story | Status | Evidence |

@@ -1,0 +1,321 @@
+# Production release: runs only when a version tag such as v1.2.0 is pushed.
+#
+# There is no CI on pull requests or pushes; the full test suite runs here, once per release.
+# A tag is released only if it points at a commit on main and that exact commit passes the
+# backend suite (and the AI tests when ai/ changed since the previous release tag). The
+# workflow then uploads that commit to Railway production with the Railway CLI: the AI service
+# first when it changed, then the backend. Databases, volumes and variables are not touched.
+#
+# Every test value below is test-only (a throwaway PostgreSQL container). Deploying needs the
+# RAILWAY_TOKEN secret on the "production" GitHub environment: a Railway project token scoped to
+# the production environment. See docs/DEPLOY.md.
+
+name: Release
+
+on:
+  push:
+    tags: ["v[0-9]+.[0-9]+.[0-9]+"]
+
+permissions:
+  contents: read
+
+# One production release at a time, in tag order; never cancel one that has started.
+concurrency:
+  group: release-production
+  cancel-in-progress: false
+
+env:
+  RAILWAY_CLI_VERSION: "5.71.0"
+  RAILWAY_ENVIRONMENT: production
+  BACKEND_SERVICE: CopyMyLife
+  AI_SERVICE: copymylife-ai
+  PRODUCTION_URL: https://copymylife-production.up.railway.app
+
+jobs:
+  verify:
+    name: Verify the tagged commit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      sha: ${{ steps.commit.outputs.sha }}
+      ai: ${{ steps.scope.outputs.ai }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - id: commit
+        name: The tag must point at a commit on main
+        run: |
+          sha=$(git rev-parse "${GITHUB_REF_NAME}^{commit}")
+          git fetch --no-tags origin main
+          if ! git merge-base --is-ancestor "$sha" origin/main; then
+            echo "::error::$GITHUB_REF_NAME points at $sha, which is not on main."
+            exit 1
+          fi
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+
+      - id: scope
+        name: Decide whether the AI service changed
+        env:
+          SHA: ${{ steps.commit.outputs.sha }}
+        run: |
+          previous=$(git describe --tags --abbrev=0 --match 'v[0-9]*.[0-9]*.[0-9]*' "$SHA^" 2>/dev/null || true)
+          if [ -z "$previous" ]; then
+            echo "No earlier release tag: testing and releasing the AI service too."
+            echo "ai=true" >> "$GITHUB_OUTPUT"
+          elif git diff --quiet "$previous" "$SHA" -- ai/; then
+            echo "ai/ unchanged since $previous: the AI service is neither retested nor redeployed."
+            echo "ai=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ai/ changed since $previous: testing and releasing the AI service."
+            echo "ai=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  test-backend:
+    name: Backend build and tests
+    needs: verify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: copymylife_test
+          # ICU collation so lower() and case-insensitive search handle non-Latin text.
+          POSTGRES_INITDB_ARGS: --encoding=UTF8 --locale-provider=icu --icu-locale=en-US --locale=C
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U test -d copymylife_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+
+    env:
+      # Integration tests only run when TEST_DB_URL is a local *_test database.
+      TEST_DB_URL: jdbc:postgresql://localhost:5432/copymylife_test
+      TEST_DB_USERNAME: test
+      TEST_DB_PASSWORD: test
+      # CopyMyLifeApplicationTests starts the app with application.properties,
+      # so the app's own variables point at the same test database.
+      DB_URL: jdbc:postgresql://localhost:5432/copymylife_test
+      DB_USERNAME: test
+      DB_PASSWORD: test
+      MAIL_USERNAME: ci@invalid.test
+      MAIL_PASSWORD: not-a-real-password
+      MAILJET_API_KEY: not-a-real-key
+      MAILJET_SECRET_KEY: not-a-real-key
+      MAILJET_SENDER_EMAIL: ci@invalid.test
+      # Browser regression checks drive headless Chrome through node.
+      CHROME_BIN: /usr/bin/google-chrome
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.verify.outputs.sha }}
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      # The browser checks use the built-in WebSocket client (Node 22+).
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Check browser tooling
+        run: |
+          node --version
+          "$CHROME_BIN" --version
+
+      - name: Generate a throwaway JWT secret
+        run: echo "JWT_SECRET=$(openssl rand -base64 64 | tr -d '\r\n')" >> "$GITHUB_ENV"
+
+      - name: Compile, test and package
+        run: sh ./mvnw -B -ntp verify
+
+      # Maven passes when tests switch themselves off, so check the reports.
+      # LifestyleMatchingAiIntegrationTest needs the Python service and runs in test-ai.
+      - name: Check that no test was skipped
+        if: ${{ !cancelled() }}
+        run: >-
+          python3 .github/scripts/check_test_reports.py
+          target/surefire-reports src/test/java
+          --allow-skip LifestyleMatchingAiIntegrationTest
+
+      - name: Upload test reports
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-test-reports
+          path: target/surefire-reports/
+          retention-days: 7
+
+  test-ai:
+    name: AI service tests
+    needs: verify
+    if: ${{ needs.verify.outputs.ai == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: copymylife_test
+          POSTGRES_INITDB_ARGS: --encoding=UTF8 --locale-provider=icu --icu-locale=en-US --locale=C
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U test -d copymylife_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+
+    env:
+      TEST_DB_URL: jdbc:postgresql://localhost:5432/copymylife_test
+      TEST_DB_USERNAME: test
+      TEST_DB_PASSWORD: test
+      CML_AI_MODEL_DIR: ${{ github.workspace }}/ai/models/multilingual-minilm
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.verify.outputs.sha }}
+
+      - id: python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: |
+            ai/requirements.lock.txt
+            ai/requirements-dev.txt
+
+      # The same hash-pinned packages as the Docker image, plus the test tools.
+      - name: Install the AI service and test tools
+        working-directory: ai
+        run: |
+          python -m pip install --require-hashes -r requirements.lock.txt
+          grep -v '^-r' requirements-dev.txt | python -m pip install -r /dev/stdin
+
+      # Public Apache-2.0 model, pinned by revision and checked by SHA-256 on every run.
+      - name: Cache the model
+        uses: actions/cache@v4
+        with:
+          path: ai/models/multilingual-minilm
+          key: ai-model-${{ hashFiles('ai/model-manifest.json') }}
+
+      - name: Download and verify the model
+        run: python ai/download_model.py "$CML_AI_MODEL_DIR"
+
+      - name: Run the AI service tests
+        working-directory: ai
+        run: python -m pytest -q
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      # The test sets its own test-only JWT and mail properties.
+      - name: Run the backend-to-AI integration test
+        env:
+          AI_PYTHON: ${{ steps.python.outputs.python-path }}
+        run: sh ./mvnw -B -ntp test -Dtest=LifestyleMatchingAiIntegrationTest
+
+      - name: Check that the integration test was not skipped
+        if: ${{ !cancelled() }}
+        run: >-
+          python3 .github/scripts/check_test_reports.py
+          target/surefire-reports src/test/java
+          --only LifestyleMatchingAiIntegrationTest
+
+  deploy-ai:
+    name: Deploy AI service
+    needs: [verify, test-backend, test-ai]
+    if: ${{ needs.verify.outputs.ai == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    environment: production
+    env:
+      RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.verify.outputs.sha }}
+
+      - name: Check the deployment secret
+        run: |
+          if [ -z "$RAILWAY_TOKEN" ]; then
+            echo "::error::The RAILWAY_TOKEN secret is not set on the production environment. Nothing was deployed."
+            exit 1
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install the Railway CLI
+        run: npm install --global "@railway/cli@$RAILWAY_CLI_VERSION"
+
+      # The whole repository is uploaded; the service's root directory (/ai) picks the Dockerfile.
+      - name: Upload and deploy
+        run: railway up --ci --service "$AI_SERVICE" --environment "$RAILWAY_ENVIRONMENT" --message "Release $GITHUB_REF_NAME"
+
+  deploy-backend:
+    name: Deploy backend and frontend
+    needs: [verify, test-backend, test-ai, deploy-ai]
+    if: >-
+      ${{ !cancelled() && needs.verify.result == 'success' && needs.test-backend.result == 'success'
+      && needs.test-ai.result != 'failure' && needs.deploy-ai.result != 'failure' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    environment:
+      name: production
+      url: ${{ env.PRODUCTION_URL }}
+    env:
+      RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.verify.outputs.sha }}
+
+      - name: Check the deployment secret
+        run: |
+          if [ -z "$RAILWAY_TOKEN" ]; then
+            echo "::error::The RAILWAY_TOKEN secret is not set on the production environment. Nothing was deployed."
+            exit 1
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install the Railway CLI
+        run: npm install --global "@railway/cli@$RAILWAY_CLI_VERSION"
+
+      - name: Upload and deploy
+        run: railway up --ci --service "$BACKEND_SERVICE" --environment "$RAILWAY_ENVIRONMENT" --message "Release $GITHUB_REF_NAME"
+
+      # Read-only checks against the public site; they create no data.
+      - name: Smoke test
+        run: |
+          for attempt in $(seq 1 30); do
+            if curl -fsS -o /dev/null "$PRODUCTION_URL/login.html" && curl -fsS -o /dev/null "$PRODUCTION_URL/routines/built-in"; then
+              echo "Production answers: login page and built-in routines are up."
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::Production did not answer after the deploy. Roll back as described in docs/DEPLOY.md."
+          exit 1
