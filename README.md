@@ -213,7 +213,9 @@ described in [docs/DEPLOY.md](docs/DEPLOY.md).
 - [User flow and Figma link](docs/UserFlowAndFigma)
 - [Deployment, releases and rollback](docs/DEPLOY.md)
 - Quality assurance: [Running tests](#running-tests), the tests run by the
-  [release workflow](.github/workflows/release.yml) and the per-story notes in `docs/us-*.md`
+  [release workflow](.github/workflows/release.yml), the per-story notes in `docs/us-*.md` and the
+  [Week 13 final QA](docs/WEEK13_RELEASE.md)
+- [Release notes for 0.9.0 beta](docs/RELEASE_NOTES.md)
 - [How the application was integrated into this repository](docs/INTEGRATION.md)
 - [AI service](ai/README.md)
 
