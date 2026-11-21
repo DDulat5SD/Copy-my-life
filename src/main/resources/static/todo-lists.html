@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>To-do Lists — CopyMyLife</title>
+    <script src="safe-dom.js"></script>
+    <script src="session.js"></script>
+    <script defer src="reminders.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="my-content.css">
+    <link rel="stylesheet" href="mobile.css">
+    <link rel="stylesheet" href="theme.css">
+</head>
+
+<body data-mobile-page="todo-lists">
+
+<header class="header" data-site-header></header>
+<script src="site-header.js"></script>
+
+<main class="mc-page" id="todoApp"></main>
+
+<script src="todo-lists.js"></script>
+<script>
+  (function () {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    // ?user=<id> shows that user's public lists, read-only.
+    const requested = new URLSearchParams(window.location.search).get("user");
+
+    CopyMyLifeTodoLists.mount(document.getElementById("todoApp"), {
+      token,
+      viewedUserId: /^\d+$/.test(requested || "") ? Number(requested) : null
+    });
+  })();
+</script>
+<script defer src="mobile.js"></script>
+<script src="theme.js"></script>
+</body>
+</html>

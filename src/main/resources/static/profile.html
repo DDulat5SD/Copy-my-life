@@ -1,0 +1,6708 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account — CopyMyLife</title>
+  <script src="safe-dom.js"></script>
+  <script src="session.js"></script>
+  <script src="upload-check.js"></script>
+  <script src="todo-lists.js"></script>
+  <script src="posts.js"></script>
+  <script src="report-dialog.js"></script>
+  <script src="lifestyle-matches.js"></script>
+  <script src="assistant.js"></script>
+  <script src="creator-stats.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="site-rating.css">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="profile.css">
+  <link rel="stylesheet" href="my-content.css">
+  <link rel="stylesheet" href="assistant.css">
+  <link rel="stylesheet" href="lifestyle-matches.css">
+  <link rel="stylesheet" href="mobile.css">
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="report-dialog.css">
+  <link rel="stylesheet" href="creator-stats.css">
+</head>
+<body data-mobile-page="profile">
+
+<header class="topbar">
+  <a href="main.html" class="topbar-left">
+    <div class="logo-icon">
+      <img src="https://i.ibb.co/chRY80xC/image.png" alt="CopyMyLife logo">
+    </div>
+    <span class="logo-text">CopyMyLife</span>
+  </a>
+  <nav class="topbar-nav">
+    <a href="main.html" class="nav-link active">Home</a>
+    <a href="Explore.html" class="nav-link">Explore</a>
+    <a href="top-routines.html" class="nav-link">Top Routines</a>
+
+  </nav>
+  <div class="topbar-user-wrap">
+
+    <div class="topbar-user" id="userMenuToggle">
+
+      <div class="user-avatar">
+        <img id="headerAvatar" alt="Profile avatar">
+        <span id="headerAvatarFallback" class="avatar-fallback">S</span>
+      </div>
+
+      <span class="user-name" id="headerUserName">Daulet</span>
+
+      <svg class="chevron" id="userMenuChevron" width="14" height="14" viewBox="0 0 24 24" fill="none">
+        <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+
+    </div>
+
+    <div class="topbar-user-dropdown" id="userDropdown">
+
+      <button type="button" class="topbar-logout-btn" id="logoutBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M10 17L15 12L10 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M15 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M14 3H20C20.6 3 21 3.4 21 4V20C21 20.6 20.6 21 20 21H14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+
+        Log Out
+      </button>
+
+    </div>
+
+  </div>
+</header>
+
+<main class="page">
+
+  <div class="profile-sidebar">
+
+    <aside class="profile-card">
+
+      <div class="profile-avatar-wrap">
+
+        <div class="profile-avatar">
+          <img id="profileAvatar" alt="Profile avatar">
+
+          <span
+                  id="profileAvatarFallback"
+                  class="avatar-fallback">
+            Z
+          </span>
+        </div>
+
+      </div>
+
+
+      <h2
+              class="profile-name"
+              id="profileName">
+        User
+      </h2>
+
+      <p
+              class="profile-handle"
+              id="profileUsername">
+        @username
+      </p>
+
+      <p
+              class="profile-profession"
+              id="profileProfession">
+        No profession added.
+      </p>
+
+      <p
+              class="profile-bio"
+              id="profileBio">
+        No bio yet.
+      </p>
+
+      <dl class="profile-extra">
+        <div>
+          <dt class="profile-extra-label">Interests</dt>
+          <dd class="profile-extra-value" id="profileInterests">Not added yet.</dd>
+        </div>
+        <div>
+          <dt class="profile-extra-label">Goals</dt>
+          <dd class="profile-extra-value" id="profileGoals">Not added yet.</dd>
+        </div>
+      </dl>
+
+      <div class="follow-stats" aria-label="Follow statistics">
+          <span class="follow-stat"><strong id="followersCount">0</strong> <span id="followersLabel">Followers</span></span>
+          <span class="follow-stat"><strong id="followingCount">0</strong> Following</span>
+      </div>
+
+
+      <button
+              class="edit-profile-btn"
+              id="editProfileBtn"
+              type="button">
+
+        <svg width="15" height="15"
+             viewBox="0 0 24 24"
+             fill="none">
+
+          <path
+                  d="M12 20h9"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"/>
+
+          <path
+                  d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"/>
+
+        </svg>
+
+        Edit profile
+
+      </button>
+
+    </aside>
+
+    <div class="profile-navigation">
+      <button
+              class="profile-nav-btn"
+              id="calendarNav"
+              type="button">
+
+        <div class="profile-nav-icon calendar-page-icon">
+
+          <svg width="20" height="20"
+               viewBox="0 0 24 24"
+               fill="none">
+
+            <rect x="3" y="5"
+                  width="18"
+                  height="16"
+                  rx="2"
+                  stroke="currentColor"
+                  stroke-width="2"/>
+
+            <path d="M8 3V7M16 3V7M3 10H21"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"/>
+
+          </svg>
+
+        </div>
+
+        <span>Calendar</span>
+
+        <span class="nav-arrow">›</span>
+
+      </button>
+      <button
+              class="profile-nav-btn"
+              id="myRoutinesNav"
+              type="button">
+
+        <div class="profile-nav-icon calendar-icon">
+
+          <svg width="20" height="20"
+               viewBox="0 0 24 24"
+               fill="none">
+
+            <rect
+                    x="3"
+                    y="5"
+                    width="18"
+                    height="16"
+                    rx="2"
+                    stroke="currentColor"
+                    stroke-width="2"/>
+
+            <path
+                    d="M8 3V7M16 3V7M3 10H21"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"/>
+
+          </svg>
+
+        </div>
+
+        <span>My Routines</span>
+
+        <span class="nav-arrow">›</span>
+
+      </button>
+
+
+      <button
+              class="profile-nav-btn"
+              id="myHabitsNav"
+              type="button">
+
+        <div class="profile-nav-icon habits-icon">
+
+          <svg width="20" height="20"
+               viewBox="0 0 24 24"
+               fill="none">
+
+            <path
+                    d="M20 6L9 17L4 12"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"/>
+
+          </svg>
+
+        </div>
+
+        <span>My Habits</span>
+
+        <span class="nav-arrow">›</span>
+
+      </button>
+
+
+      <button
+              class="profile-nav-btn"
+              id="progressNav"
+              type="button">
+
+        <div class="profile-nav-icon progress-nav-icon">
+
+          <svg width="20" height="20"
+               viewBox="0 0 24 24"
+               fill="none">
+
+            <path
+                    d="M5 20V13M12 20V4M19 20V9"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"/>
+
+          </svg>
+
+        </div>
+
+        <span>Progress</span>
+
+        <span class="nav-arrow">›</span>
+
+      </button>
+      <a class="profile-nav-btn" id="aiAssistantNav" href="#ai-generate">
+        <div class="profile-nav-icon ai-nav-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round"
+               stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/>
+            <path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/>
+            <path d="M5 2l.6 1.4L7 4l-1.4.6L5 6l-.6-1.4L3 4l1.4-.6z"/>
+          </svg>
+        </div>
+        <span>AI Assistant</span>
+        <span class="nav-arrow">›</span>
+      </a>
+      <button
+              class="profile-nav-btn"
+              id="friendsNav"
+              type="button">
+
+        <div class="profile-nav-icon friends-nav-icon">
+
+          <svg width="20"
+               height="20"
+               viewBox="0 0 24 24"
+               fill="none">
+
+            <path
+                    d="M16 21V19C16 16.8 14.2 15 12 15H6C3.8 15 2 16.8 2 19V21"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"/>
+
+            <circle
+                    cx="9"
+                    cy="7"
+                    r="4"
+                    stroke="currentColor"
+                    stroke-width="2"/>
+
+            <path
+                    d="M19 8V14M16 11H22"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"/>
+
+          </svg>
+
+        </div>
+
+        <span>Friends</span>
+
+        <span class="nav-arrow">›</span>
+
+      </button>
+      <a class="profile-nav-btn" id="creatorStatsNav" href="#creator-stats">
+        <div class="profile-nav-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round"
+               stroke-linejoin="round" aria-hidden="true">
+            <rect x="8" y="8" width="12" height="12" rx="2"/>
+            <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>
+          </svg>
+        </div>
+        <span>Creator Statistics</span>
+        <span class="nav-arrow">›</span>
+      </a>
+      <a class="profile-nav-btn" id="todoListsNav" href="#todo-lists">
+        <div class="profile-nav-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M9 6h11M9 12h11M9 18h11"/>
+            <path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/>
+          </svg>
+        </div>
+        <span>To-do Lists</span>
+        <span class="nav-arrow">›</span>
+      </a>
+      <a class="profile-nav-btn" id="postsNav" href="#posts">
+        <div class="profile-nav-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round"
+               stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="16" rx="2"/>
+            <circle cx="9" cy="10" r="2"/>
+            <path d="M21 16l-5-5-8 8"/>
+          </svg>
+        </div>
+        <span>Posts</span>
+        <span class="nav-arrow">›</span>
+      </a>
+      <button class="profile-nav-btn" id="settingsNav" type="button">
+        <div class="profile-nav-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round"
+               stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+        </div>
+        <span>Settings</span>
+        <span class="nav-arrow">›</span>
+      </button>
+
+    </div>
+
+  </div>
+
+  <div id="editProfileModal" class="edit-modal">
+
+    <div class="edit-modal-content">
+
+      <h2>Edit profile</h2>
+
+      <label for="editName">Name</label>
+      <input type="text" id="editName" maxlength="60" autocomplete="name">
+
+      <label for="editUsername">Username</label>
+      <input type="text" id="editUsername" maxlength="31" autocomplete="username" placeholder="e.g. ada.lovelace">
+      <p class="edit-profile-hint">3–30 letters, numbers, dots, dashes or underscores. Leave empty for none.</p>
+
+      <label>Profession</label>
+      <input
+              type="text"
+              id="editProfession"
+              maxlength="100"
+              placeholder="e.g. Backend Developer">
+
+      <label for="editBio">Bio</label>
+      <textarea id="editBio" maxlength="500"></textarea>
+
+      <label for="editInterests">Interests</label>
+      <textarea id="editInterests" maxlength="500" placeholder="e.g. reading, running, design"></textarea>
+
+      <label for="editGoals">Goals</label>
+      <textarea id="editGoals" maxlength="500" placeholder="e.g. wake up at 6:00 every day"></textarea>
+
+      <label for="editAvatarFile">Profile photo</label>
+      <input type="file" id="editAvatarFile" accept="image/jpeg,image/png,image/webp,image/gif">
+
+      <label for="editAvatarUrl">Or photo URL</label>
+      <input type="text" id="editAvatarUrl">
+
+      <p class="edit-profile-error" id="editProfileError" role="alert" hidden></p>
+
+      <div class="edit-actions">
+        <button type="button" id="cancelEditBtn">Cancel</button>
+        <button type="button" id="saveProfileBtn">Save changes</button>
+      </div>
+
+    </div>
+
+  </div>
+  <div id="addRoutineModal" class="routine-modal">
+
+    <div class="routine-modal-content">
+
+      <div class="routine-modal-header">
+        <h2 id="routineModalTitle">Create routine</h2>
+
+        <button id="closeRoutineModal"
+                class="routine-modal-close"
+                type="button">
+          ×
+        </button>
+      </div>
+
+      <label for="routineTitle">Title</label>
+      <input
+              id="routineTitle"
+              type="text"
+              maxlength="100"
+              placeholder="Morning Study Routine"
+      >
+
+      <label for="routineDescription">Description</label>
+      <textarea
+              id="routineDescription"
+              maxlength="500"
+              placeholder="Describe your routine..."
+      ></textarea>
+
+      <label for="routineCategory">Category</label>
+      <select id="routineCategory">
+        <option value="Morning">Morning</option>
+        <option value="Fitness">Fitness</option>
+        <option value="Study">Study</option>
+        <option value="Wellness">Wellness</option>
+        <option value="Productivity">Productivity</option>
+        <option value="Creators">Creators</option>
+      </select>
+
+      <label for="routineDuration">
+        Duration (minutes)
+      </label>
+
+      <input
+              id="routineDuration"
+              type="number"
+              min="1"
+              max="1440"
+              placeholder="60"
+      >
+      <label for="routineImageUrl">Routine image URL</label>
+      <input id="routineImageUrl" type="text" placeholder="https://example.com/image.jpg">
+
+      <label for="routineImage">Or upload image</label>
+      <input id="routineImage" type="file" accept="image/jpeg,image/png,image/webp,image/gif">
+
+      <label class="public-checkbox">
+        <input id="routinePublic" type="checkbox">
+        Make this routine public
+      </label>
+
+      <p class="routine-form-error" id="routineFormError" role="alert" hidden></p>
+
+      <div class="routine-modal-actions">
+
+        <button id="cancelRoutineBtn"
+                class="routine-cancel-btn"
+                type="button">
+          Cancel
+        </button>
+
+        <button id="createRoutineBtn"
+                class="routine-create-btn"
+                type="button">
+          Create routine
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div id="habitModal" class="habit-modal">
+
+    <div class="habit-modal-content">
+
+      <div class="habit-modal-header">
+
+        <h2 id="habitModalTitle">Create habit</h2>
+
+        <button
+                id="closeHabitModal"
+                class="habit-modal-close"
+                type="button">
+          ×
+        </button>
+
+      </div>
+
+      <label for="habitTitle">Habit name</label>
+
+      <input
+              id="habitTitle"
+              type="text"
+              placeholder="Read 30 min"
+              aria-describedby="habitTitleError">
+      <p class="routine-form-error" id="habitTitleError" role="alert" hidden></p>
+
+      <label for="habitDescription">Description</label>
+
+      <textarea
+              id="habitDescription"
+              placeholder="Describe your habit..."></textarea>
+
+
+      <label for="habitDuration">Duration (minutes)</label>
+
+      <input
+              id="habitDuration"
+              type="number"
+              min="1"
+              placeholder="30"
+              aria-describedby="habitDurationError">
+      <p class="routine-form-error" id="habitDurationError" role="alert" hidden></p>
+
+      <p class="routine-form-error" id="habitFormError" role="alert" hidden></p>
+
+
+      <div class="habit-modal-actions">
+
+        <button
+                id="cancelHabitBtn"
+                class="habit-cancel-btn"
+                type="button">
+          Cancel
+        </button>
+
+        <button
+                id="saveHabitBtn"
+                class="habit-create-btn"
+                type="button">
+          Create habit
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div id="deleteConfirmModal" class="delete-confirm-modal">
+    <div class="delete-confirm-box">
+
+      <div class="delete-confirm-icon">!</div>
+
+      <h2 id="deleteConfirmTitle">Delete?</h2>
+
+      <p id="deleteConfirmText">Are you sure?</p>
+
+      <div class="delete-confirm-actions">
+        <button id="cancelDeleteConfirm" class="delete-confirm-cancel" type="button">
+          Cancel
+        </button>
+
+        <button id="confirmDeleteBtn" class="delete-confirm-delete" type="button">
+          Delete
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <section class="calendar-content" id="calendarContent">
+
+    <div class="calendar-heading">
+      <h1>My Calendar</h1>
+      <p>Plan your routines, stay consistent, and make progress every day.</p>
+    </div>
+
+    <div class="calendar-add-card">
+
+      <div class="calendar-add-title">
+
+        <div class="calendar-add-icon">
+          <svg width="24" height="24"
+               viewBox="0 0 24 24"
+               fill="none">
+            <rect x="3" y="5"
+                  width="18"
+                  height="16"
+                  rx="2"
+                  stroke="currentColor"
+                  stroke-width="2"/>
+            <path d="M8 3V7M16 3V7M3 10H21"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <div>
+          <h2>Add routine to calendar</h2>
+          <p>Choose an existing routine and schedule it in your calendar.</p>
+        </div>
+
+      </div>
+
+
+      <div class="calendar-form">
+
+        <div class="calendar-field">
+          <label>Routine</label>
+          <select id="calendarRoutineSelect">
+            <option value="">Choose routine</option>
+          </select>
+        </div>
+
+        <div class="calendar-field">
+          <label>Day</label>
+          <input id="calendarDay" type="date">
+        </div>
+
+
+        <div class="calendar-field">
+          <label>Time</label>
+          <input
+                  id="calendarTime"
+                  type="time"
+                  step="60">
+        </div>
+
+        <div class="calendar-field">
+          <label>Repeat</label>
+          <select id="calendarRepeat">
+            <option value="none">Doesn't repeat</option>
+            <option value="daily">Every day</option>
+            <option value="weekly">Every week</option>
+          </select>
+        </div>
+
+        <button
+                class="calendar-add-btn"
+                id="addToCalendarBtn"
+                type="button">
+          Add to calendar
+        </button>
+
+      </div>
+
+      <p class="calendar-message" id="calendarMessage" role="status" hidden></p>
+
+      <div class="calendar-board">
+
+        <div class="calendar-toolbar">
+
+          <div class="calendar-week-navigation">
+
+            <button id="calendarPrevWeek" type="button" aria-label="Previous week">
+              ‹
+            </button>
+
+            <button id="calendarNextWeek" type="button" aria-label="Next week">
+              ›
+            </button>
+
+            <strong id="calendarWeekTitle">
+              Week
+            </strong>
+
+          </div>
+
+        </div>
+
+        <div class="calendar-grid">
+
+          <div class="calendar-corner"></div>
+
+          <button class="calendar-day" type="button" data-day-index="0">
+            <span>Mon</span>
+            <strong id="calendarMon"></strong>
+          </button>
+
+          <button class="calendar-day" type="button" data-day-index="1">
+            <span>Tue</span>
+            <strong id="calendarTue"></strong>
+          </button>
+
+          <button class="calendar-day" type="button" data-day-index="2">
+            <span>Wed</span>
+            <strong id="calendarWed"></strong>
+          </button>
+
+          <button class="calendar-day" type="button" data-day-index="3">
+            <span>Thu</span>
+            <strong id="calendarThu"></strong>
+          </button>
+
+          <button class="calendar-day" type="button" data-day-index="4">
+            <span>Fri</span>
+            <strong id="calendarFri"></strong>
+          </button>
+
+          <button class="calendar-day" type="button" data-day-index="5">
+            <span>Sat</span>
+            <strong id="calendarSat"></strong>
+          </button>
+
+          <button class="calendar-day" type="button" data-day-index="6">
+            <span>Sun</span>
+            <strong id="calendarSun"></strong>
+          </button>
+
+          <div class="calendar-time-column">
+            <span>00:00</span>
+            <span>02:00</span>
+            <span>04:00</span>
+            <span>06:00</span>
+            <span>08:00</span>
+            <span>10:00</span>
+            <span>12:00</span>
+            <span>14:00</span>
+            <span>16:00</span>
+            <span>18:00</span>
+            <span>20:00</span>
+            <span>22:00</span>
+            <span>24:00</span>
+          </div>
+
+          <div class="calendar-events-area" id="calendarEventsArea"></div>
+
+        </div>
+
+      </div>
+
+      <section class="calendar-day-panel" id="calendarDayPanel" aria-live="polite">
+        <h3 id="calendarDayHeading">Today</h3>
+        <ul class="calendar-day-list" id="calendarDayList"></ul>
+        <p class="calendar-day-empty" id="calendarDayEmpty" hidden></p>
+      </section>
+
+      <div class="calendar-modal" id="calendarEditModal" role="dialog" aria-modal="true" aria-labelledby="calendarEditTitle">
+        <div class="calendar-modal-card">
+          <h2 id="calendarEditTitle">Edit calendar event</h2>
+
+          <fieldset class="calendar-scope" id="calendarEditScopeGroup">
+            <legend>What do you want to change?</legend>
+            <label><input type="radio" name="calendarEditScope" value="occurrence" checked> <span id="calendarEditOccurrenceLabel">Only this day</span></label>
+            <label><input type="radio" name="calendarEditScope" value="series"> <span id="calendarEditSeriesLabel">Entire series</span></label>
+          </fieldset>
+
+          <p class="calendar-scope-hint" id="calendarEditHint"></p>
+
+          <div class="calendar-modal-fields">
+            <label>Routine <select id="calendarEditRoutine"></select></label>
+            <label id="calendarEditDayField">Day <input type="date" id="calendarEditDay"></label>
+            <label>Time <input type="time" id="calendarEditTime" step="60"></label>
+            <label id="calendarEditRepeatField">Repeat
+              <select id="calendarEditRepeat">
+                <option value="NONE">Doesn't repeat</option>
+                <option value="DAILY">Every day</option>
+                <option value="WEEKLY">Every week</option>
+              </select>
+            </label>
+          </div>
+
+          <p class="calendar-modal-error" id="calendarEditError" role="alert" hidden></p>
+
+          <div class="calendar-modal-actions">
+            <button type="button" class="calendar-modal-secondary" id="calendarEditCancel">Cancel</button>
+            <button type="button" class="calendar-modal-primary" id="calendarEditSave">Save</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="calendar-modal" id="calendarDeleteModal" role="dialog" aria-modal="true" aria-labelledby="calendarDeleteTitle">
+        <div class="calendar-modal-card">
+          <h2 id="calendarDeleteTitle">Delete from calendar?</h2>
+          <p id="calendarDeleteText"></p>
+
+          <fieldset class="calendar-scope" id="calendarDeleteScopeGroup">
+            <legend>What do you want to delete?</legend>
+            <label><input type="radio" name="calendarDeleteScope" value="occurrence" checked> <span id="calendarDeleteOccurrenceLabel">Only this day</span></label>
+            <label><input type="radio" name="calendarDeleteScope" value="series"> <span id="calendarDeleteSeriesLabel">Entire series</span></label>
+          </fieldset>
+
+          <p class="calendar-modal-error" id="calendarDeleteError" role="alert" hidden></p>
+
+          <div class="calendar-modal-actions">
+            <button type="button" class="calendar-modal-secondary" id="calendarDeleteCancel">Cancel</button>
+            <button type="button" class="calendar-modal-danger" id="calendarDeleteConfirm">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="habits-content" id="habitsContent" style="display: none;">
+
+    <div class="habits-page-header">
+
+      <div>
+        <h1>My Habits</h1>
+
+        <p>
+          Manage all your habits in one place.
+        </p>
+      </div>
+
+      <button
+              class="create-habit-btn"
+              id="createHabitBtn"
+              type="button">
+        <span>+</span>
+        Create habit
+      </button>
+
+    </div>
+
+
+    <div class="habits-tabs">
+
+      <button
+              class="habits-tab active"
+              type="button"
+              data-habit-tab="my">
+
+        <svg width="20" height="20"
+             viewBox="0 0 24 24"
+             fill="none">
+
+          <circle cx="12"
+                  cy="12"
+                  r="9"
+                  stroke="currentColor"
+                  stroke-width="2"/>
+
+          <path d="M8 12L11 15L16 9"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"/>
+
+        </svg>
+
+        <span>My Habits</span>
+
+      </button>
+
+
+      <button
+              class="habits-tab"
+              type="button"
+              data-habit-tab="saved">
+
+        <svg width="20" height="20"
+             viewBox="0 0 24 24"
+             fill="none">
+
+          <path d="M6 3H18V21L12 17L6 21V3Z"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linejoin="round"/>
+
+        </svg>
+
+        <span>Saved Habits</span>
+
+      </button>
+
+    </div>
+
+
+    <div class="habits-toolbar">
+
+      <div class="habits-search">
+
+        <svg width="21"
+             height="21"
+             viewBox="0 0 24 24"
+             fill="none">
+
+          <circle cx="11"
+                  cy="11"
+                  r="7"
+                  stroke="currentColor"
+                  stroke-width="2"/>
+
+          <path d="M20 20L16 16"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"/>
+
+        </svg>
+
+        <input
+                id="habitsSearch"
+                type="text"
+                placeholder="Search your habits...">
+
+      </div>
+
+
+      <select
+              id="habitsSort"
+              class="habits-sort">
+
+        <option value="newest">
+          Sort by: Newest
+        </option>
+
+        <option value="oldest">
+          Sort by: Oldest
+        </option>
+
+        <option value="az">
+          Sort by: A–Z
+        </option>
+
+        <option value="za">
+          Sort by: Z–A
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div
+            class="habits-grid"
+            id="habitsGrid">
+    </div>
+
+
+    <div
+            class="habits-pagination"
+            id="habitsPagination">
+    </div>
+
+  </section>
+
+  <section class="progress-content" id="progressContent" style="display: none;">
+
+    <div class="progress-page-header">
+
+      <div>
+        <h1>Progress</h1>
+        <p>Track your routines and habits by day and category.</p>
+      </div>
+
+      <div class="progress-controls">
+
+        <div class="progress-period-tabs">
+          <button class="progress-period-btn active" data-period="day" type="button">Day</button>
+          <button class="progress-period-btn" data-period="week" type="button">Week</button>
+          <button class="progress-period-btn" data-period="month" type="button">Month</button>
+          <button class="progress-period-btn" data-period="year" type="button">Year</button>
+        </div>
+
+        <input id="progressDate" class="progress-date" type="date">
+
+      </div>
+
+    </div>
+
+    <!-- US-21: completion, streak and the week, as the server counts them from tracking records. -->
+    <div class="progress-panel progress-empty" id="progressEmpty" hidden>
+      <h2>No tracking yet</h2>
+      <p>Start a routine from My Routines and complete its habits. Your completion, streaks and week will show here.</p>
+    </div>
+
+    <!-- US-07: the status from every habit completed so far, as the server counts it. -->
+    <div class="progress-panel progress-status" id="progressStatus" hidden>
+
+      <div class="progress-status-head">
+        <span class="progress-status-level" id="progressStatusLevel">Level 1</span>
+        <div class="progress-status-title">
+          <span class="progress-summary-label">Your status</span>
+          <h2 id="progressStatusName">Starter</h2>
+        </div>
+        <div class="progress-status-count">
+          <strong id="progressStatusCount">0</strong>
+          <span id="progressStatusCountLabel">completed activities</span>
+        </div>
+      </div>
+
+      <div class="progress-track progress-status-track" id="progressStatusBar"
+           role="progressbar" aria-label="Progress to the next status" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="progress-fill" id="progressStatusFill" style="width: 0%"></div>
+      </div>
+
+      <p class="progress-status-next" id="progressStatusNext"></p>
+
+    </div>
+
+    <div class="progress-summary">
+
+      <div class="progress-summary-card">
+        <span class="progress-summary-label" id="progressCompletionLabel">Habits done today</span>
+        <strong class="progress-summary-value" id="progressCompletionValue">—</strong>
+        <span class="progress-summary-detail" id="progressCompletionDetail"></span>
+      </div>
+
+      <div class="progress-summary-card">
+        <span class="progress-summary-label">Current streak</span>
+        <strong class="progress-summary-value" id="progressStreakValue">0 days</strong>
+        <span class="progress-summary-detail" id="progressStreakDetail"></span>
+      </div>
+
+      <div class="progress-summary-card">
+        <span class="progress-summary-label">This week</span>
+        <strong class="progress-summary-value" id="progressWeekValue">—</strong>
+        <span class="progress-summary-detail" id="progressWeekDetail"></span>
+      </div>
+
+    </div>
+
+    <div class="progress-panel">
+
+      <div class="progress-panel-header">
+        <div>
+          <h2>Weekly Progress</h2>
+          <p id="progressWeekRange">Monday to Sunday.</p>
+        </div>
+      </div>
+
+      <div id="progressWeek" class="progress-week"></div>
+
+      <p class="progress-week-note">
+        Each day counts every habit once: the habits you completed out of those you completed,
+        skipped or postponed that day. Days still to come are not counted.
+      </p>
+
+    </div>
+
+    <div class="progress-panel">
+
+      <div class="progress-panel-header">
+        <div>
+          <h2>Active Streaks</h2>
+          <p>Days in a row each habit was completed. Today counts once it is done.</p>
+        </div>
+      </div>
+
+      <div id="progressStreakList" class="progress-streak-list"></div>
+
+    </div>
+
+    <div class="progress-panel">
+
+      <div class="progress-panel-header">
+        <div>
+          <h2>Routine Progress</h2>
+          <p>Completion progress for your routines.</p>
+        </div>
+      </div>
+
+      <div id="routineProgressList" class="progress-stat-list"></div>
+
+    </div>
+
+    <div class="progress-panel">
+
+      <div class="progress-panel-header">
+        <div>
+          <h2>Habit Progress</h2>
+          <p>Completion progress for your habits.</p>
+        </div>
+      </div>
+
+      <div id="habitProgressList" class="progress-stat-list"></div>
+
+    </div>
+
+  </section>
+
+  <section
+          class="friends-content"
+          id="friendsContent"
+          style="display: none;">
+
+    <div class="friends-page-header">
+      <div>
+        <h1>My Friends</h1>
+        <p id="friendsPageSubtitle">
+          Manage your connections and see your friends.
+        </p>
+      </div>
+    </div>
+
+    <div class="friends-panel">
+
+      <div class="friends-panel-top">
+
+        <div
+                class="friends-count"
+                id="friendsCountText">
+          0 friends
+        </div>
+
+        <div
+                class="friends-search-box"
+                id="friendsSearchWrapper">
+
+          <svg width="21"
+               height="21"
+               viewBox="0 0 24 24"
+               fill="none">
+
+            <circle
+                    cx="11"
+                    cy="11"
+                    r="7"
+                    stroke="currentColor"
+                    stroke-width="2"/>
+
+            <path
+                    d="M20 20L16 16"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"/>
+
+          </svg>
+
+          <input
+                  id="friendsSearchInput"
+                  type="text"
+                  placeholder="Search friends...">
+        </div>
+
+      </div>
+
+      <div class="friends-tabs">
+
+        <button
+                class="friends-tab active"
+                type="button"
+                data-friends-tab="friends">
+          My Friends
+        </button>
+
+        <button
+                class="friends-tab"
+                type="button"
+                data-friends-tab="requests">
+          Requests
+        </button>
+
+        <button
+                class="friends-tab"
+                type="button"
+                data-friends-tab="sent">
+          Sent
+        </button>
+
+        <button
+                class="friends-tab"
+                type="button"
+                data-friends-tab="following">
+          Following
+        </button>
+
+        <button
+                class="friends-tab"
+                type="button"
+                data-friends-tab="followers">
+          Followers
+        </button>
+
+      </div>
+
+      <div
+              class="friends-list"
+              id="friendsList">
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="friends-content" id="todoListsContent" style="display: none;">
+
+    <div class="friends-page-header">
+      <div>
+        <h1>My to-do lists</h1>
+        <p>Plan your day. Each list is private until you make it public.</p>
+      </div>
+    </div>
+
+    <div class="friends-panel mc-page mc-page--embedded" id="profileTodoApp"></div>
+
+  </section>
+
+  <section class="friends-content" id="postsContent" style="display: none;">
+
+    <div class="friends-page-header">
+      <div>
+        <h1>My Posts</h1>
+        <p>Share a moment of your day. Each post is private until you make it public.</p>
+      </div>
+    </div>
+
+    <div class="friends-panel mc-page mc-page--embedded" id="profilePostsApp"></div>
+
+  </section>
+
+  <!-- US-12: the member's own followers and routine copies, drawn by creator-stats.js. -->
+  <section class="friends-content" id="creatorStatsContent" style="display: none;">
+
+    <div class="friends-page-header">
+      <div>
+        <h1>Creator Statistics</h1>
+        <p>See how many people follow you and how often your public routines are copied.</p>
+      </div>
+    </div>
+
+    <div class="friends-panel mc-page mc-page--embedded" id="creatorStatsApp"></div>
+
+  </section>
+
+  <!-- Every AI feature in one place; assistant.js draws it the first time the section opens. -->
+  <section class="friends-content ai-assistant-content" id="aiAssistantContent" style="display: none;">
+
+    <div class="friends-page-header">
+      <div>
+        <h1>AI Assistant</h1>
+        <p>Plan and review your routines, find people with days like yours, and see how your day went.</p>
+      </div>
+    </div>
+
+    <div class="ra-page ra-page--embedded" id="routineAssistant"></div>
+
+  </section>
+
+  <section class="content my-routines-content theme-settings-content"
+         id="themeSettingsContent" style="display:none;">
+
+  <div class="theme-settings-card">
+    <div class="theme-settings-head">
+      <div class="theme-settings-icon">🎨</div>
+      <div>
+        <h3>Choose your theme</h3>
+        <p>Personalize your CopyMyLife experience.</p>
+      </div>
+    </div>
+
+    <div class="theme-options">
+
+      <button type="button" class="theme-option"
+              data-theme-select="original">
+        <span class="theme-check">✓</span>
+
+        <div class="theme-preview theme-preview-original">
+          <div class="theme-preview-topbar">
+            <div class="theme-preview-brand"></div>
+            <div class="theme-preview-actions">
+              <span></span><span></span>
+            </div>
+          </div>
+          <div class="theme-preview-layout">
+            <div class="theme-preview-sidebar">
+              <div class="theme-preview-avatar"></div>
+              <div class="theme-preview-side-line"></div>
+              <div class="theme-preview-side-line"></div>
+            </div>
+            <div class="theme-preview-main">
+              <div class="theme-preview-title"></div>
+              <div class="theme-preview-row">
+                <div class="theme-preview-pill"></div>
+                <div class="theme-preview-pill"></div>
+              </div>
+              <div class="theme-preview-grid">
+                <div class="theme-preview-cell"></div>
+                <div class="theme-preview-cell"></div>
+                <div class="theme-preview-cell"></div>
+                <div class="theme-preview-cell"></div>
+                <div class="theme-preview-cell theme-preview-accent-cell"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <strong>Original</strong>
+        <small>Clean and modern light theme.</small>
+      </button>
+
+      <button type="button" class="theme-option"
+              data-theme-select="autumn">
+        <span class="theme-check">✓</span>
+
+        <div class="theme-preview theme-preview-autumn">
+          <div class="theme-preview-topbar">
+            <div class="theme-preview-brand"></div>
+            <div class="theme-preview-actions">
+              <span></span><span></span>
+            </div>
+          </div>
+          <div class="theme-preview-layout">
+            <div class="theme-preview-sidebar">
+              <div class="theme-preview-avatar"></div>
+              <div class="theme-preview-side-line"></div>
+              <div class="theme-preview-side-line"></div>
+            </div>
+            <div class="theme-preview-main">
+              <div class="theme-preview-title"></div>
+              <div class="theme-preview-row">
+                <div class="theme-preview-pill"></div>
+                <div class="theme-preview-pill"></div>
+              </div>
+              <div class="theme-preview-grid">
+                <div class="theme-preview-cell"></div>
+                <div class="theme-preview-cell"></div>
+                <div class="theme-preview-cell"></div>
+                <div class="theme-preview-cell"></div>
+                <div class="theme-preview-cell theme-preview-accent-cell"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <strong>Autumn</strong>
+        <small>Warm autumn colors and decorative leaves.</small>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- US-22: reminders for the activities and calendar routines with a time; reminders.js. -->
+  <div class="theme-settings-card reminder-settings-card" id="reminderSettings">
+    <div class="theme-settings-head">
+      <div class="theme-settings-icon">⏰</div>
+      <div>
+        <h3>Reminders</h3>
+        <p>Get a reminder in CopyMyLife before an activity or a calendar routine starts.</p>
+      </div>
+    </div>
+
+    <div class="reminder-settings-row">
+      <label class="reminder-switch">
+        <input type="checkbox" data-reminder-enabled>
+        <span>Remind me</span>
+      </label>
+
+      <label class="reminder-lead">
+        <span>When</span>
+        <select data-reminder-lead aria-label="How long before"></select>
+      </label>
+    </div>
+
+    <p class="reminder-status" data-reminder-status role="status"></p>
+
+    <div class="reminder-today">
+      <h4>Today</h4>
+      <div data-reminder-list></div>
+    </div>
+  </div>
+
+</section>
+<section class="content my-routines-content" id="accountContent">
+
+    <div class="my-routines-page-header">
+
+      <div>
+        <h1>My Routines</h1>
+        <p>
+          All routines you've created. Manage, edit or view details.
+        </p>
+      </div>
+
+      <button
+              id="addRoutineBtn"
+              class="my-routines-create-btn"
+              type="button">
+        <span>+</span>
+        Create routine
+      </button>
+
+    </div>
+
+    <div class="my-routines-tabs">
+
+      <button
+              class="my-routines-tab active"
+              type="button"
+              data-tab="my">
+        <svg width="20" height="20"
+             viewBox="0 0 24 24"
+             fill="none">
+          <rect x="3" y="5"
+                width="18" height="16"
+                rx="2"
+                stroke="currentColor"
+                stroke-width="2"/>
+          <path d="M8 3V7M16 3V7M3 10H21"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"/>
+        </svg>
+
+        <span>My Routines</span>
+      </button>
+
+      <button
+              class="my-routines-tab"
+              type="button"
+              data-tab="completed">
+        <svg width="20" height="20"
+             viewBox="0 0 24 24"
+             fill="none">
+          <circle cx="12" cy="12"
+                  r="9"
+                  stroke="currentColor"
+                  stroke-width="2"/>
+          <path d="M8 12L11 15L16 9"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"/>
+        </svg>
+
+        <span>Completed Routines</span>
+      </button>
+
+      <button
+              class="my-routines-tab"
+              type="button"
+              data-tab="saved">
+        <svg width="20" height="20"
+             viewBox="0 0 24 24"
+             fill="none">
+          <path d="M6 3H18V21L12 17L6 21V3Z"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linejoin="round"/>
+        </svg>
+
+        <span>Saved Routines</span>
+      </button>
+
+      <button
+              class="my-routines-tab"
+              type="button"
+              data-tab="liked">
+        <svg width="20" height="20"
+             viewBox="0 0 24 24"
+             fill="none">
+          <path d="M12 21S3 16 3 9.5C3 6.5 5 4 8 4C9.7 4 11.1 4.8 12 6C12.9 4.8 14.3 4 16 4C19 4 21 6.5 21 9.5C21 16 12 21 12 21Z"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linejoin="round"/>
+        </svg>
+
+        <span>Liked Routines</span>
+      </button>
+
+      <button
+              class="my-routines-tab"
+              type="button"
+              data-tab="commented">
+        <svg width="20" height="20"
+             viewBox="0 0 24 24"
+             fill="none">
+          <path d="M21 11.5C21 16.2 16.9 20 12 20C10.6 20 9.3 19.7 8.1 19.2L3 21L4.5 16.5C3.6 15.1 3 13.4 3 11.5C3 6.8 7.1 3 12 3C16.9 3 21 6.8 21 11.5Z"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linejoin="round"/>
+        </svg>
+
+        <span>Commented Routines</span>
+      </button>
+
+    </div>
+
+    <div class="my-routines-toolbar">
+
+      <div class="my-routines-search">
+
+        <svg width="21" height="21"
+             viewBox="0 0 24 24"
+             fill="none">
+          <circle cx="11" cy="11"
+                  r="7"
+                  stroke="currentColor"
+                  stroke-width="2"/>
+          <path d="M20 20L16 16"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"/>
+        </svg>
+
+        <input
+                id="myRoutinesSearch"
+                type="text"
+                placeholder="Search your routines...">
+
+      </div>
+
+      <select id="myRoutinesSort" class="my-routines-sort">
+        <option value="newest">Sort by: Newest</option>
+        <option value="oldest">Sort by: Oldest</option>
+        <option value="az">Sort by: A–Z</option>
+        <option value="za">Sort by: Z–A</option>
+        <option value="shortest">Sort by: Shortest</option>
+        <option value="longest">Sort by: Longest</option>
+      </select>
+
+    </div>
+
+    <div
+            class="routines-grid my-routines-grid"
+            id="routinesGrid">
+    </div>
+
+    <div
+            class="my-routines-pagination"
+            id="myRoutinesPagination">
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  let currentAvatarUrl = null;
+  const token = localStorage.getItem("token");
+  let loadedRoutines = [];
+  let savedRoutines = [];
+  let likedRoutines = [];
+  let commentedRoutines = [];
+  let editingRoutineId = null;
+  let currentRoutinePage = 1;
+  let currentRoutineTab = "my";
+  const routinesPerPage = 6;
+
+  const deleteConfirmModal =
+          document.getElementById("deleteConfirmModal");
+
+  const deleteConfirmTitle =
+          document.getElementById("deleteConfirmTitle");
+
+  const deleteConfirmText =
+          document.getElementById("deleteConfirmText");
+
+  const confirmDeleteBtn =
+          document.getElementById("confirmDeleteBtn");
+
+  const cancelDeleteConfirm =
+          document.getElementById("cancelDeleteConfirm");
+
+  let pendingDeleteAction = null;
+
+  function showDeleteConfirm(title, text, action) {
+
+    deleteConfirmTitle.textContent = title;
+    deleteConfirmText.textContent = text;
+
+    pendingDeleteAction = action;
+
+    deleteConfirmModal.classList.add("show");
+  }
+
+  cancelDeleteConfirm.addEventListener("click", function () {
+
+    deleteConfirmModal.classList.remove("show");
+    pendingDeleteAction = null;
+
+  });
+
+  confirmDeleteBtn.addEventListener("click", function () {
+
+    deleteConfirmModal.classList.remove("show");
+
+    if (pendingDeleteAction) {
+      const action = pendingDeleteAction;
+      pendingDeleteAction = null;
+      action();
+    }
+
+  });
+
+  deleteConfirmModal.addEventListener("click", function (event) {
+
+    if (event.target === deleteConfirmModal) {
+      deleteConfirmModal.classList.remove("show");
+      pendingDeleteAction = null;
+    }
+
+  });
+
+  if (!token) {
+    window.location.href = "login.html";
+  } else {
+
+    fetch("/users/me", {
+      method: "GET",
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    })
+            .then(response => {
+
+              if (!response.ok) {
+                throw new Error("Invalid token");
+              }
+
+              return response.json();
+            })
+
+            .then(user => {
+
+              currentAvatarUrl = user.avatarUrl;
+              showProfileDetails(user);
+
+              document.getElementById("followersCount").textContent =
+                      user.followersCount;
+
+              document.getElementById("followersLabel").textContent =
+                      user.followersCount === 1 ? "Follower" : "Followers";
+
+              document.getElementById("followingCount").textContent =
+                      user.followingCount;
+
+              document.getElementById("headerUserName").textContent = user.name;
+              document.getElementById("profileName").textContent = user.name;
+
+
+              document.getElementById("profileProfession").textContent =
+                      user.profession
+                              ? user.profession
+                              : "No profession added.";
+
+              document.getElementById("profileBio").textContent =
+                      user.bio ? user.bio : "No bio yet.";
+
+              const headerAvatar = document.getElementById("headerAvatar");
+              const profileAvatar = document.getElementById("profileAvatar");
+
+              const headerFallback =
+                      document.getElementById("headerAvatarFallback");
+
+              const profileFallback =
+                      document.getElementById("profileAvatarFallback");
+
+              const firstLetter =
+                      user.name.charAt(0).toUpperCase();
+
+              if (SafeDom.safeImageUrl(user.avatarUrl)) {
+
+                headerAvatar.src = SafeDom.safeImageUrl(user.avatarUrl);
+                profileAvatar.src = SafeDom.safeImageUrl(user.avatarUrl);
+
+                headerAvatar.style.display = "block";
+                profileAvatar.style.display = "block";
+
+                headerFallback.style.display = "none";
+                profileFallback.style.display = "none";
+
+              } else {
+                headerAvatar.style.display = "none";
+                profileAvatar.style.display = "none";
+
+                headerFallback.textContent = firstLetter;
+                profileFallback.textContent = firstLetter;
+
+                headerFallback.style.display = "flex";
+                profileFallback.style.display = "flex";
+              }
+            })
+            .catch(error => {
+
+              CopyMyLifeSession.sessionEnded();
+            });
+    fetch("/routines", {
+      method: "GET",
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error("Failed to load routines");
+              }
+
+              return response.json();
+            })
+            .then(routines => {
+
+              loadedRoutines = routines;
+
+              fillCalendarRoutines();
+
+              currentRoutinePage = 1;
+
+              renderMyRoutines();
+
+            })
+            .catch(error => {
+              console.error(error);
+            });
+  }
+
+  function renderRating(rating, count) {
+
+    const value = Math.max(
+            0,
+            Math.min(5, Number(rating) || 0)
+    );
+
+    const percent = (value / 5) * 100;
+
+    return `
+    <div class="routine-rating-display">
+
+      <span
+          class="routine-rating-stars"
+          style="--rating-width: ${percent}%;">
+      </span>
+
+      <span class="routine-rating-value">
+        ${value.toFixed(1)}
+      </span>
+
+      <span class="routine-rating-count">
+        (${count || 0})
+      </span>
+
+    </div>
+  `;
+  }
+
+  function renderMyRoutines() {
+
+    const routinesGrid = document.getElementById("routinesGrid");
+
+    const searchValue = document.getElementById("myRoutinesSearch").value.trim().toLowerCase();
+
+    const sortValue = document.getElementById("myRoutinesSort").value;
+
+    const sourceRoutines =
+            currentRoutineTab === "saved"
+                    ? savedRoutines
+                    : currentRoutineTab === "liked"
+                            ? likedRoutines
+                            : currentRoutineTab === "commented"
+                                    ? commentedRoutines
+                                    : loadedRoutines;
+
+    let routines = sourceRoutines.filter(function (routine) {
+
+      const title = (routine.title || "").toLowerCase();
+
+      const description = (routine.description || "").toLowerCase();
+
+      return title.includes(searchValue) || description.includes(searchValue);
+
+    });
+
+    if (currentRoutineTab === "completed") {
+      routines = routines.filter(function (routine) {
+        return routine.completed === true;
+      });
+    }
+
+    routines.sort(function (a, b) {
+
+      if (sortValue === "oldest") return a.id - b.id;
+
+      if (sortValue === "az") {
+        return (a.title || "").localeCompare(b.title || "");
+      }
+
+      if (sortValue === "za") {
+        return (b.title || "").localeCompare(a.title || "");
+      }
+
+      if (sortValue === "shortest") {
+        return (a.durationMinutes || 0) - (b.durationMinutes || 0);
+      }
+
+      if (sortValue === "longest") {
+        return (b.durationMinutes || 0) - (a.durationMinutes || 0);
+      }
+
+      return b.id - a.id;
+    });
+
+    const totalPages =
+            Math.ceil(
+                    routines.length / routinesPerPage
+            );
+
+    if (
+            totalPages > 0 &&
+            currentRoutinePage > totalPages
+    ) {
+      currentRoutinePage = totalPages;
+    }
+
+    const start =
+            (currentRoutinePage - 1)
+            * routinesPerPage;
+
+    const pageRoutines =
+            routines.slice(
+                    start,
+                    start + routinesPerPage
+            );
+
+    if (pageRoutines.length === 0) {
+
+      routinesGrid.innerHTML =
+              `<p class="no-routines">
+          ${
+                      currentRoutineTab === "saved"
+                              ? "You don't have any saved routines yet."
+                              : currentRoutineTab === "liked"
+                                      ? "You don't have any liked routines yet."
+                                      : currentRoutineTab === "commented"
+                                              ? "You don't have any commented routines yet."
+                                              : currentRoutineTab === "completed"
+                                                      ? "You don't have any completed routines yet."
+                                                      : "You don't have any routines yet."
+              }
+        </p>`;
+
+      renderRoutinePagination(0);
+
+      return;
+    }
+
+    routinesGrid.innerHTML = "";
+
+    pageRoutines.forEach(function (routine) {
+
+      routinesGrid.innerHTML += `
+      <article
+        class="routine-card"
+        data-routine-id="${routine.id}">
+
+        ${SafeDom.imageSrc(routine.imageUrl)
+              ? `
+          <img
+            class="routine-card-image"
+            src="${SafeDom.imageSrc(routine.imageUrl)}"
+            alt="${SafeDom.escapeHtml(routine.title)}">
+        `
+              : ""
+      }
+
+        <div class="routine-card-top">
+
+          <div class="routine-icon icon-blue">
+
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none">
+
+              <circle
+                cx="12"
+                cy="12"
+                r="5"
+                stroke="#3f6ee0"
+                stroke-width="2"/>
+
+            </svg>
+
+          </div>
+
+          <button
+            class="menu-btn"
+            type="button"
+            data-routine-id="${routine.id}">
+            ⋮
+          </button>
+
+          <div class="routine-menu">
+
+            ${currentRoutineTab === "saved" ? `
+
+              <button
+                class="menu-item danger remove-saved-routine-btn"
+                type="button"
+                data-routine-id="${routine.id}">
+                Remove saved
+              </button>
+
+            ` : currentRoutineTab === "liked" ? `
+
+              <button
+                class="menu-item danger remove-liked-routine-btn"
+                type="button"
+                data-routine-id="${routine.id}">
+                Remove like
+              </button>
+
+            ` : `
+
+              <button
+                class="menu-item edit-routine-btn"
+                type="button"
+                data-routine-id="${routine.id}">
+                Edit
+              </button>
+
+              <button
+                class="menu-item danger delete-routine-btn"
+                type="button"
+                data-routine-id="${routine.id}">
+                Delete
+              </button>
+
+            `}
+
+          </div>
+
+        </div>
+
+        ${currentRoutineTab === "saved" || currentRoutineTab === "liked" ? "" : `
+        <span class="routine-privacy-badge ${routine.public ? "routine-privacy-badge--public" : "routine-privacy-badge--private"}">
+          ${routine.public ? "Public" : "Private"}
+        </span>`}
+
+        <h3 class="routine-title">
+          ${SafeDom.escapeHtml(routine.title)}
+        </h3>
+
+        <p class="routine-desc">
+          ${
+              routine.description
+                      ? SafeDom.escapeHtml(routine.description)
+                      : "No description"
+      }
+        </p>
+
+        ${renderRating(
+              routine.averageRating,
+              routine.ratingCount
+      )}
+        <div class="routine-meta">
+
+          <span class="meta-item">
+            ${
+              routine.category
+                      ? SafeDom.escapeHtml(routine.category)
+                      : "General"
+      }
+          </span>
+
+          <span class="meta-item">
+            ~ ${
+              routine.durationMinutes
+                      ? routine.durationMinutes
+                      : 0
+      } min
+          </span>
+
+        </div>
+
+        <a
+          href="routine.html?id=${routine.id}"
+          class="view-routine-link">
+          View routine →
+        </a>
+
+      </article>
+    `;
+
+    });
+
+    renderRoutinePagination(totalPages);
+  }
+
+  document.querySelectorAll(".my-routines-tab").forEach(function (tab) {
+
+    tab.addEventListener("click", function () {
+
+      const selectedTab = tab.dataset.tab;
+
+      if (
+              selectedTab !== "my" &&
+              selectedTab !== "completed" &&
+              selectedTab !== "saved" &&
+              selectedTab !== "liked" &&
+              selectedTab !== "commented"
+      ) {
+        return;
+      }
+
+      document.querySelectorAll(".my-routines-tab").forEach(function (button) {
+        button.classList.remove("active");
+      });
+
+      tab.classList.add("active");
+
+      currentRoutineTab = selectedTab;
+      currentRoutinePage = 1;
+
+      if (selectedTab === "saved") {
+        loadSavedRoutines();
+      } else if (selectedTab === "liked") {
+        loadLikedRoutines();
+      } else if (selectedTab === "commented") {
+        loadCommentedRoutines();
+      } else {
+        renderMyRoutines();
+      }
+
+    });
+  });
+
+  function loadSavedRoutines() {
+
+    fetch("/saved-routines", {
+      method: "GET",
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    })
+            .then(response => {
+
+              if (!response.ok) {
+                throw new Error("Failed to load saved routines");
+              }
+
+              return response.json();
+            })
+            .then(routines => {
+
+              savedRoutines = routines;
+
+              currentRoutinePage = 1;
+
+              renderMyRoutines();
+
+            })
+            .catch(error => {
+
+              console.error(error);
+
+              alert("Failed to load saved routines");
+
+            });
+  }
+
+  function loadLikedRoutines() {
+
+    fetch("/liked-routines", {
+      method: "GET",
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    })
+            .then(response => {
+
+              if (!response.ok) {
+                throw new Error("Failed to load liked routines");
+              }
+
+              return response.json();
+            })
+            .then(routines => {
+
+              likedRoutines = routines;
+
+              currentRoutinePage = 1;
+
+              renderMyRoutines();
+
+            })
+            .catch(error => {
+
+              console.error(error);
+
+              alert("Failed to load liked routines");
+
+            });
+  }
+
+  function loadCommentedRoutines() {
+
+    fetch("/routine-comments/commented-routines", {
+      method: "GET",
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    })
+            .then(response => {
+
+              if (!response.ok) {
+                throw new Error("Failed to load commented routines");
+              }
+
+              return response.json();
+            })
+            .then(routines => {
+
+              commentedRoutines = routines;
+
+              currentRoutinePage = 1;
+
+              renderMyRoutines();
+
+            })
+            .catch(error => {
+
+              console.error(error);
+
+              alert("Failed to load commented routines");
+
+            });
+  }
+
+  function renderRoutinePagination(totalPages) {
+
+    const pagination =
+            document.getElementById(
+                    "myRoutinesPagination"
+            );
+
+    pagination.innerHTML = "";
+
+    if (totalPages <= 1) {
+      pagination.style.display = "none";
+      return;
+    }
+
+    pagination.style.display = "flex";
+
+    const previousButton =
+            document.createElement("button");
+
+    previousButton.type = "button";
+    previousButton.textContent = "‹";
+
+    previousButton.disabled =
+            currentRoutinePage === 1;
+
+    previousButton.addEventListener(
+            "click",
+            function () {
+
+              if (currentRoutinePage > 1) {
+
+                currentRoutinePage--;
+
+                renderMyRoutines();
+
+              }
+
+            }
+    );
+
+    pagination.appendChild(
+            previousButton
+    );
+
+    for (
+            let page = 1;
+            page <= totalPages;
+            page++
+    ) {
+
+      const button =
+              document.createElement("button");
+
+      button.type = "button";
+      button.textContent = page;
+
+      if (page === currentRoutinePage) {
+        button.classList.add("active");
+      }
+
+      button.addEventListener(
+              "click",
+              function () {
+
+                currentRoutinePage = page;
+
+                renderMyRoutines();
+
+              }
+      );
+
+      pagination.appendChild(button);
+    }
+
+    const nextButton =
+            document.createElement("button");
+
+    nextButton.type = "button";
+    nextButton.textContent = "›";
+
+    nextButton.disabled =
+            currentRoutinePage === totalPages;
+
+    nextButton.addEventListener(
+            "click",
+            function () {
+
+              if (
+                      currentRoutinePage
+                      < totalPages
+              ) {
+
+                currentRoutinePage++;
+
+                renderMyRoutines();
+
+              }
+
+            }
+    );
+
+    pagination.appendChild(
+            nextButton
+    );
+  }
+
+  document.getElementById(
+          "myRoutinesSearch"
+  ).addEventListener(
+          "input",
+          function () {
+
+            currentRoutinePage = 1;
+
+            renderMyRoutines();
+
+          }
+  );
+
+  document.getElementById(
+          "myRoutinesSort"
+  ).addEventListener(
+          "change",
+          function () {
+
+            currentRoutinePage = 1;
+
+            renderMyRoutines();
+
+          }
+  );
+
+  // The profile as last loaded from the server; the edit form starts from it.
+  let currentProfile = null;
+
+  function showProfileDetails(user) {
+    currentProfile = user;
+
+    document.getElementById("profileUsername").textContent =
+            user.username ? "@" + user.username : "No username yet";
+
+    document.getElementById("profileInterests").textContent =
+            user.interests || "Not added yet.";
+
+    document.getElementById("profileGoals").textContent =
+            user.goals || "Not added yet.";
+  }
+
+  const editProfileBtn = document.getElementById("editProfileBtn");
+  const editProfileModal = document.getElementById("editProfileModal");
+  const cancelEditBtn = document.getElementById("cancelEditBtn");
+
+  function showEditProfileError(text) {
+    const error = document.getElementById("editProfileError");
+    error.textContent = text || "";
+    error.hidden = !text;
+
+    // The form is long on a phone; bring the reason into view.
+    if (text) {
+      error.scrollIntoView({block: "nearest"});
+    }
+  }
+
+  editProfileBtn.addEventListener("click", function () {
+
+    const profile = currentProfile || {};
+
+    document.getElementById("editName").value = profile.name || "";
+    document.getElementById("editUsername").value = profile.username || "";
+    document.getElementById("editProfession").value = profile.profession || "";
+    document.getElementById("editBio").value = profile.bio || "";
+    document.getElementById("editInterests").value = profile.interests || "";
+    document.getElementById("editGoals").value = profile.goals || "";
+    document.getElementById("editAvatarUrl").value = profile.avatarUrl || "";
+    document.getElementById("editAvatarFile").value = "";
+
+    showEditProfileError("");
+    editProfileModal.classList.add("show");
+  });
+
+  // Cancel keeps the saved profile; the form is filled again from it next time.
+  cancelEditBtn.addEventListener("click", function () {
+    showEditProfileError("");
+    editProfileModal.classList.remove("show");
+  });
+
+  UploadCheck.watchImageInput(document.getElementById("editAvatarFile"));
+
+  async function readRefusal(response, fallback) {
+    const body = await response.json().catch(() => null);
+
+    if (response.status === 401 || response.status === 403) {
+      CopyMyLifeSession.sessionEnded();
+    }
+
+    return body?.message || fallback;
+  }
+
+  const saveProfileBtn = document.getElementById("saveProfileBtn");
+
+  saveProfileBtn.addEventListener("click", async function () {
+
+    const name = document.getElementById("editName").value.trim();
+
+    if (name.length < 2) {
+      showEditProfileError("Please enter your name (at least 2 characters)");
+      return;
+    }
+
+    saveProfileBtn.disabled = true;
+    showEditProfileError("");
+
+    try {
+      let avatarUrl = document.getElementById("editAvatarUrl").value.trim();
+      const avatarFile = document.getElementById("editAvatarFile").files[0];
+
+      // A chosen photo is checked and stored first; its address then goes into the profile.
+      if (avatarFile) {
+        const formData = new FormData();
+        formData.append("image", avatarFile);
+
+        const uploaded = await fetch("/users/me/avatar", {
+          method: "POST",
+          headers: {"Authorization": "Bearer " + token},
+          body: formData
+        });
+
+        if (!uploaded.ok) {
+          throw new Error(await readRefusal(uploaded, "That photo could not be uploaded."));
+        }
+
+        avatarUrl = (await uploaded.json()).avatarUrl;
+      }
+
+      const response = await fetch("/users/me", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({
+          name: name,
+          username: document.getElementById("editUsername").value.trim(),
+          profession: document.getElementById("editProfession").value.trim() || null,
+          bio: document.getElementById("editBio").value.trim(),
+          interests: document.getElementById("editInterests").value.trim(),
+          goals: document.getElementById("editGoals").value.trim(),
+          avatarUrl: avatarUrl || null
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(await readRefusal(response, "Your profile could not be saved. Please try again."));
+      }
+
+      const user = await response.json();
+
+      currentAvatarUrl = user.avatarUrl;
+      showProfileDetails(user);
+
+      document.getElementById("headerUserName").textContent = user.name;
+      document.getElementById("profileName").textContent = user.name;
+
+      document.getElementById("profileProfession").textContent =
+              user.profession
+                      ? user.profession
+                      : "No profession added.";
+
+      document.getElementById("profileBio").textContent =
+              user.bio ? user.bio : "No bio yet.";
+
+      const headerAvatar = document.getElementById("headerAvatar");
+      const profileAvatar = document.getElementById("profileAvatar");
+      const headerFallback = document.getElementById("headerAvatarFallback");
+      const profileFallback = document.getElementById("profileAvatarFallback");
+      const firstLetter = user.name.charAt(0).toUpperCase();
+
+      if (SafeDom.safeImageUrl(user.avatarUrl)) {
+
+        headerAvatar.src = SafeDom.safeImageUrl(user.avatarUrl);
+        profileAvatar.src = SafeDom.safeImageUrl(user.avatarUrl);
+
+        headerAvatar.style.display = "block";
+        profileAvatar.style.display = "block";
+
+        headerFallback.style.display = "none";
+        profileFallback.style.display = "none";
+
+      } else {
+
+        headerAvatar.style.display = "none";
+        profileAvatar.style.display = "none";
+
+        headerFallback.textContent = firstLetter;
+        profileFallback.textContent = firstLetter;
+
+        headerFallback.style.display = "flex";
+        profileFallback.style.display = "flex";
+      }
+
+      editProfileModal.classList.remove("show");
+    } catch (error) {
+      showEditProfileError(
+              error instanceof TypeError
+                      ? "We couldn't reach the server. Check your connection and try again."
+                      : error.message
+      );
+    } finally {
+      saveProfileBtn.disabled = false;
+    }
+  });
+
+
+  const userMenuToggle =
+          document.getElementById("userMenuToggle");
+
+  const userDropdown =
+          document.getElementById("userDropdown");
+
+  const userMenuChevron =
+          document.getElementById("userMenuChevron");
+
+  const logoutBtn =
+          document.getElementById("logoutBtn");
+
+  userMenuToggle.addEventListener("click", function (event) {
+
+    event.stopPropagation();
+
+    userDropdown.classList.toggle("show");
+    userMenuChevron.classList.toggle("open");
+
+  });
+
+  document.addEventListener("click", function (event) {
+
+    if (!event.target.closest(".topbar-user-wrap")) {
+      userDropdown.classList.remove("show");
+      userMenuChevron.classList.remove("open");
+    }
+
+  });
+
+  logoutBtn.addEventListener("click", function () {
+
+    CopyMyLifeSession.signOut();
+
+  });
+
+
+  const routinesGridElement =
+          document.getElementById("routinesGrid");
+
+  routinesGridElement.addEventListener(
+          "click",
+          function (event) {
+
+            const menuBtn =
+                    event.target.closest(".menu-btn");
+
+            if (menuBtn) {
+
+              event.stopPropagation();
+
+              const cardTop =
+                      menuBtn.closest(".routine-card-top");
+
+              const menu =
+                      cardTop.querySelector(".routine-menu");
+
+              const wasOpen =
+                      menu.classList.contains("open");
+
+              closeAllRoutineMenus();
+
+              if (!wasOpen) {
+                menu.classList.add("open");
+              }
+
+              return;
+            }
+
+
+            const editBtn = event.target.closest(".edit-routine-btn");
+
+            if (editBtn) {
+
+              event.stopPropagation();
+
+              openEditRoutine(Number(editBtn.dataset.routineId));
+
+              return;
+            }
+
+
+            const deleteBtn = event.target.closest(".delete-routine-btn");
+
+            if (deleteBtn) {
+
+              event.stopPropagation();
+
+              deleteRoutine(Number(deleteBtn.dataset.routineId));
+            }
+
+            const removeSavedBtn = event.target.closest(".remove-saved-routine-btn");
+
+            if (removeSavedBtn) {
+
+              event.stopPropagation();
+
+              removeSavedRoutine(
+                      Number(removeSavedBtn.dataset.routineId)
+              );
+
+              return;
+            }
+
+            const removeLikedBtn =
+                    event.target.closest(".remove-liked-routine-btn");
+
+            if (removeLikedBtn) {
+
+              event.stopPropagation();
+
+              removeLikedRoutine(
+                      Number(removeLikedBtn.dataset.routineId)
+              );
+
+              return;
+            }
+
+
+
+          });
+
+
+  function closeAllRoutineMenus() {
+    document.querySelectorAll('.routine-menu.open')
+            .forEach(function (m) {
+              m.classList.remove('open');
+            });
+  }
+
+  function openEditRoutine(routineId) {
+
+    const routine = loadedRoutines.find(
+            routine => routine.id === routineId
+    );
+
+    if (!routine) {
+      return;
+    }
+
+    editingRoutineId = routineId;
+
+    document.getElementById("routineModalTitle").textContent = "Edit routine";
+
+    document.getElementById("createRoutineBtn").textContent = "Save changes";
+
+    document.getElementById("routineTitle").value = routine.title || "";
+
+    document.getElementById("routineDescription").value = routine.description || "";
+
+    // A copied routine can carry a category the list doesn't offer, such as Halloween.
+    const category = routine.category || "Morning";
+    const categorySelect = document.getElementById("routineCategory");
+
+    if (![...categorySelect.options].some(option => option.value === category)) {
+      const kept = new Option(category, category);
+      kept.dataset.extra = "true";
+      categorySelect.add(kept);
+    }
+
+    categorySelect.value = category;
+    showRoutineFormError("");
+
+    document.getElementById("routineDuration").value = routine.durationMinutes || "";
+
+    document.getElementById("routineImageUrl").value = routine.imageUrl || "";
+    document.getElementById("routineImage").value = "";
+
+    document.getElementById("routinePublic").checked = routine.public === true;
+
+    addRoutineModal.classList.add("show");
+
+    closeAllRoutineMenus();
+  }
+
+  function removeSavedRoutine(routineId) {
+
+    fetch("/saved-routines/" + routineId, {
+      method: "DELETE",
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    })
+            .then(response => {
+
+              if (!response.ok) {
+                throw new Error("Failed to remove saved routine");
+              }
+
+              savedRoutines =
+                      savedRoutines.filter(
+                              routine => routine.id !== routineId
+                      );
+
+              renderMyRoutines();
+
+            })
+            .catch(error => {
+
+              console.error(error);
+
+              alert("Failed to remove saved routine");
+
+            });
+  }
+
+  function removeLikedRoutine(routineId) {
+
+    fetch("/liked-routines/" + routineId, {
+      method: "DELETE",
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    })
+            .then(response => {
+
+              if (!response.ok) {
+                throw new Error("Failed to remove liked routine");
+              }
+
+              likedRoutines =
+                      likedRoutines.filter(
+                              routine => routine.id !== routineId
+                      );
+
+              renderMyRoutines();
+
+            })
+            .catch(error => {
+
+              console.error(error);
+
+              alert("Failed to remove liked routine");
+
+            });
+  }
+
+  function deleteRoutine(routineId) {
+
+    const routine = loadedRoutines.find(routine => routine.id === routineId);
+
+    if (!routine) return;
+
+    showDeleteConfirm(
+            "Delete routine?",
+            `Are you sure you want to delete "${routine.title}"?`,
+            function () {
+
+              fetch("/routines/" + routineId, {
+                method: "DELETE",
+                headers: {
+                  "Authorization": "Bearer " + token
+                }
+              })
+                      .then(response => {
+
+                        if (!response.ok) {
+                          throw new Error("Failed to delete routine");
+                        }
+
+                        loadedRoutines = loadedRoutines.filter(routine => routine.id !== routineId);
+
+                        renderMyRoutines();
+                        fillCalendarRoutines();
+
+                      })
+                      .catch(error => {
+                        console.error(error);
+                      });
+            }
+    );
+  }
+
+  document.addEventListener("click", function () {
+    closeAllRoutineMenus();
+  });
+
+  const addRoutineBtn =
+          document.getElementById("addRoutineBtn");
+
+  const addRoutineModal =
+          document.getElementById("addRoutineModal");
+
+  const closeRoutineModal =
+          document.getElementById("closeRoutineModal");
+
+  const cancelRoutineBtn =
+          document.getElementById("cancelRoutineBtn");
+
+
+  // US-25: the form offers the categories administrators manage. The list written into the
+  // page stays when they can't be read.
+  function resetRoutineCategory() {
+    const select = document.getElementById("routineCategory");
+
+    // A category added only for editing one routine, such as Halloween, goes again.
+    [...select.options].filter(option => option.dataset.extra === "true").forEach(option => option.remove());
+    select.selectedIndex = 0;
+  }
+
+  async function loadRoutineCategories() {
+    try {
+      const response = await fetch("/categories");
+      const categories = response.ok ? await response.json() : [];
+
+      if (!Array.isArray(categories) || !categories.length) return;
+
+      const select = document.getElementById("routineCategory");
+      const chosen = select.value;
+
+      select.replaceChildren(...categories.map(category => new Option(category.name, category.name)));
+
+      if ([...select.options].some(option => option.value === chosen)) {
+        select.value = chosen;
+      }
+    } catch (error) {
+      // The list written into the page stays.
+    }
+  }
+
+  loadRoutineCategories();
+
+  addRoutineBtn.addEventListener("click", function () {
+
+    editingRoutineId = null;
+
+    document.getElementById("routineModalTitle")
+            .textContent = "Create routine";
+
+    createRoutineBtn.textContent =
+            "Create routine";
+
+    document.getElementById("routineTitle").value = "";
+    document.getElementById("routineDescription").value = "";
+    resetRoutineCategory();
+    showRoutineFormError("");
+    document.getElementById("routineDuration").value = "";
+    document.getElementById("routineImageUrl").value = "";
+    document.getElementById("routineImage").value = "";
+    document.getElementById("routinePublic").checked = false;
+
+    addRoutineModal.classList.add("show");
+
+  });
+
+
+  closeRoutineModal.addEventListener("click", function () {
+
+    addRoutineModal.classList.remove("show");
+
+  });
+
+
+  cancelRoutineBtn.addEventListener("click", function () {
+
+    addRoutineModal.classList.remove("show");
+
+  });
+
+
+  addRoutineModal.addEventListener("click", function (event) {
+
+    if (event.target === addRoutineModal) {
+
+      addRoutineModal.classList.remove("show");
+
+    }
+
+  });
+  UploadCheck.watchImageInput(document.getElementById("routineImage"));
+
+  const createRoutineBtn =
+          document.getElementById("createRoutineBtn");
+
+  function showRoutineFormError(text) {
+    const error = document.getElementById("routineFormError");
+    error.textContent = text || "";
+    error.hidden = !text;
+  }
+
+  createRoutineBtn.addEventListener("click", function () {
+
+    const title =
+            document.getElementById("routineTitle")
+                    .value.trim();
+
+    const description =
+            document.getElementById("routineDescription")
+                    .value.trim();
+
+    const category =
+            document.getElementById("routineCategory")
+                    .value;
+
+    const durationMinutes =
+            Number(
+                    document.getElementById("routineDuration")
+                            .value
+            );
+
+    const isPublic =
+            document.getElementById("routinePublic")
+                    .checked;
+
+
+    if (!title) {
+      showRoutineFormError("Routine title is required");
+      return;
+    }
+
+    if (!durationMinutes || durationMinutes <= 0) {
+      showRoutineFormError("Duration must be greater than 0");
+      return;
+    }
+
+    showRoutineFormError("");
+
+
+    const imageUrl = document.getElementById("routineImageUrl").value.trim();
+    const imageFile = document.getElementById("routineImage").files[0];
+
+    const formData = new FormData();
+
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("durationMinutes", durationMinutes);
+    formData.append("category", category);
+    formData.append("isPublic", isPublic);
+
+    if (imageUrl) formData.append("imageUrl", imageUrl);
+    if (imageFile) formData.append("image", imageFile);
+
+
+    const isEditing = editingRoutineId !== null;
+
+    const url = isEditing ? "/routines/" + editingRoutineId : "/routines";
+
+    const method = isEditing ? "PUT" : "POST";
+
+
+    fetch(url, {
+
+      method: method,
+
+      headers: {
+        "Authorization": "Bearer " + token
+      },
+
+      body: formData
+
+    })
+            .then(response => {
+
+              if (!response.ok) {
+                return response.json().catch(() => ({})).then(body => {
+                  throw new Error(body.message || "Failed to save routine");
+                });
+              }
+
+              return response.json();
+
+            })
+            .then(routine => {
+
+              if (isEditing) {
+                const index = loadedRoutines.findIndex(r => r.id === routine.id);
+
+                if (index !== -1) {
+                  loadedRoutines[index] = routine;
+                }
+              } else {
+                loadedRoutines.push(routine);
+              }
+
+              editingRoutineId = null;
+
+              addRoutineModal.classList.remove("show");
+
+              renderMyRoutines();
+              fillCalendarRoutines();
+
+            })
+            .catch(error => {
+
+              console.error(error);
+
+              showRoutineFormError(error.message || "Failed to save routine");
+
+            });
+
+  });
+
+  const myRoutinesNav =
+          document.getElementById("myRoutinesNav");
+  const calendarNav =
+          document.getElementById("calendarNav");
+
+  const myHabitsNav =
+          document.getElementById("myHabitsNav");
+
+  const progressNav =
+          document.getElementById("progressNav");
+
+  const friendsNav =
+          document.getElementById("friendsNav");
+
+  function setActiveProfileNav(activeButton) {
+
+    document
+            .querySelectorAll(".profile-nav-btn")
+            .forEach(function (button) {
+              button.classList.remove("active");
+            });
+
+    activeButton.classList.add("active");
+  }
+
+  setActiveProfileNav(calendarNav);
+
+  const accountContent =
+          document.getElementById("accountContent");
+
+  const calendarContent =
+          document.getElementById("calendarContent");
+
+  const habitsContent =
+          document.getElementById("habitsContent");
+
+  const progressContent =
+          document.getElementById("progressContent");
+  const friendsContent =
+          document.getElementById("friendsContent");
+
+  const calendarRoutineSelect =
+          document.getElementById("calendarRoutineSelect");
+
+  let calendarWeekStart = getMonday(new Date());
+  let calendarEvents = [];
+  let selectedCalendarDay = null;
+  let editingCalendarEvent = null;
+  let deletingCalendarEvent = null;
+
+  const CALENDAR_REPEAT_LABELS = {
+    DAILY: "Every day",
+    WEEKLY: "Every week"
+  };
+  renderCalendarWeek();
+  loadCalendarEvents();
+
+  calendarNav.addEventListener("click", function () {
+
+    setActiveProfileNav(calendarNav);
+
+    accountContent.style.display = "none";
+    habitsContent.style.display = "none";
+    progressContent.style.display = "none";
+    friendsContent.style.display = "none";
+
+    calendarContent.style.display = "block";
+
+    fillCalendarRoutines();
+    renderCalendarWeek();
+    loadCalendarEvents();
+
+  });
+
+  myRoutinesNav.addEventListener("click", function () {
+
+    setActiveProfileNav(myRoutinesNav);
+
+    calendarContent.style.display = "none";
+    habitsContent.style.display = "none";
+    progressContent.style.display = "none";
+    friendsContent.style.display = "none";
+
+    accountContent.style.display = "block";
+
+  });
+
+  function fillCalendarRoutines() {
+
+    calendarRoutineSelect.innerHTML =
+            `<option value="">Choose routine</option>`;
+
+    loadedRoutines.forEach(function (routine) {
+
+      const option =
+              document.createElement("option");
+
+      option.value = routine.id;
+
+      option.textContent = routine.title;
+
+      calendarRoutineSelect.appendChild(option);
+
+    });
+
+  }
+
+
+  function getMonday(date) {
+
+    const result = new Date(date);
+
+    const day = result.getDay();
+
+    const diff =
+            result.getDate() -
+            day +
+            (day === 0 ? -6 : 1);
+
+    result.setDate(diff);
+
+    result.setHours(0, 0, 0, 0);
+
+    return result;
+
+  }
+
+
+  function renderCalendarWeek() {
+
+    const days = [];
+
+    for (let i = 0; i < 7; i++) {
+
+      const date =
+              new Date(calendarWeekStart);
+
+      date.setDate(
+              calendarWeekStart.getDate() + i
+      );
+
+      days.push(date);
+    }
+
+
+    const ids = [
+      "calendarMon",
+      "calendarTue",
+      "calendarWed",
+      "calendarThu",
+      "calendarFri",
+      "calendarSat",
+      "calendarSun"
+    ];
+
+
+    days.forEach(function (date, index) {
+
+      document.getElementById(ids[index]).textContent =
+              date.toLocaleDateString(
+                      "en-US",
+                      {
+                        month: "short",
+                        day: "numeric"
+                      }
+              );
+    });
+
+
+    const startDate = days[0];
+    const endDate = days[6];
+
+    const startYear =
+            startDate.getFullYear();
+
+    const endYear =
+            endDate.getFullYear();
+
+    let title;
+
+    if (startYear !== endYear) {
+
+      title =
+              startDate.toLocaleDateString(
+                      "en-US",
+                      {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric"
+                      }
+              )
+              +
+              " – "
+              +
+              endDate.toLocaleDateString(
+                      "en-US",
+                      {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric"
+                      }
+              );
+
+    } else {
+
+      title =
+              startDate.toLocaleDateString(
+                      "en-US",
+                      {
+                        month: "short",
+                        day: "numeric"
+                      }
+              )
+              +
+              " – "
+              +
+              endDate.toLocaleDateString(
+                      "en-US",
+                      {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric"
+                      }
+              );
+    }
+
+
+    document
+            .getElementById("calendarWeekTitle")
+            .textContent = title;
+  }
+  function formatLocalDate(date) {
+
+    const year = date.getFullYear();
+
+    const month =
+            String(date.getMonth() + 1)
+                    .padStart(2, "0");
+
+    const day =
+            String(date.getDate())
+                    .padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
+
+
+  // Sends a calendar request; a refusal comes back as an Error with the server's reason.
+  async function calendarRequest(url, method, body) {
+
+    let response;
+
+    try {
+      response = await fetch(url, {
+        method: method,
+        headers: {
+          "Authorization": "Bearer " + token,
+          ...(body ? {"Content-Type": "application/json"} : {})
+        },
+        body: body ? JSON.stringify(body) : undefined
+      });
+    } catch (error) {
+      throw new Error("We couldn't reach the server. Check your connection and try again.");
+    }
+
+    if (!response.ok) {
+      const data = await response.json().catch(() => null);
+      throw new Error(data?.message || "That didn't work. Please try again.");
+    }
+
+    return response.status === 204 ? null : response.json();
+  }
+
+
+  function showCalendarMessage(text, isError) {
+
+    const message = document.getElementById("calendarMessage");
+
+    message.textContent = text || "";
+    message.hidden = !text;
+    message.classList.toggle("calendar-message--error", !!isError);
+  }
+
+
+  function calendarDateOf(index) {
+
+    const date = new Date(calendarWeekStart);
+
+    date.setDate(calendarWeekStart.getDate() + index);
+
+    return formatLocalDate(date);
+  }
+
+
+  function calendarLongDate(day) {
+
+    return new Date(day + "T00:00:00").toLocaleDateString(
+            "en-US",
+            {
+              weekday: "long",
+              month: "short",
+              day: "numeric"
+            }
+    );
+  }
+
+
+  function showCalendarWeekOf(day) {
+
+    calendarWeekStart = getMonday(new Date(day + "T00:00:00"));
+
+    renderCalendarWeek();
+    loadCalendarEvents();
+  }
+
+
+  function loadCalendarEvents() {
+
+    // One day before Monday as well, so a late Sunday event can run on into Monday.
+    const from =
+            new Date(calendarWeekStart);
+
+    from.setDate(from.getDate() - 1);
+
+    const to =
+            new Date(calendarWeekStart);
+
+    to.setDate(to.getDate() + 6);
+
+    return calendarRequest(
+            "/calendar-events?from="
+            + formatLocalDate(from)
+            + "&to="
+            + formatLocalDate(to),
+            "GET"
+    )
+            .then(events => {
+
+              calendarEvents = events;
+
+              renderCalendarEvents();
+              renderCalendarDayPanel();
+
+            })
+            .catch(error => {
+
+              showCalendarMessage(error.message, true);
+
+            });
+
+  }
+
+
+  function calendarMinutes(time) {
+
+    const parts = time.split(":");
+
+    return Number(parts[0]) * 60 + Number(parts[1]);
+  }
+
+
+  function placeCalendarBlock(element, dayIndex, startMinutes, minutes) {
+
+    element.style.left =
+            `calc(${dayIndex} * (100% / 7) + 5px)`;
+
+    element.style.top =
+            (startMinutes / 1440) * 100 + "%";
+
+    element.style.height =
+            Math.max(2, (minutes / 1440) * 100) + "%";
+  }
+
+
+  function renderCalendarEvents() {
+
+    const area =
+            document.getElementById(
+                    "calendarEventsArea"
+            );
+
+    area.innerHTML = "";
+
+    const weekDays = [0, 1, 2, 3, 4, 5, 6].map(calendarDateOf);
+
+    calendarEvents.forEach(function (event) {
+
+      const dayIndex = weekDays.indexOf(event.day);
+      const startMinutes = calendarMinutes(event.time);
+      const duration = event.durationMinutes || 30;
+      const endMinutes = startMinutes + duration;
+
+      if (dayIndex >= 0) {
+
+        const element = document.createElement("div");
+
+        element.className = "calendar-event";
+        element.classList.add(duration >= 120 ? "calendar-event--full" : "calendar-event--compact");
+        element.dataset.eventId = event.id;
+        element.dataset.day = event.day;
+
+        element.innerHTML = `
+  <strong class="calendar-event-title">
+    ${SafeDom.escapeHtml(event.title)}
+  </strong>
+
+  <div class="calendar-event-details">
+
+    <span class="calendar-event-time">
+      ${formatCalendarTime(
+                event.time,
+                duration
+        )}
+    </span>
+
+    <div class="calendar-event-actions">
+
+      <button
+        type="button"
+        class="calendar-edit-event">
+        Edit
+      </button>
+
+      <button
+        type="button"
+        class="calendar-delete-event">
+        Delete
+      </button>
+
+    </div>
+
+  </div>
+`;
+
+        placeCalendarBlock(element, dayIndex, startMinutes, Math.min(duration, 1440 - startMinutes));
+        applyCalendarEventColor(element, event.category);
+
+        element.querySelector(".calendar-edit-event").addEventListener("click", function (e) {
+          e.stopPropagation();
+          openCalendarEdit(event);
+        });
+
+        element.querySelector(".calendar-delete-event").addEventListener("click", function (e) {
+          e.stopPropagation();
+          openCalendarDelete(event);
+        });
+
+        area.appendChild(element);
+      }
+
+      // The part after midnight shows on the next day.
+      if (endMinutes > 1440 && dayIndex + 1 >= 0 && dayIndex + 1 < 7) {
+
+        const rest = document.createElement("div");
+
+        rest.className = "calendar-event calendar-event--compact calendar-event--continued";
+        rest.dataset.eventId = event.id;
+        rest.dataset.day = weekDays[dayIndex + 1];
+        rest.innerHTML = `<strong class="calendar-event-title">${SafeDom.escapeHtml(event.title)} (continued)</strong>`;
+
+        placeCalendarBlock(rest, dayIndex + 1, 0, endMinutes - 1440);
+        applyCalendarEventColor(rest, event.category);
+
+        area.appendChild(rest);
+      }
+
+    });
+
+  }
+
+
+  function renderCalendarDayPanel() {
+
+    const weekDays = [0, 1, 2, 3, 4, 5, 6].map(calendarDateOf);
+    const today = formatLocalDate(new Date());
+
+    if (!weekDays.includes(selectedCalendarDay)) {
+      selectedCalendarDay = weekDays.includes(today) ? today : weekDays[0];
+    }
+
+    document.querySelectorAll(".calendar-grid .calendar-day").forEach(function (button) {
+      const day = weekDays[Number(button.dataset.dayIndex)];
+      button.classList.toggle("calendar-day--selected", day === selectedCalendarDay);
+      button.classList.toggle("calendar-day--today", day === today);
+      button.setAttribute("aria-pressed", day === selectedCalendarDay ? "true" : "false");
+    });
+
+    const items = calendarEvents
+            .filter(event => event.day === selectedCalendarDay)
+            .sort((a, b) => a.time.localeCompare(b.time));
+
+    document.getElementById("calendarDayHeading").textContent =
+            calendarLongDate(selectedCalendarDay);
+
+    document.getElementById("calendarDayList").innerHTML = items.map(event => `
+      <li class="calendar-day-item">
+        <span class="calendar-day-item__time">${formatCalendarTime(event.time, event.durationMinutes || 30)}</span>
+        <div class="calendar-day-item__body">
+          <strong class="calendar-day-item__title">${SafeDom.escapeHtml(event.title)}</strong>
+          <span class="calendar-day-item__repeat">${event.seriesId ? "Changed from its series" : (CALENDAR_REPEAT_LABELS[event.repeat] || "Once")}</span>
+        </div>
+        <div class="calendar-day-item__actions">
+          <a class="calendar-day-item__open" href="routine.html?id=${Number(event.routineId)}">Open routine</a>
+          <button type="button" data-action="edit" data-event-id="${Number(event.id)}" data-day="${event.day}">Edit</button>
+          <button type="button" class="calendar-day-item__delete" data-action="delete" data-event-id="${Number(event.id)}" data-day="${event.day}">Delete</button>
+        </div>
+      </li>
+    `).join("");
+
+    const empty = document.getElementById("calendarDayEmpty");
+
+    empty.textContent = `Nothing planned for ${calendarLongDate(selectedCalendarDay).split(",")[0]}. Add a routine above to plan this day.`;
+    empty.hidden = items.length > 0;
+  }
+
+
+  function closeCalendarModals() {
+
+    document.getElementById("calendarEditModal").classList.remove("show");
+    document.getElementById("calendarDeleteModal").classList.remove("show");
+
+    editingCalendarEvent = null;
+    deletingCalendarEvent = null;
+  }
+
+
+  function seriesDescription(event) {
+
+    return event.repeat === "DAILY"
+            ? "every day"
+            : "every " + new Date(event.day + "T00:00:00").toLocaleDateString("en-US", {weekday: "long"});
+  }
+
+
+  function openCalendarEdit(event) {
+
+    editingCalendarEvent = event;
+
+    const select = document.getElementById("calendarEditRoutine");
+
+    select.innerHTML = "";
+
+    loadedRoutines.forEach(function (routine) {
+      select.add(new Option(routine.title, routine.id));
+    });
+
+    select.value = String(event.routineId);
+    document.getElementById("calendarEditDay").value = event.day;
+    document.getElementById("calendarEditTime").value = event.time.substring(0, 5);
+    document.getElementById("calendarEditRepeat").value = event.repeat;
+
+    document.getElementById("calendarEditScopeGroup").hidden = !event.repeating;
+    document.getElementById("calendarEditOccurrenceLabel").textContent =
+            "Only " + calendarLongDate(event.day);
+    document.getElementById("calendarEditSeriesLabel").textContent =
+            "Entire series (" + seriesDescription(event) + ")";
+    document.querySelector('[name="calendarEditScope"][value="occurrence"]').checked = true;
+
+    document.getElementById("calendarEditError").hidden = true;
+
+    updateCalendarEditScope();
+
+    document.getElementById("calendarEditModal").classList.add("show");
+  }
+
+
+  // Shows only the fields that the chosen scope can change, and says which days change.
+  function updateCalendarEditScope() {
+
+    const event = editingCalendarEvent;
+
+    if (!event) return;
+
+    const series = event.repeating
+            && document.querySelector('[name="calendarEditScope"]:checked').value === "series";
+
+    document.getElementById("calendarEditDayField").hidden = series;
+    document.getElementById("calendarEditRepeatField").hidden = !series && (event.repeating || !!event.seriesId);
+
+    document.getElementById("calendarEditHint").textContent = !event.repeating
+            ? ""
+            : series
+                    ? "Every day of this series changes to the new routine, time and repeat. The series keeps its first day; days you changed or deleted on their own stay as they are."
+                    : `Only ${calendarLongDate(event.day)} changes. Every other day of the series stays as it is.`;
+  }
+
+
+  async function saveCalendarEdit() {
+
+    const event = editingCalendarEvent;
+
+    if (!event) return;
+
+    const scope = event.repeating
+            ? document.querySelector('[name="calendarEditScope"]:checked').value
+            : null;
+
+    const query = scope === "occurrence"
+            ? `?scope=occurrence&date=${event.day}`
+            : scope === "series" ? "?scope=series" : "";
+
+    try {
+      const saved = await calendarRequest(
+              "/calendar-events/" + event.id + query,
+              "PUT",
+              {
+                routineId: Number(document.getElementById("calendarEditRoutine").value),
+                day: document.getElementById("calendarEditDay").value,
+                time: document.getElementById("calendarEditTime").value,
+                repeat: document.getElementById("calendarEditRepeat").value
+              }
+      );
+
+      closeCalendarModals();
+      showCalendarMessage(
+              scope === "occurrence"
+                      ? `Only ${calendarLongDate(event.day)} was changed.`
+                      : scope === "series"
+                              ? "Every day of the series was updated."
+                              : "\"" + saved.title + "\" was updated."
+      );
+      selectedCalendarDay = saved.day;
+      showCalendarWeekOf(scope === "series" ? event.day : saved.day);
+    } catch (error) {
+      document.getElementById("calendarEditError").textContent = error.message;
+      document.getElementById("calendarEditError").hidden = false;
+    }
+  }
+
+
+  function openCalendarDelete(event) {
+
+    deletingCalendarEvent = event;
+
+    document.getElementById("calendarDeleteText").textContent =
+            "Delete \"" + event.title + "\" on " + calendarLongDate(event.day) + "?";
+    document.getElementById("calendarDeleteScopeGroup").hidden = !event.repeating;
+    document.getElementById("calendarDeleteOccurrenceLabel").textContent =
+            "Only " + calendarLongDate(event.day);
+    document.getElementById("calendarDeleteSeriesLabel").textContent =
+            "Entire series (" + seriesDescription(event) + ")";
+    document.querySelector('[name="calendarDeleteScope"][value="occurrence"]').checked = true;
+    document.getElementById("calendarDeleteError").hidden = true;
+
+    document.getElementById("calendarDeleteModal").classList.add("show");
+    document.getElementById("calendarDeleteCancel").focus();
+  }
+
+
+  async function confirmCalendarDelete() {
+
+    const event = deletingCalendarEvent;
+
+    if (!event) return;
+
+    const scope = event.repeating
+            ? document.querySelector('[name="calendarDeleteScope"]:checked').value
+            : null;
+
+    const query = scope === "occurrence"
+            ? `?scope=occurrence&date=${event.day}`
+            : scope === "series" ? "?scope=series" : "";
+
+    try {
+      await calendarRequest("/calendar-events/" + event.id + query, "DELETE");
+
+      closeCalendarModals();
+      showCalendarMessage(
+              scope === "series"
+                      ? "Deleted every day of \"" + event.title + "\"."
+                      : "Removed \"" + event.title + "\" on " + calendarLongDate(event.day) + "."
+      );
+      loadCalendarEvents();
+    } catch (error) {
+      document.getElementById("calendarDeleteError").textContent = error.message;
+      document.getElementById("calendarDeleteError").hidden = false;
+    }
+  }
+
+
+  function formatCalendarTime(
+          startTime,
+          durationMinutes
+  ) {
+
+    const parts =
+            startTime.split(":");
+
+    const startHour =
+            Number(parts[0]);
+
+    const startMinute =
+            Number(parts[1]);
+
+    const start =
+            new Date();
+
+    start.setHours(
+            startHour,
+            startMinute,
+            0,
+            0
+    );
+
+    const end =
+            new Date(
+                    start.getTime()
+                    +
+                    durationMinutes * 60000
+            );
+
+    return formatTime(start)
+            +
+            " – "
+            +
+            formatTime(end);
+  }
+
+
+  function formatTime(date) {
+
+    let hour =
+            date.getHours();
+
+    const minute =
+            String(date.getMinutes())
+                    .padStart(2, "0");
+
+    const period =
+            hour >= 12 ? "PM" : "AM";
+
+    hour =
+            hour % 12;
+
+    if (hour === 0) {
+      hour = 12;
+    }
+
+    return `${hour}:${minute} ${period}`;
+  }
+
+
+  function applyCalendarEventColor(
+          element,
+          category
+  ) {
+
+    const value =
+            (category || "")
+                    .toLowerCase();
+
+    if (value === "morning") {
+      element.style.background = "#def0fb";
+      element.style.color = "#3c7296";
+    }
+
+    else if (value === "study") {
+      element.style.background = "#fff3ce";
+      element.style.color = "#94701c";
+    }
+
+    else if (value === "fitness") {
+      element.style.background = "#fde8db";
+      element.style.color = "#b9683f";
+    }
+
+    else if (value === "wellness") {
+      element.style.background = "#dff5eb";
+      element.style.color = "#3a8c6a";
+    }
+
+    else if (value === "productivity") {
+      element.style.background = "#e4eaff";
+      element.style.color = "#5064b5";
+    }
+
+    else if (value === "creators") {
+      element.style.background = "#efe4fb";
+      element.style.color = "#7650a8";
+    }
+
+  }
+
+
+  function moveCalendarWeek(dayOffset) {
+
+    const nextWeekStart =
+            new Date(calendarWeekStart);
+
+    nextWeekStart.setDate(
+            nextWeekStart.getDate() + dayOffset
+    );
+
+    calendarWeekStart =
+            getMonday(nextWeekStart);
+
+    selectedCalendarDay = null;
+    renderCalendarWeek();
+    loadCalendarEvents();
+  }
+
+
+  document.getElementById("calendarPrevWeek")
+          .addEventListener(
+                  "click",
+                  function () {
+
+                    moveCalendarWeek(-7);
+
+                  }
+          );
+
+
+  document.getElementById("calendarNextWeek")
+          .addEventListener(
+                  "click",
+                  function () {
+
+                    moveCalendarWeek(7);
+
+                  }
+          );
+
+  document.querySelectorAll(".calendar-grid .calendar-day").forEach(function (button) {
+    button.addEventListener("click", function () {
+      selectedCalendarDay = calendarDateOf(Number(button.dataset.dayIndex));
+      renderCalendarDayPanel();
+    });
+  });
+
+  document.getElementById("calendarDayList").addEventListener("click", function (event) {
+    const button = event.target.closest("[data-action]");
+
+    if (!button) return;
+
+    const item = calendarEvents.find(found =>
+            String(found.id) === button.dataset.eventId && found.day === button.dataset.day);
+
+    if (!item) return;
+
+    if (button.dataset.action === "edit") {
+      openCalendarEdit(item);
+    } else {
+      openCalendarDelete(item);
+    }
+  });
+
+  document.querySelectorAll('[name="calendarEditScope"]').forEach(function (input) {
+    input.addEventListener("change", updateCalendarEditScope);
+  });
+
+  document.getElementById("calendarEditCancel").addEventListener("click", closeCalendarModals);
+  document.getElementById("calendarDeleteCancel").addEventListener("click", closeCalendarModals);
+  document.getElementById("calendarEditSave").addEventListener("click", saveCalendarEdit);
+  document.getElementById("calendarDeleteConfirm").addEventListener("click", confirmCalendarDelete);
+
+  ["calendarEditModal", "calendarDeleteModal"].forEach(function (id) {
+    document.getElementById(id).addEventListener("click", function (event) {
+      if (event.target === this) closeCalendarModals();
+    });
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") closeCalendarModals();
+  });
+
+
+  document.getElementById("addToCalendarBtn")
+          .addEventListener("click", function () {
+
+            const routineId =
+                    Number(calendarRoutineSelect.value);
+
+            const day =
+                    document.getElementById("calendarDay").value;
+
+            const time =
+                    document.getElementById("calendarTime").value;
+
+            const repeat =
+                    document.getElementById("calendarRepeat")
+                            .value
+                            .toUpperCase();
+
+            if (!routineId || !day || !time) {
+              showCalendarMessage("Choose a routine, a day and a time.", true);
+              return;
+            }
+
+            calendarRequest("/calendar-events", "POST", {
+              routineId: routineId,
+              day: day,
+              time: time,
+              repeat: repeat
+            })
+                    .then(event => {
+
+                      document.getElementById("calendarDay").value = "";
+                      document.getElementById("calendarTime").value = "";
+                      document.getElementById("calendarRepeat").value = "none";
+
+                      calendarRoutineSelect.value = "";
+
+                      selectedCalendarDay = event.day;
+                      showCalendarMessage("Added \"" + event.title + "\" to your calendar.");
+                      showCalendarWeekOf(event.day);
+                    })
+                    .catch(error => {
+                      showCalendarMessage(error.message, true);
+                    });
+
+          });
+
+
+  progressNav.addEventListener("click", function () {
+
+    setActiveProfileNav(progressNav);
+
+    calendarContent.style.display = "none";
+    accountContent.style.display = "none";
+    habitsContent.style.display = "none";
+    friendsContent.style.display = "none";
+
+    progressContent.style.display = "block";
+
+    renderProgress();
+
+  });
+
+
+  let currentHabitTab = "my";
+  let habitsData = [];
+  let savedHabitsData = [];
+  let savedHabitIds = new Set();
+  let editingHabitId = null;
+  let editingHabitRoutineId = null;
+
+  myHabitsNav.addEventListener("click", function () {
+
+    setActiveProfileNav(myHabitsNav);
+
+    calendarContent.style.display = "none";
+    accountContent.style.display = "none";
+    progressContent.style.display = "none";
+    friendsContent.style.display = "none";
+
+    habitsContent.style.display = "block";
+
+    loadHabits();
+    loadSavedHabits();
+
+  });
+
+  friendsNav.addEventListener("click", function () {
+
+    setActiveProfileNav(friendsNav);
+
+    calendarContent.style.display = "none";
+    accountContent.style.display = "none";
+    habitsContent.style.display = "none";
+    progressContent.style.display = "none";
+
+    friendsContent.style.display = "block";
+
+    currentFriendsTab = "friends";
+
+    document.querySelectorAll(".friends-tab")
+            .forEach(function (button) {
+              button.classList.remove("active");
+            });
+
+    document.querySelector(
+            '[data-friends-tab="friends"]'
+    ).classList.add("active");
+
+    friendsSearchWrapper.style.display = "flex";
+
+    friendsSearchInput.value = "";
+
+    friendsPageSubtitle.textContent =
+            "Manage your connections and see your friends.";
+
+    loadFriendState();
+    loadMyFriends();
+  });
+
+  const friendsSearchInput =
+          document.getElementById("friendsSearchInput");
+
+  const friendsList =
+          document.getElementById("friendsList");
+
+  const friendsCountText =
+          document.getElementById("friendsCountText");
+
+  const friendsPageSubtitle =
+          document.getElementById("friendsPageSubtitle");
+
+  const friendsSearchWrapper =
+          document.getElementById("friendsSearchWrapper");
+
+  let friendUserIds = new Set();
+  let sentFriendRequests = new Map();
+  let incomingFriendRequests = new Map();
+
+  let friendsSearchTimer = null;
+
+
+  function loadFriendState() {
+
+    Promise.all([
+
+      fetch("/friends", {
+        method: "GET",
+        headers: {
+          "Authorization": "Bearer " + token
+        }
+      }).then(response => {
+        if (!response.ok) {
+          throw new Error("Failed to load friends");
+        }
+
+        return response.json();
+      }),
+
+
+      fetch("/friends/requests/sent", {
+        method: "GET",
+        headers: {
+          "Authorization": "Bearer " + token
+        }
+      }).then(response => {
+        if (!response.ok) {
+          throw new Error("Failed to load sent requests");
+        }
+
+        return response.json();
+      }),
+
+
+      fetch("/friends/requests", {
+        method: "GET",
+        headers: {
+          "Authorization": "Bearer " + token
+        }
+      }).then(response => {
+        if (!response.ok) {
+          throw new Error("Failed to load incoming requests");
+        }
+
+        return response.json();
+      })
+
+    ])
+            .then(results => {
+
+              const friends = results[0];
+              const sentRequests = results[1];
+              const incomingRequests = results[2];
+
+
+              friendUserIds = new Set(
+                      friends.map(friend => friend.userId)
+              );
+
+
+              sentFriendRequests = new Map();
+
+              sentRequests.forEach(function (request) {
+
+                sentFriendRequests.set(
+                        request.userId,
+                        request.requestId
+                );
+
+              });
+
+
+              incomingFriendRequests = new Map();
+
+              incomingRequests.forEach(function (request) {
+
+                incomingFriendRequests.set(
+                        request.userId,
+                        request.requestId
+                );
+
+              });
+
+            })
+            .catch(error => {
+
+              console.error(error);
+
+            });
+  }
+
+
+  friendsSearchInput.addEventListener(
+          "input",
+          function () {
+
+            clearTimeout(friendsSearchTimer);
+
+            if (currentFriendsTab !== "friends") {
+              return;
+            }
+
+            const query =
+                    friendsSearchInput.value.trim();
+
+            if (query.length === 0) {
+
+              loadMyFriends();
+              return;
+            }
+
+            friendsSearchTimer = setTimeout(
+                    function () {
+
+                      searchFriendUsers(query);
+
+                    },
+                    300
+            );
+
+          }
+  );
+
+
+  function searchFriendUsers(query) {
+
+    friendsList.innerHTML =
+            `<div class="friends-empty">
+             Searching...
+           </div>`;
+
+
+    fetch(
+            "/users/search?query="
+            + encodeURIComponent(query),
+            {
+              method: "GET",
+
+              headers: {
+                "Authorization": "Bearer " + token
+              }
+            }
+    )
+            .then(response => {
+
+              if (!response.ok) {
+                throw new Error("Failed to search users");
+              }
+
+              return response.json();
+
+            })
+            .then(users => {
+
+              renderFriendSearchResults(users);
+
+            })
+            .catch(error => {
+
+              console.error(error);
+
+              friendsList.innerHTML =
+                      `<div class="friends-empty">
+                       Failed to search users.
+                     </div>`;
+
+            });
+  }
+
+
+
+  function renderFriendSearchResults(users) {
+
+    friendsCountText.textContent =
+            `${users.length} result${users.length === 1 ? "" : "s"}`;
+
+    if (users.length === 0) {
+
+      friendsList.innerHTML =
+              `<div class="friends-empty">
+               No users found.
+             </div>`;
+
+      return;
+    }
+
+
+    friendsList.innerHTML = "";
+
+
+    users.forEach(function (user) {
+
+      let actionButton = "";
+
+
+      if (friendUserIds.has(user.id)) {
+
+        actionButton = `
+        <button
+          class="friend-secondary-btn"
+          type="button"
+          disabled>
+          Friends
+        </button>
+      `;
+
+      }
+
+      else if (sentFriendRequests.has(user.id)) {
+
+        actionButton = `
+        <button
+          class="friend-secondary-btn"
+          type="button"
+          disabled>
+          Pending
+        </button>
+      `;
+
+      }
+
+      else if (incomingFriendRequests.has(user.id)) {
+
+        actionButton = `
+        <button
+          class="friend-secondary-btn"
+          type="button"
+          disabled>
+          Request received
+        </button>
+      `;
+
+      }
+
+      else {
+
+        actionButton = `
+        <button
+          class="friend-add-btn"
+          type="button"
+          data-user-id="${user.id}">
+          Add Friend
+        </button>
+      `;
+
+      }
+
+
+      const avatar = SafeDom.imageSrc(user.avatarUrl)
+              ? `
+              <img
+                src="${SafeDom.imageSrc(user.avatarUrl)}"
+                alt="${SafeDom.escapeHtml(user.name)}">
+            `
+              : `
+              <span>
+                ${SafeDom.escapeHtml((user.name || "?")
+                      .charAt(0)
+                      .toUpperCase())}
+              </span>
+            `;
+
+
+      friendsList.innerHTML += `
+      <div class="friend-card">
+
+        <div class="friend-card-avatar">
+          ${avatar}
+        </div>
+
+        <div class="friend-card-info">
+
+          <h3 class="friend-card-name">
+            ${SafeDom.escapeHtml(user.name)}
+          </h3>
+
+          <p class="friend-card-username">
+            ${
+              user.username
+                      ? "@" + SafeDom.escapeHtml(user.username)
+                      : "No username"
+      }
+          </p>
+
+        </div>
+
+        <div class="friend-card-actions">
+          ${actionButton}
+        </div>
+
+      </div>
+    `;
+
+    });
+
+  }
+
+
+  friendsList.addEventListener(
+          "click",
+          function (event) {
+
+            const addButton =
+                    event.target.closest(
+                            ".friend-add-btn"
+                    );
+
+
+            if (!addButton) {
+              return;
+            }
+
+
+            const userId =
+                    Number(
+                            addButton.dataset.userId
+                    );
+
+
+            addButton.disabled = true;
+            addButton.textContent = "Sending...";
+
+
+            fetch(
+                    "/friends/request/" + userId,
+                    {
+                      method: "POST",
+
+                      headers: {
+                        "Authorization":
+                                "Bearer " + token
+                      }
+                    }
+            )
+                    .then(response => {
+
+                      if (!response.ok) {
+                        throw new Error(
+                                "Failed to send friend request"
+                        );
+                      }
+
+                      return response.json();
+
+                    })
+                    .then(request => {
+
+                      sentFriendRequests.set(
+                              userId,
+                              request.requestId
+                      );
+
+
+                      addButton.classList.remove(
+                              "friend-add-btn"
+                      );
+
+                      addButton.classList.add(
+                              "friend-secondary-btn"
+                      );
+
+                      addButton.textContent =
+                              "Pending";
+
+                      addButton.disabled = true;
+
+                    })
+                    .catch(error => {
+
+                      console.error(error);
+
+                      addButton.disabled = false;
+
+                      addButton.textContent =
+                              "Add Friend";
+
+                      alert(
+                              "Failed to send friend request"
+                      );
+
+                    });
+
+          }
+  );
+
+  let currentFriendsTab = "friends";
+
+  document.querySelectorAll(".friends-tab")
+          .forEach(function (tab) {
+
+            tab.addEventListener("click", function () {
+
+              document.querySelectorAll(".friends-tab")
+                      .forEach(function (button) {
+
+                        button.classList.remove("active");
+
+                      });
+
+              tab.classList.add("active");
+
+              currentFriendsTab =
+                      tab.dataset.friendsTab;
+
+              friendsSearchInput.value = "";
+
+
+              if (currentFriendsTab === "friends") {
+
+                friendsSearchWrapper.style.display = "flex";
+
+                friendsPageSubtitle.textContent =
+                        "Manage your connections and see your friends.";
+
+                loadMyFriends();
+
+              }
+
+
+              else if (currentFriendsTab === "requests") {
+
+                friendsSearchWrapper.style.display = "none";
+
+                friendsPageSubtitle.textContent =
+                        "Accept or decline incoming friend requests.";
+
+                loadIncomingRequests();
+
+              }
+
+
+              else if (currentFriendsTab === "sent") {
+
+                friendsSearchWrapper.style.display = "none";
+
+                friendsPageSubtitle.textContent =
+                        "Track and manage the requests you sent.";
+
+                loadSentRequests();
+
+              }
+
+
+              else if (currentFriendsTab === "following") {
+
+                friendsSearchWrapper.style.display = "none";
+
+                friendsPageSubtitle.textContent =
+                        "Creators you follow. Open their profile or unfollow them.";
+
+                loadFollowing();
+
+              }
+
+
+              else if (currentFriendsTab === "followers") {
+
+                friendsSearchWrapper.style.display = "none";
+
+                friendsPageSubtitle.textContent =
+                        "People who follow you. Open their profile or follow them back.";
+
+                loadFollowers();
+
+              }
+
+            });
+
+          });
+
+  function loadMyFriends() {
+
+    friendsList.innerHTML = `
+    <div class="friends-empty">
+      Loading friends...
+    </div>
+  `;
+
+    fetch("/friends", {
+
+      method: "GET",
+
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+
+    })
+            .then(response => {
+
+              if (!response.ok) {
+                throw new Error(
+                        "Failed to load friends"
+                );
+              }
+
+              return response.json();
+
+            })
+            .then(friends => {
+
+              // A slower answer for a tab the user has already left must not replace the list.
+              if (currentFriendsTab === "friends") {
+                renderMyFriends(friends);
+              }
+
+            })
+            .catch(error => {
+
+              console.error(error);
+
+              friendsList.innerHTML = `
+              <div class="friends-empty">
+                Failed to load friends.
+              </div>
+            `;
+
+            });
+  }
+
+  // The creators the user follows, as stored on the server.
+  function loadFollowing() {
+
+    friendsList.innerHTML = `
+    <div class="friends-empty">
+      Loading the creators you follow...
+    </div>
+  `;
+
+    fetch("/users/me/following", {
+
+      method: "GET",
+
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+
+    })
+            .then(response => {
+
+              if (!response.ok) {
+                throw new Error(
+                        "Failed to load following"
+                );
+              }
+
+              return response.json();
+
+            })
+            .then(creators => {
+
+              if (currentFriendsTab === "following") {
+                renderFollowing(creators);
+              }
+
+            })
+            .catch(error => {
+
+              console.error(error);
+
+              friendsList.innerHTML = `
+              <div class="friends-empty following-empty">
+                Could not load the creators you follow. Please try again.
+              </div>
+            `;
+
+            });
+  }
+
+  function renderFollowing(creators) {
+
+    friendsCountText.textContent =
+            `${creators.length} following`;
+
+    // The list and the Following count come from the same stored links.
+    document.getElementById("followingCount").textContent =
+            creators.length;
+
+    if (creators.length === 0) {
+
+      friendsList.innerHTML = `
+      <div class="friends-empty following-empty">
+        You are not following anyone yet. Follow creators from their profile to see them here.
+      </div>
+    `;
+
+      return;
+    }
+
+    friendsList.innerHTML = creators.map(function (creator) {
+
+      const id = Number(creator.userId);
+
+      const avatar =
+              SafeDom.imageSrc(creator.avatarUrl)
+                      ? `<img src="${SafeDom.imageSrc(creator.avatarUrl)}" alt="${SafeDom.escapeHtml(creator.name)}">`
+                      : `<span>${SafeDom.escapeHtml((creator.name || "?").charAt(0).toUpperCase())}</span>`;
+
+      return `
+      <div class="friend-card">
+
+        <div class="friend-card-avatar">
+          ${avatar}
+        </div>
+
+        <div class="friend-card-info">
+
+          <h3 class="friend-card-name">${SafeDom.escapeHtml(creator.name)}</h3>
+
+          <p class="friend-card-username">
+            ${creator.username ? "@" + SafeDom.escapeHtml(creator.username) : "No username"}
+          </p>
+
+        </div>
+
+        <div class="friend-card-actions">
+
+          <a
+            class="friend-view-btn"
+            href="user-profile.html?id=${id}"
+            data-user-id="${id}">
+            View profile
+          </a>
+
+          <button
+            class="friend-secondary-btn following-unfollow-btn"
+            type="button"
+            data-user-id="${id}">
+            Unfollow
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+    }).join("");
+  }
+
+  friendsList.addEventListener(
+          "click",
+          function (event) {
+
+            const button =
+                    event.target.closest(
+                            ".following-unfollow-btn"
+                    );
+
+            if (!button) {
+              return;
+            }
+
+            button.disabled = true;
+
+            fetch("/users/" + Number(button.dataset.userId) + "/follow", {
+
+              method: "DELETE",
+
+              headers: {
+                "Authorization": "Bearer " + token
+              }
+
+            })
+                    .then(response => {
+
+                      if (!response.ok) {
+                        throw new Error("Failed to unfollow");
+                      }
+
+                      loadFollowing();
+
+                    })
+                    .catch(error => {
+
+                      console.error(error);
+
+                      button.disabled = false;
+
+                      friendsPageSubtitle.textContent =
+                              "Could not unfollow right now. Please try again.";
+
+                    });
+          }
+  );
+
+  // The people who follow the user, as stored on the server.
+  function loadFollowers() {
+
+    friendsList.innerHTML = `
+    <div class="friends-empty">
+      Loading your followers...
+    </div>
+  `;
+
+    fetch("/users/me/followers", {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    })
+            .then(response => {
+
+              if (response.status === 401) {
+                CopyMyLifeSession.sessionEnded();
+              }
+
+              if (!response.ok) {
+                throw new Error("Failed to load followers");
+              }
+
+              return response.json();
+
+            })
+            .then(followers => {
+
+              if (currentFriendsTab === "followers") {
+                renderFollowers(followers);
+              }
+
+            })
+            .catch(error => {
+
+              console.error(error);
+
+              if (currentFriendsTab === "followers") {
+                friendsList.innerHTML = `
+                <div class="friends-empty followers-empty">
+                  Could not load your followers. Please try again.
+                </div>
+              `;
+              }
+
+            });
+  }
+
+  function renderFollowers(followers) {
+
+    friendsCountText.textContent =
+            `${followers.length} ${followers.length === 1 ? "follower" : "followers"}`;
+
+    // The list and the Followers count come from the same stored links.
+    document.getElementById("followersCount").textContent =
+            followers.length;
+
+    document.getElementById("followersLabel").textContent =
+            followers.length === 1 ? "Follower" : "Followers";
+
+    if (followers.length === 0) {
+
+      friendsList.innerHTML = `
+      <div class="friends-empty followers-empty">
+        Nobody follows you yet. When someone follows you, they will appear here.
+      </div>
+    `;
+
+      return;
+    }
+
+    friendsList.innerHTML = followers.map(function (follower) {
+
+      const id = Number(follower.userId);
+      const name = SafeDom.escapeHtml(follower.name);
+
+      const avatar =
+              SafeDom.imageSrc(follower.avatarUrl)
+                      ? `<img src="${SafeDom.imageSrc(follower.avatarUrl)}" alt="${name}">`
+                      : `<span>${SafeDom.escapeHtml((follower.name || "?").charAt(0).toUpperCase())}</span>`;
+
+      const followButton = follower.followedBack
+              ? `<button class="friend-secondary-btn follower-follow-btn" type="button"
+                     data-follow-action="unfollow" data-user-id="${id}">Unfollow</button>`
+              : `<button class="friend-accept-btn follower-follow-btn" type="button"
+                     data-follow-action="follow" data-user-id="${id}">Follow back</button>`;
+
+      return `
+      <div class="friend-card follower-card">
+
+        <div class="friend-card-avatar">
+          ${avatar}
+        </div>
+
+        <div class="friend-card-info">
+
+          <h3 class="friend-card-name">${name}</h3>
+
+          <p class="friend-card-username">
+            ${follower.username ? "@" + SafeDom.escapeHtml(follower.username) : "No username"}
+          </p>
+
+        </div>
+
+        <div class="friend-card-actions">
+
+          <a
+            class="friend-view-btn"
+            href="user-profile.html?id=${id}"
+            data-user-id="${id}">
+            View profile
+          </a>
+
+          ${followButton}
+
+        </div>
+
+      </div>
+    `;
+
+    }).join("");
+  }
+
+  // Both counts after a follow change, read back from the server.
+  function refreshFollowCounts() {
+
+    return fetch("/users/me", {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    })
+            .then(response => (response.ok ? response.json() : null))
+            .then(user => {
+
+              if (!user) {
+                return;
+              }
+
+              document.getElementById("followersCount").textContent =
+                      user.followersCount;
+
+              document.getElementById("followersLabel").textContent =
+                      user.followersCount === 1 ? "Follower" : "Followers";
+
+              document.getElementById("followingCount").textContent =
+                      user.followingCount;
+
+            });
+  }
+
+  friendsList.addEventListener(
+          "click",
+          function (event) {
+
+            const button =
+                    event.target.closest(
+                            ".follower-follow-btn"
+                    );
+
+            if (!button || button.disabled) {
+              return;
+            }
+
+            button.disabled = true;
+
+            fetch("/users/" + Number(button.dataset.userId) + "/follow", {
+
+              method: button.dataset.followAction === "follow" ? "POST" : "DELETE",
+
+              headers: {
+                "Authorization": "Bearer " + token
+              }
+
+            })
+                    .then(response => {
+
+                      if (!response.ok) {
+                        throw new Error("Failed to change follow");
+                      }
+
+                      return refreshFollowCounts();
+
+                    })
+                    .then(() => {
+
+                      loadFollowers();
+
+                    })
+                    .catch(error => {
+
+                      console.error(error);
+
+                      button.disabled = false;
+
+                      friendsPageSubtitle.textContent =
+                              "Could not update this follow right now. Please try again.";
+
+                    });
+          }
+  );
+
+  function loadIncomingRequests() {
+
+    friendsList.innerHTML = `
+    <div class="friends-empty">
+      Loading requests...
+    </div>
+  `;
+
+    fetch("/friends/requests", {
+
+      method: "GET",
+
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+
+    })
+            .then(response => {
+
+              if (!response.ok) {
+                throw new Error(
+                        "Failed to load requests"
+                );
+              }
+
+              return response.json();
+
+            })
+            .then(requests => {
+
+              if (currentFriendsTab === "requests") {
+                renderIncomingRequests(requests);
+              }
+
+            })
+            .catch(error => {
+
+              console.error(error);
+
+              friendsList.innerHTML = `
+              <div class="friends-empty">
+                Failed to load requests.
+              </div>
+            `;
+
+            });
+  }
+
+  function loadSentRequests() {
+
+    friendsList.innerHTML = `
+    <div class="friends-empty">
+      Loading sent requests...
+    </div>
+  `;
+
+    fetch("/friends/requests/sent", {
+
+      method: "GET",
+
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+
+    })
+            .then(response => {
+
+              if (!response.ok) {
+                throw new Error(
+                        "Failed to load sent requests"
+                );
+              }
+
+              return response.json();
+
+            })
+            .then(requests => {
+
+              if (currentFriendsTab === "sent") {
+                renderSentRequests(requests);
+              }
+
+            })
+            .catch(error => {
+
+              console.error(error);
+
+              friendsList.innerHTML = `
+              <div class="friends-empty">
+                Failed to load sent requests.
+              </div>
+            `;
+
+            });
+  }
+
+
+  function renderSentRequests(requests) {
+
+    friendsCountText.textContent =
+            `${requests.length} sent request${requests.length === 1 ? "" : "s"}`;
+
+    if (requests.length === 0) {
+
+      friendsList.innerHTML = `
+      <div class="friends-empty">
+        You haven't sent any friend requests.
+      </div>
+    `;
+
+      return;
+    }
+
+
+    friendsList.innerHTML = "";
+
+
+    requests.forEach(function (request) {
+
+      const avatar =
+              SafeDom.imageSrc(request.avatarUrl)
+                      ? `
+                      <img
+                        src="${SafeDom.imageSrc(request.avatarUrl)}"
+                        alt="${SafeDom.escapeHtml(request.name)}">
+                    `
+                      : `
+                      <span>
+                        ${SafeDom.escapeHtml((request.name || "?")
+                              .charAt(0)
+                              .toUpperCase())}
+                      </span>
+                    `;
+
+
+      friendsList.innerHTML += `
+      <div class="friend-card">
+
+        <div class="friend-card-avatar">
+          ${avatar}
+        </div>
+
+
+        <div class="friend-card-info">
+
+          <h3 class="friend-card-name">
+            ${SafeDom.escapeHtml(request.name)}
+          </h3>
+
+          <p class="friend-card-username">
+            ${
+              request.username
+                      ? "@" + SafeDom.escapeHtml(request.username)
+                      : "No username"
+      }
+          </p>
+
+        </div>
+
+
+        <div class="friend-card-actions">
+
+          <button
+            class="friend-cancel-btn"
+            type="button"
+            data-request-id="${request.requestId}"
+            data-user-id="${request.userId}">
+            Cancel
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+    });
+
+  }
+
+  friendsList.addEventListener(
+          "click",
+          function (event) {
+
+            const acceptButton =
+                    event.target.closest(
+                            ".friend-accept-btn"
+                    );
+
+            const rejectButton =
+                    event.target.closest(
+                            ".friend-reject-btn"
+                    );
+
+            const cancelButton =
+                    event.target.closest(
+                            ".friend-cancel-btn"
+                    );
+
+
+            if (acceptButton) {
+
+              const requestId =
+                      Number(
+                              acceptButton.dataset.requestId
+                      );
+
+              const userId =
+                      Number(
+                              acceptButton.dataset.userId
+                      );
+
+              acceptButton.disabled = true;
+              acceptButton.textContent = "Accepting...";
+
+
+              fetch(
+                      "/friends/requests/"
+                      + requestId
+                      + "/accept",
+                      {
+
+                        method: "PUT",
+
+                        headers: {
+                          "Authorization":
+                                  "Bearer " + token
+                        }
+
+                      }
+              )
+                      .then(response => {
+
+                        if (!response.ok) {
+                          throw new Error(
+                                  "Failed to accept request"
+                          );
+                        }
+
+                        return response.json();
+
+                      })
+                      .then(() => {
+
+                        incomingFriendRequests.delete(userId);
+                        friendUserIds.add(userId);
+
+                        loadIncomingRequests();
+
+                      })
+                      .catch(error => {
+
+                        console.error(error);
+
+                        acceptButton.disabled = false;
+                        acceptButton.textContent = "Accept";
+
+                      });
+
+              return;
+            }
+
+
+            if (rejectButton) {
+
+              const requestId =
+                      Number(
+                              rejectButton.dataset.requestId
+                      );
+
+              const userId =
+                      Number(
+                              rejectButton.dataset.userId
+                      );
+
+              // US-29: one decline for a double click.
+              rejectButton.disabled = true;
+              rejectButton.textContent = "Declining...";
+
+              fetch(
+                      "/friends/requests/"
+                      + requestId
+                      + "/reject",
+                      {
+
+                        method: "PUT",
+
+                        headers: {
+                          "Authorization":
+                                  "Bearer " + token
+                        }
+
+                      }
+              )
+                      .then(response => {
+
+                        if (!response.ok) {
+                          throw new Error(
+                                  "Failed to reject request"
+                          );
+                        }
+
+                        incomingFriendRequests.delete(userId);
+
+                        loadIncomingRequests();
+
+                      })
+                      .catch(error => {
+                        console.error(error);
+                        rejectButton.disabled = false;
+                        rejectButton.textContent = "Decline";
+                      });
+
+              return;
+            }
+
+
+            if (cancelButton) {
+
+              const requestId =
+                      Number(
+                              cancelButton.dataset.requestId
+                      );
+
+              const userId =
+                      Number(
+                              cancelButton.dataset.userId
+                      );
+
+
+              fetch(
+                      "/friends/requests/"
+                      + requestId,
+                      {
+
+                        method: "DELETE",
+
+                        headers: {
+                          "Authorization":
+                                  "Bearer " + token
+                        }
+
+                      }
+              )
+                      .then(response => {
+
+                        if (!response.ok) {
+                          throw new Error(
+                                  "Failed to cancel request"
+                          );
+                        }
+
+                        sentFriendRequests.delete(userId);
+
+                        loadSentRequests();
+
+                      })
+                      .catch(error => {
+                        console.error(error);
+                      });
+
+            }
+
+          }
+  );
+
+
+  function renderIncomingRequests(requests) {
+
+    friendsCountText.textContent =
+            `${requests.length} request${requests.length === 1 ? "" : "s"}`;
+
+    if (requests.length === 0) {
+
+      friendsList.innerHTML = `
+      <div class="friends-empty">
+        You don't have any friend requests.
+      </div>
+    `;
+
+      return;
+    }
+
+
+    friendsList.innerHTML = "";
+
+
+    requests.forEach(function (request) {
+
+      const avatar =
+              SafeDom.imageSrc(request.avatarUrl)
+                      ? `
+                      <img
+                        src="${SafeDom.imageSrc(request.avatarUrl)}"
+                        alt="${SafeDom.escapeHtml(request.name)}">
+                    `
+                      : `
+                      <span>
+                        ${SafeDom.escapeHtml((request.name || "?")
+                              .charAt(0)
+                              .toUpperCase())}
+                      </span>
+                    `;
+
+
+      friendsList.innerHTML += `
+      <div class="friend-card">
+
+        <div class="friend-card-avatar">
+          ${avatar}
+        </div>
+
+        <div class="friend-card-info">
+
+          <h3 class="friend-card-name">
+            ${SafeDom.escapeHtml(request.name)}
+          </h3>
+
+          <p class="friend-card-username">
+            ${
+              request.username
+                      ? "@" + SafeDom.escapeHtml(request.username)
+                      : "No username"
+      }
+          </p>
+
+        </div>
+
+
+        <div class="friend-card-actions">
+
+          <button
+            class="friend-accept-btn"
+            type="button"
+            data-request-id="${request.requestId}"
+            data-user-id="${request.userId}">
+            Accept
+          </button>
+
+          <button
+            class="friend-reject-btn"
+            type="button"
+            data-request-id="${request.requestId}"
+            data-user-id="${request.userId}">
+            Decline
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+    });
+
+  }
+
+  function renderMyFriends(friends) {
+
+    friendsCountText.textContent =
+            `${friends.length} friend${friends.length === 1 ? "" : "s"}`;
+
+    if (friends.length === 0) {
+
+      friendsList.innerHTML = `
+      <div class="friends-empty">
+        You don't have any friends yet.
+      </div>
+    `;
+
+      return;
+    }
+
+
+    friendsList.innerHTML = "";
+
+
+    friends.forEach(function (friend) {
+
+      const avatar =
+              SafeDom.imageSrc(friend.avatarUrl)
+                      ? `
+                      <img
+                        src="${SafeDom.imageSrc(friend.avatarUrl)}"
+                        alt="${SafeDom.escapeHtml(friend.name)}">
+                    `
+                      : `
+                      <span>
+                        ${SafeDom.escapeHtml((friend.name || "?")
+                              .charAt(0)
+                              .toUpperCase())}
+                      </span>
+                    `;
+
+
+      friendsList.innerHTML += `
+      <div class="friend-card">
+
+        <div class="friend-card-avatar">
+          ${avatar}
+        </div>
+
+
+        <div class="friend-card-info">
+
+          <h3 class="friend-card-name">
+            ${SafeDom.escapeHtml(friend.name)}
+          </h3>
+
+          <p class="friend-card-username">
+            ${
+              friend.username
+                      ? "@" + SafeDom.escapeHtml(friend.username)
+                      : "No username"
+      }
+          </p>
+
+        </div>
+
+
+        <div class="friend-card-actions">
+
+          <button
+            class="friend-view-btn"
+            type="button"
+            data-user-id="${friend.userId}">
+            View profile
+          </button>
+
+          <button
+            class="friend-more-btn"
+            type="button"
+            data-user-id="${friend.userId}">
+            ⋯
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+    });
+
+  }
+
+  friendsList.addEventListener(
+          "click",
+          function (event) {
+
+            const viewButton =
+                    event.target.closest(
+                            ".friend-view-btn"
+                    );
+
+            if (!viewButton) {
+              return;
+            }
+
+            const userId =
+                    viewButton.dataset.userId;
+
+            window.location.href =
+                    "user-profile.html?id="
+                    + userId;
+
+          }
+  );
+
+  friendsList.addEventListener(
+          "click",
+          function (event) {
+
+            const removeButton =
+                    event.target.closest(
+                            ".friend-remove-btn"
+                    );
+
+
+            if (!removeButton) {
+              return;
+            }
+
+
+            const userId =
+                    Number(
+                            removeButton.dataset.userId
+                    );
+
+
+            removeButton.disabled = true;
+            removeButton.textContent = "Removing...";
+
+
+            fetch(
+                    "/friends/" + userId,
+                    {
+
+                      method: "DELETE",
+
+                      headers: {
+                        "Authorization":
+                                "Bearer " + token
+                      }
+
+                    }
+            )
+                    .then(response => {
+
+                      if (!response.ok) {
+                        throw new Error(
+                                "Failed to remove friend"
+                        );
+                      }
+
+
+                      friendUserIds.delete(userId);
+
+                      loadMyFriends();
+
+                    })
+                    .catch(error => {
+
+                      console.error(error);
+
+                      removeButton.disabled = false;
+                      removeButton.textContent = "Remove";
+
+                      alert(
+                              "Failed to remove friend"
+                      );
+
+                    });
+
+          }
+  );
+  document.querySelectorAll(".habits-tab")
+          .forEach(function (tab) {
+
+            tab.addEventListener("click", function () {
+
+              document.querySelectorAll(".habits-tab")
+                      .forEach(function (button) {
+                        button.classList.remove("active");
+                      });
+
+              tab.classList.add("active");
+
+              currentHabitTab = tab.dataset.habitTab;
+
+              if (currentHabitTab === "saved") {
+                loadSavedHabits();
+              } else {
+                renderHabits();
+              }
+
+            });
+
+          });
+
+  document.getElementById("habitsSearch")
+          .addEventListener("input", function () {
+            renderHabits();
+          });
+
+  document.getElementById("habitsSort")
+          .addEventListener("change", function () {
+            renderHabits();
+          });
+
+  const habitModal = document.getElementById("habitModal");
+  const createHabitBtn = document.getElementById("createHabitBtn");
+  const closeHabitModal = document.getElementById("closeHabitModal");
+  const cancelHabitBtn = document.getElementById("cancelHabitBtn");
+  const saveHabitBtn = document.getElementById("saveHabitBtn");
+
+
+  function refreshLoadedRoutinesAfterHabitChange() {
+
+    return fetch(
+            "/routines",
+            {
+              method: "GET",
+              headers: {
+                "Authorization": "Bearer " + token
+              }
+            }
+    )
+            .then(function (response) {
+
+              if (!response.ok) {
+                throw new Error("Failed to refresh routines");
+              }
+
+              return response.json();
+            })
+            .then(function (routines) {
+
+              loadedRoutines = routines;
+
+              fillCalendarRoutines();
+              renderMyRoutines();
+            });
+  }
+
+  createHabitBtn.addEventListener("click", function () {
+    editingHabitId = null;
+
+    document.getElementById("habitModalTitle").textContent = "Create habit";
+    saveHabitBtn.textContent = "Create habit";
+
+    document.getElementById("habitTitle").value = "";
+    document.getElementById("habitDescription").value = "";
+    document.getElementById("habitDuration").value = "";
+    clearHabitErrors();
+
+    habitModal.classList.add("show");
+  });
+
+  closeHabitModal.addEventListener("click", function () {
+    habitModal.classList.remove("show");
+  });
+
+  cancelHabitBtn.addEventListener("click", function () {
+    habitModal.classList.remove("show");
+  });
+
+  habitModal.addEventListener("click", function (event) {
+
+    if (event.target === habitModal) {
+      habitModal.classList.remove("show");
+    }
+
+  });
+
+  function showHabitError(id, text) {
+    const error = document.getElementById(id);
+    error.textContent = text || "";
+    error.hidden = !text;
+
+    const field = document.querySelector('[aria-describedby="' + id + '"]');
+    if (field) {
+      field.setAttribute("aria-invalid", String(Boolean(text)));
+    }
+
+    return !text;
+  }
+
+  function clearHabitErrors() {
+    ["habitTitleError", "habitDurationError", "habitFormError"].forEach(id => showHabitError(id, ""));
+  }
+
+  saveHabitBtn.addEventListener("click", async function () {
+    const title = document.getElementById("habitTitle").value.trim();
+    const description = document.getElementById("habitDescription").value.trim();
+    const durationMinutes = Number(
+            document.getElementById("habitDuration").value
+    );
+
+    const titleValid = showHabitError("habitTitleError", title ? "" : "Habit name is required");
+    const durationValid = showHabitError(
+            "habitDurationError",
+            Number.isInteger(durationMinutes) && durationMinutes > 0 ? "" : "Enter a valid duration"
+    );
+    showHabitError("habitFormError", "");
+
+    if (!titleValid || !durationValid) {
+      document.getElementById(titleValid ? "habitDuration" : "habitTitle").focus();
+      return;
+    }
+
+    const isEditing = editingHabitId !== null;
+
+    const url = isEditing
+            ? "/habit-library/" + editingHabitId
+            : "/habit-library";
+
+    saveHabitBtn.disabled = true;
+
+    try {
+      const response = await fetch(url, {
+        method: isEditing ? "PUT" : "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({
+          title,
+          description,
+          durationMinutes
+        })
+      });
+
+      if (!response.ok) {
+        const error = await response.json().catch(() => null);
+        throw new Error(
+                error?.message || error?.detail || "Failed to save habit"
+        );
+      }
+
+      editingHabitId = null;
+      editingHabitRoutineId = null;
+      habitModal.classList.remove("show");
+
+      loadHabits();
+    } catch (error) {
+      showHabitError("habitFormError", error.message);
+    } finally {
+      saveHabitBtn.disabled = false;
+    }
+  });
+
+  function loadHabits() {
+
+    fetch(
+            "/habit-library",
+            {
+              method: "GET",
+
+              headers: {
+                "Authorization":
+                        "Bearer "
+                        + token
+              }
+            }
+    )
+            .then(response => {
+
+              if (!response.ok) {
+                throw new Error(
+                        "Failed to load habits"
+                );
+              }
+
+              return response.json();
+            })
+            .then(habits => {
+
+              habitsData = habits;
+
+              renderHabits();
+
+            })
+            .catch(error => {
+
+              console.error(error);
+
+            });
+  }
+
+  function loadSavedHabits() {
+
+    fetch("/saved-habits", {
+      method: "GET",
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    })
+            .then(response => {
+
+              if (!response.ok) {
+                throw new Error("Failed to load saved habits");
+              }
+
+              return response.json();
+            })
+            .then(habits => {
+
+              savedHabitsData = habits;
+
+              savedHabitIds = new Set(
+                      habits.map(habit => habit.id)
+              );
+
+              renderHabits();
+            })
+            .catch(error => {
+              console.error(error);
+            });
+  }
+
+  function renderHabits() {
+
+    const grid = document.getElementById("habitsGrid");
+
+    const search =
+            document.getElementById("habitsSearch")
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+    const sort =
+            document.getElementById("habitsSort")
+                    .value;
+
+    const sourceHabits =
+            currentHabitTab === "saved"
+                    ? savedHabitsData
+                    : habitsData;
+
+    let habits = sourceHabits.filter(function (habit) {
+
+      const text =
+              (
+                      habit.title +
+                      " " +
+                      (habit.description || "") +
+                      " " +
+                      (habit.category || "") +
+                      " " +
+                      (habit.routineTitle || "")
+              ).toLowerCase();
+
+      return text.includes(search);
+
+    });
+
+    habits.sort(function (a, b) {
+
+      if (sort === "oldest") return a.id - b.id;
+
+      if (sort === "az") {
+        return a.title.localeCompare(b.title);
+      }
+
+      if (sort === "za") {
+        return b.title.localeCompare(a.title);
+      }
+
+      return b.id - a.id;
+
+    });
+
+    if (habits.length === 0) {
+
+      grid.innerHTML = `
+      <p class="no-habits">
+        ${
+              currentHabitTab === "saved"
+                      ? "You don't have any saved habits yet."
+                      : "You don't have any habits yet."
+      }
+      </p>
+    `;
+
+      return;
+    }
+
+    grid.innerHTML = "";
+
+    habits.forEach(function (habit) {
+
+      grid.innerHTML += `
+      <article class="habit-card">
+
+        <div class="habit-card-top">
+
+  <div class="habit-icon ${getHabitColorClass(habit.category)}">
+    ${SafeDom.escapeHtml(habit.icon || "✓")}
+  </div>
+
+  <button
+      class="habit-menu-btn"
+      type="button"
+      data-habit-id="${habit.id}">
+    ⋯
+  </button>
+
+  <div class="habit-menu">
+
+  ${currentHabitTab === "saved" ? `
+
+    <button
+        class="habit-menu-item remove-saved-habit-btn"
+        type="button"
+        data-habit-id="${habit.id}">
+      Remove saved
+    </button>
+
+  ` : `
+
+    <button
+        class="habit-menu-item save-habit-btn"
+        type="button"
+        data-habit-id="${habit.id}">
+      ${savedHabitIds.has(habit.id) ? "Saved" : "Save"}
+    </button>
+
+
+    <button
+        class="habit-menu-item edit-habit-btn"
+        type="button"
+        data-habit-id="${habit.id}">
+      Edit
+    </button>
+
+    <button
+        class="habit-menu-item danger delete-habit-btn"
+        type="button"
+        data-habit-id="${habit.id}">
+      Delete
+    </button>
+
+  `}
+
+</div>
+
+</div>
+
+        <h3 class="habit-title">
+          ${SafeDom.escapeHtml(habit.title)}
+        </h3>
+
+        <p class="habit-description">
+          ${SafeDom.escapeHtml(habit.description || "No description")}
+        </p>
+
+        <div class="habit-card-footer">
+
+          <span class="habit-category ${getHabitColorClass(habit.category)}">
+            ${SafeDom.escapeHtml(habit.category || "General")}
+          </span>
+
+          <span class="habit-duration">
+            ◷ ${habit.durationMinutes || 0} min
+          </span>
+
+        </div>
+
+        <p class="habit-routine-name">
+          ${SafeDom.escapeHtml(habit.routineTitle || "")}
+        </p>
+
+        ${Number(habit.pausedRoutineCount) > 0 ? `
+        <p class="habit-paused-badge">
+          Paused in ${Number(habit.pausedRoutineCount)} routine${Number(habit.pausedRoutineCount) === 1 ? "" : "s"}
+        </p>
+        ` : ""}
+
+      </article>
+    `;
+
+    });
+
+  }
+
+  const habitsGridElement = document.getElementById("habitsGrid");
+
+  habitsGridElement.addEventListener("click", function (event) {
+
+    const menuBtn = event.target.closest(".habit-menu-btn");
+
+    if (menuBtn) {
+
+      event.stopPropagation();
+
+      const cardTop = menuBtn.closest(".habit-card-top");
+      const menu = cardTop.querySelector(".habit-menu");
+      const wasOpen = menu.classList.contains("open");
+
+      closeAllHabitMenus();
+
+      if (!wasOpen) {
+        menu.classList.add("open");
+      }
+
+      return;
+    }
+
+    const saveBtn =
+            event.target.closest(".save-habit-btn");
+
+    if (saveBtn) {
+
+      event.stopPropagation();
+
+      const habitId =
+              Number(saveBtn.dataset.habitId);
+
+      if (savedHabitIds.has(habitId)) {
+        return;
+      }
+
+      saveHabitToSaved(habitId);
+
+      closeAllHabitMenus();
+
+      return;
+    }
+
+
+    const removeSavedBtn =
+            event.target.closest(".remove-saved-habit-btn");
+
+    if (removeSavedBtn) {
+
+      event.stopPropagation();
+
+      removeSavedHabit(
+              Number(removeSavedBtn.dataset.habitId)
+      );
+
+      closeAllHabitMenus();
+
+      return;
+    }
+
+    const editBtn = event.target.closest(".edit-habit-btn");
+
+    if (editBtn) {
+
+      event.stopPropagation();
+
+      openEditHabit(Number(editBtn.dataset.habitId));
+
+      return;
+    }
+
+    const deleteBtn = event.target.closest(".delete-habit-btn");
+
+    if (deleteBtn) {
+
+      event.stopPropagation();
+
+      deleteHabit(Number(deleteBtn.dataset.habitId));
+
+      return;
+    }
+  });
+
+  function closeAllHabitMenus() {
+    document.querySelectorAll(".habit-menu.open").forEach(function (menu) {
+      menu.classList.remove("open");
+    });
+  }
+
+  document.addEventListener("click", function () {
+    closeAllHabitMenus();
+  });
+
+  function openEditHabit(habitId) {
+    const habit = habitsData.find(
+            item => Number(item.id) === Number(habitId)
+    );
+
+    if (!habit) return;
+
+    editingHabitId = habit.id;
+
+    document.getElementById("habitModalTitle").textContent = "Edit habit";
+    saveHabitBtn.textContent = "Save changes";
+
+    document.getElementById("habitTitle").value = habit.title || "";
+    document.getElementById("habitDescription").value = habit.description || "";
+    document.getElementById("habitDuration").value = habit.durationMinutes || "";
+    clearHabitErrors();
+
+    habitModal.classList.add("show");
+    closeAllHabitMenus();
+  }
+
+  function setHabitCompleted(habit, completed) {
+
+    fetch(
+            "/routines/"
+            + habit.routineId
+            + "/habits/"
+            + habit.id
+            + "/completed?completed="
+            + completed,
+            {
+              method: "PATCH",
+              headers: {
+                "Authorization": "Bearer " + token
+              }
+            }
+    )
+            .then(response => {
+
+              if (!response.ok) {
+                throw new Error("Failed to update habit");
+              }
+
+              return response.json();
+            })
+            .then(updatedHabit => {
+
+              const index =
+                      habitsData.findIndex(
+                              item => item.id === habit.id
+                      );
+
+              if (index !== -1) {
+
+                habitsData[index] = {
+                  ...habitsData[index],
+                  ...updatedHabit
+                };
+              }
+
+              renderHabits();
+              refreshLoadedRoutinesAfterHabitChange();
+
+              if (progressContent.style.display === "block") {
+                renderProgress();
+              }
+            })
+            .catch(error => {
+              console.error(error);
+            });
+  }
+
+  function deleteHabit(habitId) {
+    const habit = habitsData.find(
+            item => Number(item.id) === Number(habitId)
+    );
+
+    if (!habit) return;
+
+    showDeleteConfirm(
+            "Delete habit?",
+            `Are you sure you want to delete "${habit.title}"?`,
+            async function () {
+              try {
+                const response = await fetch(
+                        "/habit-library/" + habitId,
+                        {
+                          method: "DELETE",
+                          headers: {
+                            "Authorization": "Bearer " + token
+                          }
+                        }
+                );
+
+                if (!response.ok) {
+                  const error = await response.json().catch(() => null);
+                  throw new Error(
+                          error?.message ||
+                          error?.detail ||
+                          "Cannot delete this habit"
+                  );
+                }
+
+                habitsData = habitsData.filter(
+                        item => Number(item.id) !== Number(habitId)
+                );
+
+                renderHabits();
+              } catch (error) {
+                alert(error.message);
+              }
+            }
+    );
+  }
+
+
+  function saveHabitToSaved(habitId) {
+
+    fetch("/saved-habits/" + habitId, {
+      method: "POST",
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    })
+            .then(response => {
+
+              if (!response.ok) {
+                throw new Error("Failed to save habit");
+              }
+
+              return response.json();
+            })
+            .then(habit => {
+
+              savedHabitIds.add(habit.id);
+
+              if (!savedHabitsData.some(item => item.id === habit.id)) {
+                savedHabitsData.unshift(habit);
+              }
+
+              renderHabits();
+            })
+            .catch(error => {
+              console.error(error);
+            });
+  }
+
+  function removeSavedHabit(habitId) {
+
+    fetch("/saved-habits/" + habitId, {
+      method: "DELETE",
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    })
+            .then(response => {
+
+              if (!response.ok) {
+                throw new Error("Failed to remove saved habit");
+              }
+
+              savedHabitIds.delete(habitId);
+
+              savedHabitsData =
+                      savedHabitsData.filter(
+                              habit => habit.id !== habitId
+                      );
+
+              renderHabits();
+            })
+            .catch(error => {
+              console.error(error);
+            });
+  }
+
+  function getHabitColorClass(category) {
+
+    const value = (category || "").toLowerCase();
+
+    if (value === "health") return "habit-blue";
+
+    if (value === "fitness") return "habit-green";
+
+    if (value === "mindfulness") return "habit-pink";
+
+    if (value === "productivity") return "habit-yellow";
+
+    return "habit-purple";
+  }
+
+  let currentProgressPeriod = "day";
+
+  const progressDate =
+          document.getElementById("progressDate");
+
+  progressDate.value = formatLocalDate(new Date());
+
+  document.querySelectorAll(".progress-period-btn")
+          .forEach(function (button) {
+
+            button.addEventListener("click", function () {
+
+              document.querySelectorAll(".progress-period-btn")
+                      .forEach(function (btn) {
+                        btn.classList.remove("active");
+                      });
+
+              button.classList.add("active");
+
+              currentProgressPeriod =
+                      button.dataset.period;
+
+              renderProgress();
+
+            });
+
+          });
+
+  progressDate.addEventListener("change", function () {
+    renderProgress();
+  });
+
+  // Each load is numbered, so that an answer for an earlier choice never replaces a later one.
+  let progressRound = 0;
+
+  function renderProgress() {
+
+    const date =
+            progressDate.value;
+
+    const round =
+            ++progressRound;
+
+    fetch(
+            "/progress?period="
+            + encodeURIComponent(currentProgressPeriod)
+            + "&date="
+            + encodeURIComponent(date),
+            {
+              method: "GET",
+              headers: {
+                "Authorization": "Bearer " + token,
+                // US-21: today, for streaks and the days still to come, is the user's own day.
+                "X-Time-Zone": Intl.DateTimeFormat().resolvedOptions().timeZone || ""
+              }
+            }
+    )
+            .then(response => {
+
+              if (!response.ok) {
+                throw new Error("Failed to load progress");
+              }
+
+              return response.json();
+            })
+            .then(progress => {
+
+              if (round !== progressRound) {
+                return;
+              }
+
+              renderProgressSummary(progress);
+
+              const routineList =
+                      document.getElementById(
+                              "routineProgressList"
+                      );
+
+              const habitList =
+                      document.getElementById(
+                              "habitProgressList"
+                      );
+
+              routineList.innerHTML =
+                      progress.routines
+                              .map(function (item) {
+
+                                return createProgressRow(
+                                        getProgressIcon(item.label),
+                                        item.label,
+                                        item.completed,
+                                        item.total,
+                                        item.percentage
+                                );
+
+                              })
+                              .join("");
+
+              habitList.innerHTML =
+                      progress.habits
+                              .map(function (item) {
+
+                                return createProgressRow(
+                                        getProgressIcon(item.label),
+                                        item.label,
+                                        item.completed,
+                                        item.total,
+                                        item.percentage
+                                );
+
+                              })
+                              .join("");
+            })
+            .catch(error => {
+              console.error(error);
+            });
+  }
+
+  // US-21: the numbers below all come from /progress; the page only lays them out.
+  const PROGRESS_DAY_NAMES = {MON: "Mon", TUE: "Tue", WED: "Wed", THU: "Thu", FRI: "Fri", SAT: "Sat", SUN: "Sun"};
+
+  function plural(count, word) {
+    return count + " " + word + (count === 1 ? "" : "s");
+  }
+
+  function percentText(value) {
+    return value === null || value === undefined ? "—" : value + "%";
+  }
+
+  function renderProgressSummary(progress) {
+
+    document.getElementById("progressEmpty").hidden =
+            progress.hasTracking;
+
+    renderProgressStatus(progress.status);
+
+    const habits =
+            (progress.habits || []).find(item => item.label === "Completed habits")
+            || {completed: 0, total: 0, percentage: 0};
+
+    const isToday =
+            progress.period === "day" && progress.from === progress.today;
+
+    document.getElementById("progressCompletionLabel").textContent =
+            {
+              day: isToday ? "Habits done today" : "Habits done that day",
+              week: "Habits done this week",
+              month: "Habits done this month",
+              year: "Habits done this year"
+            }[progress.period] || "Habits done";
+
+    document.getElementById("progressCompletionValue").textContent =
+            habits.total === 0 ? "—" : habits.percentage + "%";
+
+    document.getElementById("progressCompletionDetail").textContent =
+            habits.total === 0
+                    ? "No habits to do"
+                    : habits.completed + " of " + plural(habits.total, "habit");
+
+    const streak =
+            progress.streak || {currentDays: 0, bestDays: 0};
+
+    document.getElementById("progressStreakValue").textContent =
+            plural(streak.currentDays, "day");
+
+    document.getElementById("progressStreakDetail").textContent =
+            "Best: " + plural(streak.bestDays, "day");
+
+    const week =
+            progress.week;
+
+    document.getElementById("progressWeekValue").textContent =
+            percentText(week.percentage);
+
+    document.getElementById("progressWeekDetail").textContent =
+            week.tracked === 0
+                    ? "Nothing tracked this week"
+                    : week.completed + " of " + week.tracked + " tracked habits done";
+
+    document.getElementById("progressWeekRange").textContent =
+            "Monday " + week.from + " to Sunday " + week.to + ".";
+
+    document.getElementById("progressWeek").innerHTML =
+            week.days.map(function (day) {
+
+              const counted =
+                      !day.future && day.tracked > 0;
+
+              const height =
+                      counted ? day.percentage : 0;
+
+              const title =
+                      day.future
+                              ? "Still to come"
+                              : day.tracked === 0
+                                      ? "Nothing tracked"
+                                      : day.completed + " completed, " + day.skipped + " skipped, "
+                                      + day.postponed + " postponed, " + day.inProgress + " in progress";
+
+              return `
+      <div class="progress-day${day.today ? " today" : ""}${day.future ? " future" : ""}"
+           title="${SafeDom.escapeHtml(day.date + ": " + title)}">
+        <span class="progress-day-name">${SafeDom.escapeHtml(PROGRESS_DAY_NAMES[day.day] || day.day)}</span>
+        <span class="progress-day-date">${SafeDom.escapeHtml(String(Number(day.date.slice(8))))}</span>
+        <span class="progress-day-bar"><span style="height: ${Number(height) || 0}%"></span></span>
+        <span class="progress-day-count">${counted ? Number(day.completed) + "/" + Number(day.tracked) : "—"}</span>
+      </div>
+    `;
+            }).join("");
+
+    const active =
+            (progress.habitStreaks || []).filter(item => item.currentDays > 0).slice(0, 5);
+
+    document.getElementById("progressStreakList").innerHTML =
+            active.length === 0
+                    ? `<p class="progress-streak-none">No active streaks. Complete a habit today to start one.</p>`
+                    : active.map(function (item) {
+                      return `
+      <div class="progress-streak-row">
+        <span class="progress-streak-name">${SafeDom.escapeHtml(item.title)}</span>
+        <span class="progress-streak-days">${SafeDom.escapeHtml(plural(item.currentDays, "day"))} · best ${Number(item.bestDays)}</span>
+      </div>
+    `;
+                    }).join("");
+  }
+
+  // US-07: level, name and the way to the next level, all from the server.
+  function renderProgressStatus(status) {
+
+    const card =
+            document.getElementById("progressStatus");
+
+    card.hidden = !status;
+
+    if (!status) {
+      return;
+    }
+
+    const percent =
+            Math.max(0, Math.min(100, Number(status.progressPercent) || 0));
+
+    document.getElementById("progressStatusLevel").textContent =
+            "Level " + Number(status.level);
+
+    document.getElementById("progressStatusName").textContent =
+            status.name;
+
+    document.getElementById("progressStatusCount").textContent =
+            String(Number(status.completedActivities));
+
+    document.getElementById("progressStatusCountLabel").textContent =
+            Number(status.completedActivities) === 1 ? "completed activity" : "completed activities";
+
+    document.getElementById("progressStatusFill").style.width =
+            percent + "%";
+
+    document.getElementById("progressStatusBar").setAttribute("aria-valuenow", String(percent));
+
+    document.getElementById("progressStatusNext").textContent =
+            status.maxLevel
+                    ? "You have reached the highest status. Every habit you complete still counts."
+                    : plural(Number(status.activitiesToNextLevel), "more completed habit")
+                    + " to reach Level " + Number(status.nextLevel) + " · " + status.nextName
+                    + " (" + Number(status.nextLevelAt) + " in total, " + percent + "% of the way).";
+  }
+
+  function createProgressRow(icon, label, completed, total, percentage) {
+
+    const percent =
+            Number(percentage) || 0;
+
+    return `
+    <div class="progress-stat-row">
+
+      <div class="progress-stat-label">
+        <span class="progress-stat-icon">${icon}</span>
+        <span>${SafeDom.escapeHtml(label)}</span>
+      </div>
+
+      <div class="progress-track">
+        <div
+            class="progress-fill"
+            style="width: ${percent}%">
+        </div>
+      </div>
+
+      <span class="progress-stat-count">
+        ${completed} / ${total}
+      </span>
+
+      <span class="progress-stat-percent">
+        ${percent}%
+      </span>
+
+    </div>
+  `;
+  }
+
+  function getProgressIcon(category) {
+
+    if (category === "Morning") return "☀";
+    if (category === "Fitness") return "⚡";
+    if (category === "Study") return "▣";
+    if (category === "Productivity") return "◎";
+    if (category === "Wellness") return "♥";
+    if (category === "Creators") return "✦";
+
+    return "✓";
+  }
+
+  // To-do lists and posts open inside the profile, drawn by the same modules as their own pages;
+  // so does Creator Statistics (US-12).
+  const todoListsNav = document.getElementById("todoListsNav");
+  const postsNav = document.getElementById("postsNav");
+  const creatorStatsNav = document.getElementById("creatorStatsNav");
+  const todoListsContent = document.getElementById("todoListsContent");
+  const postsContent = document.getElementById("postsContent");
+  const creatorStatsContent = document.getElementById("creatorStatsContent");
+  const embeddedSections = [
+    {nav: todoListsNav, content: todoListsContent, root: "profileTodoApp", module: CopyMyLifeTodoLists, prefix: "profileTodo-"},
+    {nav: postsNav, content: postsContent, root: "profilePostsApp", module: CopyMyLifePosts, prefix: "profilePosts-"},
+    {nav: creatorStatsNav, content: creatorStatsContent, root: "creatorStatsApp", module: CopyMyLifeCreatorStats, prefix: "profileStats-"}
+  ];
+
+  embeddedSections.forEach(function (section) {
+    section.nav.addEventListener("click", function (event) {
+      event.preventDefault();
+      setActiveProfileNav(section.nav);
+
+      [calendarContent, accountContent, habitsContent, progressContent, friendsContent,
+        todoListsContent, postsContent, creatorStatsContent, document.getElementById("aiAssistantContent")].forEach(function (content) {
+        content.style.display = content === section.content ? "block" : "none";
+      });
+
+      section.module.mount(document.getElementById(section.root), {
+        token,
+        idPrefix: section.prefix,
+        heading: false
+      });
+    });
+  });
+
+  // AI Assistant: every AI feature in one section, drawn by assistant.js the first time it opens.
+  // Each of its tabs has an address too (#ai-generate, #ai-review, #ai-matches, ...).
+  const aiAssistantNav = document.getElementById("aiAssistantNav");
+  const aiAssistantContent = document.getElementById("aiAssistantContent");
+  let assistantApp = null;
+
+  function openAssistant(tab) {
+    setActiveProfileNav(aiAssistantNav);
+
+    [calendarContent, accountContent, habitsContent, progressContent, friendsContent,
+      todoListsContent, postsContent, creatorStatsContent].forEach(function (content) {
+      content.style.display = "none";
+    });
+    aiAssistantContent.style.display = "block";
+
+    if (!assistantApp) {
+      assistantApp = CopyMyLifeAssistant.mount(document.getElementById("routineAssistant"), {
+        token,
+        onTab: function (shown) {
+          rememberSection("#ai-" + shown);
+        }
+      });
+    }
+    assistantApp.open(tab || assistantApp.current() || "generate");
+  }
+
+  aiAssistantNav.addEventListener("click", function (event) {
+    event.preventDefault();
+    openAssistant();
+    rememberSection("#ai-" + assistantApp.current());
+  });
+
+  // Any other section hides the embedded ones; their own handlers show what they need.
+  document.querySelectorAll(".profile-nav-btn").forEach(function (button) {
+    if (!embeddedSections.some(section => section.nav === button)) {
+      button.addEventListener("click", function () {
+        embeddedSections.forEach(section => section.content.style.display = "none");
+      });
+    }
+    if (button !== aiAssistantNav) {
+      button.addEventListener("click", function () {
+        aiAssistantContent.style.display = "none";
+      });
+    }
+  });
+
+  // On a phone the menu sits above the sections, so the chosen one is brought into view.
+  document.querySelector(".profile-navigation").addEventListener("click", function (event) {
+    if (!event.target.closest(".profile-nav-btn") || !window.matchMedia("(max-width: 800px)").matches) {
+      return;
+    }
+    setTimeout(function () {
+      const shown = ["calendarContent", "accountContent", "habitsContent", "progressContent", "friendsContent",
+        "todoListsContent", "postsContent", "creatorStatsContent", "aiAssistantContent", "themeSettingsContent"]
+          .map(id => document.getElementById(id))
+          .find(section => section && getComputedStyle(section).display !== "none");
+      if (shown) {
+        shown.scrollIntoView({block: "start"});
+      }
+    });
+  });
+
+  // Each section has an address such as profile.html#posts, so Back, Forward, Refresh and
+  // links from other pages (the footer) all open the right part of the profile.
+  const followersTab = document.querySelector('[data-friends-tab="followers"]');
+  const settingsNav = document.getElementById("settingsNav");
+
+  const linkedSections = {
+    "#calendar": [calendarNav],
+    "#my-routines": [myRoutinesNav],
+    "#create-routine": [myRoutinesNav, addRoutineBtn],
+    "#habits": [myHabitsNav],
+    "#progress": [progressNav],
+    "#friends": [friendsNav],
+    "#followers": [friendsNav, followersTab],
+    "#todo-lists": [todoListsNav],
+    "#posts": [postsNav],
+    "#creator-stats": [creatorStatsNav],
+    "#settings": [settingsNav]
+  };
+
+  let followingAddress = false;
+
+  function rememberSection(hash) {
+    if (!followingAddress && location.hash !== hash) {
+      history.pushState(null, "", hash);
+    }
+  }
+
+  [[calendarNav, "#calendar"], [myRoutinesNav, "#my-routines"], [myHabitsNav, "#habits"],
+    [progressNav, "#progress"], [friendsNav, "#friends"], [todoListsNav, "#todo-lists"],
+    [postsNav, "#posts"], [creatorStatsNav, "#creator-stats"], [settingsNav, "#settings"]].forEach(function ([button, hash]) {
+    button.addEventListener("click", function () {
+      rememberSection(hash);
+    });
+  });
+
+  document.querySelectorAll(".friends-tab").forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      rememberSection(tab.dataset.friendsTab === "followers" ? "#followers" : "#friends");
+    });
+  });
+
+  function openLinkedSection() {
+    followingAddress = true;
+    try {
+      const aiAddress = /^#ai(?:-([a-z]+))?$/.exec(location.hash);
+      if (aiAddress) {
+        openAssistant(CopyMyLifeAssistant.tabs.includes(aiAddress[1]) ? aiAddress[1] : "generate");
+        return;
+      }
+      (linkedSections[location.hash] || (location.hash ? [] : [calendarNav])).forEach(button => button.click());
+    } finally {
+      followingAddress = false;
+    }
+  }
+
+  if (token) {
+    // After DOMContentLoaded, so that Settings, wired up by the script below, can open too.
+    document.addEventListener("DOMContentLoaded", function () {
+      setTimeout(function () {
+        if (location.hash) {
+          openLinkedSection();
+        }
+      });
+    });
+    window.addEventListener("popstate", openLinkedSection);
+  }
+</script>
+<script src="site-rating.js"></script>
+
+<script defer src="mobile.js"></script>
+<script defer src="reminders.js"></script>
+<script src="theme.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const themeSettingsNavigation = document.getElementById("settingsNav");
+    const themeSettingsContent = document.getElementById("themeSettingsContent");
+
+    const otherSections = [
+        "calendarContent",
+        "accountContent",
+        "habitsContent",
+        "progressContent",
+        "friendsContent",
+        "todoListsContent",
+        "postsContent",
+        "creatorStatsContent",
+        "aiAssistantContent"
+    ];
+
+    document.querySelectorAll(".profile-nav-btn").forEach(function (button) {
+        if (button !== themeSettingsNavigation) {
+            button.addEventListener("click", function () {
+                themeSettingsContent.style.display = "none";
+            });
+        }
+    });
+
+    themeSettingsNavigation.addEventListener("click", function () {
+        otherSections.forEach(function (id) {
+            const section = document.getElementById(id);
+            if (section) section.style.display = "none";
+        });
+
+        document.querySelectorAll(".profile-nav-btn").forEach(function (button) {
+            button.classList.remove("active");
+        });
+
+        themeSettingsNavigation.classList.add("active");
+        themeSettingsContent.style.display = "block";
+
+        if (window.CopyMyLifeReminders) {
+            window.CopyMyLifeReminders.refreshSettings();
+        }
+    });
+});
+</script>
+</body>
+</html>

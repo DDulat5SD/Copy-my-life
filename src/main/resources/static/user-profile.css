@@ -1,0 +1,700 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    background: #eef1f8;
+    color: #171b4d;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.topbar {
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    background: #ffffff;
+    border-bottom: 1px solid #eaecf3;
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-icon {
+    width: 32px;
+    height: 32px;
+    overflow: hidden;
+    border-radius: 9px;
+}
+
+.logo-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.logo-text {
+    font-family: "Manrope", sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #15213b;
+}
+
+.topbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-left: auto;
+    margin-right: 30px;
+}
+
+.topbar-nav a {
+    color: #5b5f78;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.topbar-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #171b4d;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.header-avatar {
+    width: 36px;
+    height: 36px;
+    overflow: hidden;
+    border-radius: 50%;
+    background: #dde4ff;
+}
+
+.header-avatar img {
+    width: 100%;
+    height: 100%;
+    display: none;
+    object-fit: cover;
+}
+
+.header-avatar span {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #5b6bf0;
+    font-weight: 700;
+}
+
+.user-profile-page {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 42px 32px 70px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 22px;
+    color: #68718b;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.back-link:hover {
+    color: #171d52;
+}
+
+.user-profile-card {
+    width: 100%;
+    min-height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    padding: 38px 42px;
+    background: #ffffff;
+    border: 1px solid #e3e8f1;
+    border-radius: 22px;
+    box-shadow: 0 4px 18px rgba(23, 27, 77, 0.04);
+}
+
+.user-profile-left {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    min-width: 0;
+}
+
+.profile-avatar-large {
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 50%;
+    background: #dde4ff;
+}
+
+.profile-avatar-large img {
+    width: 100%;
+    height: 100%;
+    display: none;
+    object-fit: cover;
+}
+
+.profile-avatar-large span {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #5b6bf0;
+    font-size: 40px;
+    font-weight: 800;
+}
+
+.user-profile-info {
+    min-width: 0;
+}
+
+.user-profile-info h1 {
+    margin-bottom: 7px;
+    color: #111744;
+    font-size: 32px;
+    font-weight: 800;
+}
+
+.profile-username {
+    margin-bottom: 7px;
+    color: #9097aa;
+    font-size: 15px;
+}
+
+.profile-profession {
+    margin-bottom: 12px;
+    color: #4f5f86;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.profile-bio {
+    max-width: 520px;
+    color: #68718b;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.follow-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+    margin-top: 14px;
+}
+
+.follow-stat {
+    color: #68718b;
+    font-size: 14px;
+}
+
+.follow-stat strong {
+    color: #111744;
+    font-weight: 800;
+}
+
+.follow-btn {
+    margin-top: 16px;
+}
+
+.follow-btn[hidden],
+.follow-error[hidden] {
+    display: none;
+}
+
+.follow-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.follow-error {
+    margin-top: 10px;
+    color: #b42318;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.profile-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.profile-primary-btn,
+.profile-secondary-btn,
+.profile-disabled-btn {
+    min-width: 145px;
+    min-height: 46px;
+    padding: 0 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.profile-primary-btn {
+    border: none;
+    background: #171d52;
+    color: #ffffff;
+}
+
+.profile-primary-btn:hover {
+    background: #252d70;
+}
+
+.profile-secondary-btn {
+    border: 1px solid #dce2ec;
+    background: #ffffff;
+    color: #535c74;
+}
+
+.profile-secondary-btn:hover {
+    background: #f6f7fb;
+}
+
+.profile-disabled-btn {
+    border: 1px solid #dce2ec;
+    background: #eef1f8;
+    color: #656e87;
+    cursor: default;
+}
+
+.public-routines-section {
+    margin-top: 34px;
+}
+
+.public-routines-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.public-routines-header h2 {
+    margin-bottom: 4px;
+    color: #111744;
+    font-size: 26px;
+    font-weight: 800;
+}
+
+.public-routines-header p {
+    color: #5f6880;
+    font-size: 14px;
+}
+
+.public-routines-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.public-routines-empty {
+    grid-column: 1 / -1;
+    padding: 45px 20px;
+    background: #ffffff;
+    border: 1px solid #e3e8f1;
+    border-radius: 18px;
+    text-align: center;
+    color: #5f6880;
+    font-size: 14px;
+}
+
+.public-routine-card {
+    min-height: 230px;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e3e8f1;
+    border-radius: 18px;
+}
+
+.public-routine-image {
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    background: #e9edf7;
+}
+
+.public-routine-body {
+    padding: 18px;
+}
+
+.public-routine-title {
+    margin-bottom: 7px;
+    color: #111744;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.public-routine-description {
+    margin-bottom: 15px;
+    color: #5f6880;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.public-routine-link {
+    color: #171d52;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+@media (max-width: 850px) {
+
+    .user-profile-card {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .profile-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .public-routines-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+.public-routine-placeholder {
+    width: 100%;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e7eaff;
+    color: #5b6bf0;
+    font-size: 38px;
+    font-weight: 800;
+}
+
+.public-routine-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.public-routine-category {
+    padding: 6px 10px;
+    background: #eef1ff;
+    border-radius: 8px;
+    color: #4150c4;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.public-routine-duration {
+    color: #5f6880;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.public-routine-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.public-routine-rating {
+    color: #5f6880;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+@media (max-width: 650px) {
+
+    .topbar {
+        padding: 0 20px;
+    }
+
+    .topbar-nav {
+        display: none;
+    }
+
+    .user-profile-page {
+        padding: 30px 20px 50px;
+    }
+
+    .user-profile-card {
+        padding: 30px 24px;
+    }
+
+    .user-profile-left {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .profile-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .profile-primary-btn,
+    .profile-secondary-btn,
+    .profile-disabled-btn {
+        width: 100%;
+    }
+
+    .public-routines-grid {
+        grid-template-columns: 1fr;
+    }
+}
+.topbar-user-wrap {
+    position: relative;
+}
+
+.topbar-user {
+    cursor: pointer;
+}
+
+.chevron {
+    color: #9ca3af;
+    transition: transform 0.2s ease;
+}
+
+.chevron.open {
+    transform: rotate(180deg);
+}
+
+.topbar-user-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 170px;
+    padding: 10px;
+    display: none;
+    background: #ffffff;
+    border: 1px solid #e6eaf2;
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(24, 35, 72, 0.14);
+    z-index: 1000;
+}
+
+.topbar-user-dropdown.show {
+    display: block;
+}
+
+.topbar-dropdown-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 12px;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: #171b4d;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.topbar-dropdown-item:hover {
+    background: #f5f7fc;
+}
+
+.topbar-logout-btn {
+    color: #ef3f52;
+}
+
+.topbar-logout-btn:hover {
+    background: #fff0f2;
+}
+
+/* Public To-do Lists and Public Posts reuse the Public Routines cards. */
+.public-content-empty {
+    padding: 18px 20px;
+}
+
+.public-todo-card {
+    min-height: 0;
+}
+
+.public-content-card .public-routine-title,
+.public-content-card .public-routine-description {
+    overflow-wrap: anywhere;
+}
+
+.public-post-excerpt {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.public-post-comments {
+    margin-left: 10px;
+}
+
+button.public-routine-link {
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+button.public-routine-link:focus-visible {
+    outline: 2px solid #5b6bf0;
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+.public-detail {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 48px 16px;
+    overflow-y: auto;
+    background: rgba(17, 23, 68, 0.45);
+}
+
+.public-detail[hidden] {
+    display: none;
+}
+
+.public-detail-dialog {
+    width: 100%;
+    max-width: 720px;
+    background: #ffffff;
+    border: 1px solid #e3e8f1;
+    border-radius: 18px;
+    box-shadow: 0 24px 60px rgba(17, 23, 68, 0.2);
+}
+
+.public-detail-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 20px 26px 0;
+}
+
+.public-detail-head h2 {
+    margin: 0;
+    color: #111744;
+    font-size: 22px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.public-detail-close {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border: 1px solid #e3e8f1;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #171d52;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+body.public-detail-open {
+    overflow: hidden;
+}
+
+html[data-theme="autumn"] .public-detail-dialog,
+html[data-theme="autumn"] .public-detail-close {
+    background: #FFF9F1;
+    border-color: #E8D3BE;
+}
+
+html[data-theme="autumn"] .public-detail-head h2,
+html[data-theme="autumn"] .public-detail-close {
+    color: #35251D;
+}
+
+@media (max-width: 650px) {
+    .public-detail {
+        padding: 16px 10px;
+    }
+
+    .public-detail-head {
+        padding: 16px 16px 0;
+    }
+
+    .public-detail-body.mc-page--embedded {
+        padding: 16px;
+    }
+}
+
+/* US-05: a visitor sees Sign in where the account menu would be. */
+.topbar-signin {
+    min-width: 0;
+    min-height: 40px;
+    padding: 0 18px;
+    text-decoration: none;
+}
+
+.topbar-signin[hidden],
+.topbar-user[hidden] {
+    display: none;
+}
+
+/* Stronger than a theme's link colour, which is too light on the empty card. */
+.public-routines-empty.public-content-empty a {
+    color: inherit;
+    font-weight: 800;
+}
+
+/* US-29: why a friend action was refused. */
+.friend-action-error {
+    margin: 10px 0 0;
+    padding: 9px 12px;
+    border: 1px solid #f1c4c4;
+    border-radius: 10px;
+    background: #fff5f5;
+    color: #9f2626;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.friend-action-error[hidden] {
+    display: none;
+}
+
+html[data-theme="autumn"] .friend-action-error {
+    border-color: #E7B9A5;
+    background: #FCEDE6;
+    color: #8E2F14;
+}

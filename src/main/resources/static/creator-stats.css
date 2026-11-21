@@ -1,0 +1,164 @@
+/* Creator Statistics (US-12), inside the profile's panel. Colours come from the panel's --mc-*
+   values (my-content.css), so the original and autumn designs both apply. */
+
+.cs-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 14px;
+  margin: 0;
+}
+
+.cs-stat {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--mc-border);
+  border-radius: 14px;
+  background: var(--mc-surface);
+}
+
+.cs-stat__label {
+  color: var(--mc-muted);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.cs-stat__value {
+  margin: 6px 0 0;
+  color: var(--mc-text);
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.cs-stat__hint {
+  margin: 4px 0 0;
+  color: var(--mc-muted);
+  font-size: 13px;
+}
+
+.cs-heading {
+  margin: 28px 0 0;
+  color: var(--mc-text);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.cs-note {
+  margin: 10px 0 0;
+  color: var(--mc-muted);
+  font-size: 14px;
+}
+
+.cs-empty p {
+  margin: 0 0 14px;
+}
+
+/* Two classes: the autumn design colours every plain link (theme.css). */
+.cs-empty .mc-btn {
+  display: inline-flex;
+  align-items: center;
+  color: var(--mc-on-primary);
+  text-decoration: none;
+}
+
+.cs-routines {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cs-routine {
+  min-width: 0;
+}
+
+.cs-routine__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 16px;
+}
+
+.cs-routine .cs-routine__title {
+  min-width: 0;
+  color: var(--mc-text);
+  font-size: 17px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+
+.cs-routine .cs-routine__title:hover,
+.cs-routine .cs-routine__title:focus-visible {
+  text-decoration: underline;
+}
+
+.cs-routine__copies {
+  margin: 0;
+  color: var(--mc-text);
+  font-size: 16px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.cs-routine__metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+  margin: 10px 0 0;
+}
+
+.cs-metric {
+  display: flex;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.cs-metric dt {
+  color: var(--mc-muted);
+}
+
+.cs-metric dd {
+  margin: 0;
+  color: var(--mc-text);
+  font-weight: 600;
+}
+
+.cs-footnote {
+  margin: 22px 0 0;
+}
+
+.cs-error {
+  margin-top: 18px;
+  padding: 16px 18px;
+  border: 1px solid var(--mc-border);
+  border-radius: 14px;
+  background: var(--mc-error-bg, #FDECEA);
+  color: var(--mc-danger);
+}
+
+.cs-error__text {
+  margin: 0 0 12px;
+  font-weight: 600;
+}
+
+.cs-error .mc-btn--ghost {
+  background: var(--mc-surface);
+}
+
+.cs-body[hidden],
+.cs-error[hidden],
+.cs-status[hidden] {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .cs-stat {
+    padding: 14px;
+  }
+
+  .cs-stat__value {
+    font-size: 26px;
+  }
+}

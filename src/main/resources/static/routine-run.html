@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Routine Progress — CopyMyLife
+    </title>
+    <script src="safe-dom.js"></script>
+    <script src="session.js"></script>
+    <script defer src="reminders.js"></script>
+
+    <link
+            rel="preconnect"
+            href="https://fonts.googleapis.com">
+
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800&display=swap"
+            rel="stylesheet">
+
+    <link
+            rel="stylesheet"
+            href="routine.css">
+
+    <link
+            rel="stylesheet"
+            href="routine-run.css">
+    <link rel="stylesheet" href="mobile.css">
+    <link rel="stylesheet" href="theme.css">
+</head>
+
+<body data-mobile-page="routine-run">
+
+<header class="topbar">
+
+    <a
+            href="main.html"
+            class="topbar-left">
+
+        <div class="logo-icon">
+
+            <img
+                    src="https://i.ibb.co.com/gZQ4WN6P/image.png"
+                    alt="CopyMyLife">
+
+        </div>
+
+        <span class="logo-text">
+      CopyMyLife
+    </span>
+
+    </a>
+
+    <nav class="topbar-nav">
+
+        <a
+                href="main.html"
+                class="nav-link">
+            Home
+        </a>
+
+        <a
+                href="Explore.html"
+                class="nav-link">
+            Explore
+        </a>
+
+        <a
+                href="top-routines.html"
+                class="nav-link">
+            Top Routines
+        </a>
+
+    </nav>
+
+    <div class="topbar-user-wrap">
+
+        <div
+                class="topbar-user"
+                id="userMenuToggle">
+
+            <div class="user-avatar">
+
+                <img
+                        id="headerAvatar"
+                        alt="Profile avatar">
+
+                <span id="headerAvatarFallback">
+          U
+        </span>
+
+            </div>
+
+            <span
+                    class="user-name"
+                    id="currentUserName">
+        User
+      </span>
+
+        </div>
+
+        <div
+                class="topbar-user-dropdown"
+                id="userDropdown">
+
+            <a
+                    href="profile.html"
+                    class="topbar-dropdown-item">
+                Profile
+            </a>
+
+            <button
+                    type="button"
+                    class="topbar-dropdown-item topbar-logout-btn"
+                    id="logoutBtn">
+                Log Out
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+<main class="container main routine-run-page">
+
+    <button
+            type="button"
+            class="back-link"
+            id="backBtn">
+
+        ← Back to routine
+
+    </button>
+
+    <section class="card run-hero">
+
+        <div
+                class="run-hero__image"
+                id="routineImage">
+        </div>
+
+        <div class="run-hero__body">
+
+      <span
+              class="tag"
+              id="routineTag">
+        Routine
+      </span>
+
+            <h1
+                    class="run-hero__title"
+                    id="routineTitle">
+                Routine
+            </h1>
+
+            <div class="run-author">
+
+        <span
+                class="avatar avatar--sm"
+                id="authorAvatar">
+          U
+        </span>
+
+                <strong id="authorName">
+                    User
+                </strong>
+
+            </div>
+
+            <p
+                    class="run-hero__desc"
+                    id="routineDesc">
+            </p>
+
+            <div class="run-hero__meta">
+
+        <span id="habitsCount">
+          0 habits
+        </span>
+
+                <span
+                        class="run-meta-pill"
+                        id="routineCategory">
+          Routine
+        </span>
+
+                <span id="routineTotal">
+          Total 0 min
+        </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="card run-progress-card">
+
+        <div class="run-progress-header">
+
+            <div>
+
+                <h2 id="progressTitle">
+                    Routine in progress
+                </h2>
+
+                <p id="progressText">
+                    Complete each habit in order.
+                </p>
+
+            </div>
+
+            <div class="run-progress-summary">
+
+                <strong id="progressCount">
+                    0 / 0 completed
+                </strong>
+
+                <div class="run-progress-track">
+
+          <span id="progressBar">
+          </span>
+
+                </div>
+
+                <p
+                        class="run-progress-extra"
+                        id="progressSummary">
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="run-controls">
+
+            <p
+                    class="run-message"
+                    id="runMessage"
+                    role="alert"
+                    hidden>
+            </p>
+
+            <!-- Routine assistant: once the run is over, the day's summary and actual times. -->
+            <a
+                    class="run-summary-link"
+                    id="runSummaryLink"
+                    href="profile.html#ai-summary"
+                    hidden>
+                See today's summary and enter actual times
+            </a>
+
+            <button
+                    type="button"
+                    class="run-stop-btn"
+                    id="stopRoutineBtn"
+                    hidden>
+                Stop routine
+            </button>
+
+            <div
+                    class="run-stop-confirm"
+                    id="stopConfirm"
+                    hidden>
+
+                <p>
+                    Stop this routine? Habits you completed stay saved.
+                </p>
+
+                <div class="run-stop-confirm__actions">
+
+                    <button
+                            type="button"
+                            class="run-action-btn run-action-btn--danger"
+                            id="stopConfirmBtn">
+                        Stop routine
+                    </button>
+
+                    <button
+                            type="button"
+                            class="run-action-btn run-action-btn--ghost"
+                            id="stopCancelBtn">
+                        Keep going
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <ol
+                class="run-habits"
+                id="runHabits">
+        </ol>
+
+    </section>
+
+</main>
+
+<script src="routine-run.js"></script>
+
+<script defer src="mobile.js"></script>
+<script src="theme.js"></script>
+</body>
+</html>

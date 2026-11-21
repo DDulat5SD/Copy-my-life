@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up — CopyMyLife</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="signin.css?v=20261106">
+    <link rel="stylesheet" href="mobile.css?v=20261106">
+    <link rel="stylesheet" href="theme.css?v=20261106">
+</head>
+<body data-mobile-page="signin">
+  <div class="page">
+    <div class="auth-card">
+
+      <div class="photo-panel">
+        <div class="phone-mock">
+
+          <div class="photo-frame">
+<img src="https://i.pinimg.com/736x/92/40/33/924033eeb51cdfd0b8a07975b39322cc.jpg" alt="" class="photo-placeholder">
+          </div>
+
+          <div class="float-card card-top">
+            <span class="icon-box icon-purple" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4338ca" stroke-width="2">
+                <circle cx="12" cy="17" r="4"/>
+                <path d="M4 17h1M19 17h1M6.5 12.5l.7.7M17.5 12.5l-.7.7M12 8V6"/>
+                <path d="M4 21h16"/>
+              </svg>
+            </span>
+            <div class="float-text">
+              <strong>Morning routine</strong>
+              <span>7:00–10:00 · 4 habits</span>
+            </div>
+          </div>
+
+          <div class="float-card card-bottom">
+            <span class="icon-box icon-blue" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2">
+                <path d="M4 5c2-1 5-1 7 0v14c-2-1-5-1-7 0V5z"/>
+                <path d="M20 5c-2-1-5-1-7 0v14c2-1 5-1 7 0V5z"/>
+              </svg>
+            </span>
+            <div class="float-text">
+              <strong>Read 30 min</strong>
+              <span>Daily goal completed</span>
+            </div>
+          </div>
+
+          <div class="overlay-text">
+            <h2>Better habits.<br>A brighter you.</h2>
+            <p>Build a routine that feels like you—and keep moving toward the life you want.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="form-panel">
+          <a href="main.html" class="brand">
+              <span class="brand-icon">
+                  <img src="https://i.ibb.co/chRY80xC/image.png" alt="CopyMyLife logo">
+              </span>
+              <span class="brand-name">CopyMyLife</span>
+          </a>
+
+        <div class="form-content">
+          <h1>Create your account</h1>
+          <p class="subtitle">Start building better days with routines that inspire you.</p>
+
+            <form id="registerForm" novalidate>
+                <label for="fullname">Full name</label>
+                <input
+                        type="text"
+                        id="fullname"
+                        placeholder="Your full name"
+                        required
+                >
+
+                <label for="email">Email</label>
+                <input
+                        type="email"
+                        id="email"
+                        placeholder="you@example.com"
+                        required
+                >
+
+                <label for="password">Password</label>
+                <div class="password-wrap">
+                    <input
+                            type="password"
+                            id="password"
+                            placeholder="At least 8 characters"
+                            minlength="8"
+                            required
+                    >
+
+                    <button type="button" class="eye-toggle" aria-label="Toggle password visibility">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M2 2l20 20"/>
+                            <path d="M9.9 5.1A9.7 9.7 0 0 1 12 5c5 0 9 4.5 10 7-0.4 1-1.1 2.2-2.1 3.3M6.7 6.7C4.7 8.1 3.3 10 2 12c1 2.5 5 7 10 7 1.5 0 2.9-.4 4.1-1"/>
+                            <path d="M9.5 9.6a3 3 0 0 0 4.2 4.2"/>
+                        </svg>
+                    </button>
+                </div>
+
+            <button type="submit" class="primary-btn">Create account</button>
+            <p id="registerError" class="signup-form-error" role="alert" hidden></p>
+          </form>
+
+          <p class="switch-text">Already have an account? <a href="login.html" class="link-strong">Sign in</a></p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <script>
+  const passwordInput = document.getElementById("password");
+  const eyeToggle = document.querySelector(".eye-toggle");
+
+  eyeToggle.addEventListener("click", function () {
+    if (passwordInput.type === "password") {
+      passwordInput.type = "text";
+      eyeToggle.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+      `;
+    } else {
+      passwordInput.type = "password";
+      eyeToggle.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M2 2l20 20"/>
+          <path d="M9.9 5.1A9.7 9.7 0 0 1 12 5c5 0 9 4.5 10 7-0.4 1-1.1 2.2-2.1 3.3M6.7 6.7C4.7 8.1 3.3 10 2 12c1 2.5 5 7 10 7 1.5 0 2.9-.4 4.1-1"/>
+          <path d="M9.5 9.6a3 3 0 0 0 4.2 4.2"/>
+        </svg>
+      `;
+    }
+  });
+</script>
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          const form = document.querySelector("form");
+
+          if (!form) return;
+
+          const nameInput =
+              form.querySelector('#name, #fullName, #fullname, input[name="name"], input[name="fullName"]') ||
+              form.querySelector('input[type="text"]');
+
+          const emailInput = form.querySelector('#email, input[type="email"]');
+          const passwordInput = form.querySelector('#password, input[type="password"]');
+          const submitButton = form.querySelector('button[type="submit"]');
+
+          if (!nameInput || !emailInput || !passwordInput || !submitButton) return;
+
+          const formError = document.getElementById("registerError");
+          const errorInputs = new Map();
+
+          function createError(input, anchor) {
+              const error = document.createElement("p");
+              error.className = "signup-field-error";
+              error.id = input.id + "Error";
+              error.setAttribute("role", "alert");
+              error.hidden = true;
+              input.setAttribute("aria-describedby", error.id);
+              errorInputs.set(error, input);
+              (anchor || input).insertAdjacentElement("afterend", error);
+              return error;
+          }
+
+          const nameError = createError(nameInput);
+          const emailError = createError(emailInput);
+
+          const passwordAnchor =
+              passwordInput.closest(".password-wrap, .password-field, .input-wrapper") ||
+              passwordInput;
+
+          const passwordError = createError(passwordInput, passwordAnchor);
+
+          const strength = document.createElement("div");
+          strength.className = "signup-strength";
+
+          strength.innerHTML = `
+        <div class="signup-strength-track">
+            <div class="signup-strength-fill"></div>
+        </div>
+        <div class="signup-strength-rules">
+            <span data-rule="length">At least 8 characters</span>
+            <span data-rule="letter">Contains a letter</span>
+            <span data-rule="number">Contains a number</span>
+            <span data-rule="special">Contains !#$%^&*_</span>
+        </div>
+    `;
+
+          passwordError.insertAdjacentElement("afterend", strength);
+
+          const strengthFill = strength.querySelector(".signup-strength-fill");
+
+          function setError(element, message) {
+              element.textContent = message;
+              element.hidden = !message;
+
+              const input = errorInputs.get(element);
+              if (input) {
+                  input.setAttribute("aria-invalid", String(Boolean(message)));
+              }
+          }
+
+          function validEmail(value) {
+              return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim());
+          }
+
+          function passwordRules(value) {
+              return {
+                  length: value.length >= 8,
+                  letter: /\p{L}/u.test(value),
+                  number: /[0-9]/.test(value),
+                  special: /[!#$%^&*_]/.test(value)
+              };
+          }
+
+          function updateStrength() {
+              const rules = passwordRules(passwordInput.value);
+              const passed = Object.values(rules).filter(Boolean).length;
+
+              strengthFill.style.width = (passed * 25) + "%";
+              strengthFill.style.background =
+                  passed === 4 ? "#16a34a" :
+                      passed >= 2 ? "#6366f1" : "#ef4444";
+
+              Object.entries(rules).forEach(([rule, valid]) => {
+                  const element = strength.querySelector(`[data-rule="${rule}"]`);
+                  element.classList.toggle("passed", valid);
+              });
+
+              return passed === 4;
+          }
+
+          function validateName() {
+              const valid = nameInput.value.trim().length >= 2;
+
+              setError(
+                  nameError,
+                  valid ? "" : "Please enter your full name."
+              );
+
+              return valid;
+          }
+
+          function validateEmail() {
+              const valid = validEmail(emailInput.value);
+
+              setError(
+                  emailError,
+                  valid ? "" : emailInput.value.trim()
+                      ? "Please enter a valid email address."
+                      : "Please enter your email address."
+              );
+
+              return valid;
+          }
+
+          function validatePassword() {
+              const valid = updateStrength();
+
+              setError(
+                  passwordError,
+                  valid ? "" : passwordInput.value
+                      ? "Your password must meet all 4 requirements."
+                      : "Please create a password."
+              );
+
+              return valid;
+          }
+
+          nameInput.addEventListener("blur", validateName);
+          emailInput.addEventListener("blur", validateEmail);
+          passwordInput.addEventListener("blur", validatePassword);
+
+          nameInput.addEventListener("input", function () {
+              if (!nameError.hidden) validateName();
+          });
+
+          emailInput.addEventListener("input", function () {
+              if (!emailError.hidden) validateEmail();
+          });
+
+          passwordInput.addEventListener("input", function () {
+              updateStrength();
+
+              if (!passwordError.hidden) {
+                  validatePassword();
+              }
+          });
+
+          updateStrength();
+
+          let submitting = false;
+
+          form.addEventListener("submit", async function (event) {
+              event.preventDefault();
+              event.stopImmediatePropagation();
+
+              if (submitting) return;
+
+              const nameValid = validateName();
+              const emailValid = validateEmail();
+              const passwordValid = validatePassword();
+
+              if (!nameValid || !emailValid || !passwordValid) {
+                  if (!nameValid) nameInput.focus();
+                  else if (!emailValid) emailInput.focus();
+                  else passwordInput.focus();
+                  return;
+              }
+
+              setError(formError, "");
+              submitting = true;
+              submitButton.disabled = true;
+              submitButton.textContent = "Creating account...";
+
+              try {
+                  const response = await fetch("/auth/register", {
+                      method: "POST",
+                      headers: {
+                          "Content-Type": "application/json"
+                      },
+                      body: JSON.stringify({
+                          name: nameInput.value.trim(),
+                          email: emailInput.value.trim(),
+                          password: passwordInput.value
+                      })
+                  });
+
+                  if (!response.ok) {
+                      let result = {};
+
+                      try {
+                          result = await response.json();
+                      } catch (error) {
+                      }
+
+                      if (response.status === 409) {
+                          setError(emailError, "This email is already registered.");
+                          emailInput.focus();
+                      } else if (result.field === "name") {
+                          setError(nameError, result.message);
+                          nameInput.focus();
+                      } else if (result.field === "email") {
+                          setError(emailError, result.message);
+                          emailInput.focus();
+                      } else if (result.field === "password") {
+                          setError(passwordError, result.message);
+                          passwordInput.focus();
+                      } else if (response.status >= 500) {
+                          setError(formError, "Server error. Please try again later.");
+                      } else {
+                          setError(
+                              formError,
+                              result.message || "Registration failed. Please try again."
+                          );
+                      }
+
+                      return;
+                  }
+
+                  const data = await response.json();
+
+                  localStorage.setItem("token", data.token);
+                  localStorage.setItem("user", JSON.stringify(data.user));
+
+                  window.location.href = "main.html";
+
+              } catch (error) {
+                  setError(
+                      formError,
+                      "Connection failed. Please check your internet and try again."
+                  );
+              } finally {
+                  submitting = false;
+                  submitButton.disabled = false;
+                  submitButton.textContent = "Create account";
+              }
+          }, true);
+      });
+  </script>
+  <script src="theme.js"></script>
+  </body>
+
+</html>

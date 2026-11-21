@@ -1,0 +1,3772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Routine — CopyMyLife</title>
+  <script src="safe-dom.js"></script>
+  <script src="session.js"></script>
+  <script defer src="reminders.js"></script>
+  <script src="upload-check.js"></script>
+  <script src="report-dialog.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="site-rating.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="routine.css">
+  <link rel="stylesheet" href="mobile.css">
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="report-dialog.css">
+  <script>
+    // Show a placeholder only after a real load failure. The <img> stays in the
+    // DOM so a later successful load (or src change) brings the photo back.
+    (function () {
+      const fallbackRules = [
+        { selector: ".logo-icon img", className: "image-fallback", text: function () { return "C"; } }
+      ];
+
+      document.addEventListener("error", function (event) {
+        const img = event.target;
+        if (!(img instanceof HTMLImageElement)) return;
+
+        const rule = fallbackRules.find(function (item) {
+          return img.matches(item.selector);
+        });
+        if (!rule) return;
+
+        img.style.setProperty("display", "none", "important");
+
+        const next = img.nextElementSibling;
+        if (next && next.hasAttribute("data-image-fallback")) return;
+
+        const fallback = document.createElement("div");
+        fallback.className = rule.className;
+        fallback.setAttribute("data-image-fallback", "");
+        fallback.textContent = rule.text(img);
+        if (img.alt) {
+          fallback.setAttribute("role", "img");
+          fallback.setAttribute("aria-label", img.alt);
+        }
+        img.after(fallback);
+      }, true);
+
+      document.addEventListener("load", function (event) {
+        const img = event.target;
+        if (!(img instanceof HTMLImageElement)) return;
+
+        const next = img.nextElementSibling;
+        if (next && next.hasAttribute("data-image-fallback")) {
+          next.remove();
+          img.style.removeProperty("display");
+        }
+      }, true);
+    })();
+  </script>
+</head>
+<body data-mobile-page="routine">
+
+<header class="topbar">
+  <a href="main.html" class="topbar-left">
+    <div class="logo-icon">
+      <img src="https://i.ibb.co.com/gZQ4WN6P/image.png" alt="CopyMyLife">
+    </div>
+    <span class="logo-text">CopyMyLife</span>
+  </a>
+
+  <nav class="topbar-nav">
+    <a href="main.html" class="nav-link">Home</a>
+    <a href="Explore.html" class="nav-link">Explore</a>
+    <a href="top-routines.html" class="nav-link">Top Routines</a>
+  </nav>
+
+  <div class="topbar-user-wrap">
+    <a href="login.html" class="btn btn--primary topbar-signin" id="guestSignIn" hidden>Sign in</a>
+
+    <div class="topbar-user" id="userMenuToggle">
+
+      <div class="user-avatar">
+        <img id="headerAvatar" alt="Profile avatar">
+        <span id="headerAvatarFallback">Z</span>
+      </div>
+
+      <span class="user-name" id="currentUserName">User</span>
+
+      <svg class="chevron" id="userMenuChevron" width="14" height="14" viewBox="0 0 24 24" fill="none">
+        <path d="M6 9L12 15L18 9"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"/>
+      </svg>
+
+    </div>
+
+    <div class="topbar-user-dropdown" id="userDropdown">
+
+      <a href="profile.html" class="topbar-dropdown-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="7" r="4"
+                  stroke="currentColor"
+                  stroke-width="2"/>
+
+          <path d="M5 21v-2c0-3.3 2.7-6 6-6h2c3.3 0 6 2.7 6 6v2"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"/>
+        </svg>
+
+        Profile
+      </a>
+
+      <button type="button"
+              class="topbar-dropdown-item topbar-logout-btn"
+              id="logoutBtn">
+
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M10 5H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"/>
+
+          <path d="M14 8l4 4-4 4"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"/>
+
+          <path d="M9 12h9"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"/>
+        </svg>
+
+        Log Out
+      </button>
+
+    </div>
+
+  </div>
+</header>
+
+  <main class="container main">
+    <button type="button" class="back-link" id="backBtn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      Back to
+    </button>
+
+    <div class="routine-copy-notice" id="copyNotice" role="status" hidden></div>
+
+    <section class="card hero">
+      <div class="hero__image" id="routineImage">
+        <span class="hero__clock"></span>
+      </div>
+
+      <div class="hero__body">
+        <div class="hero__top">
+          <div>
+            <span class="tag" id="routineTag">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
+              <span></span>
+            </span>
+            <span class="routine-privacy-badge" id="routinePrivacyBadge" hidden></span>
+            <span class="routine-privacy-badge routine-privacy-badge--hidden" id="routineHiddenBadge" hidden
+                  title="Only you can see it. Ask an administrator to show it again.">Hidden by an administrator</span>
+            <h1 class="hero__title" id="routineTitle"></h1>
+            <!-- The owner can have this routine reviewed in the profile's AI Assistant. -->
+            <a class="routine-assistant-link" id="reviewWithAssistantLink" href="profile.html#ai-review" hidden>Review My Routine with the AI Assistant</a>
+          </div>
+          <div class="hero__actions">
+
+            <span
+                    class="routine-running-badge"
+                    id="routineRunningBadge"
+                    hidden>
+              Routine in progress
+            </span>
+
+                      <button
+                              class="btn btn--light routine-owner-action"
+                              id="editRoutineBtn"
+                              type="button"
+                              hidden>
+                        Edit
+                      </button>
+
+                      <button
+                              class="btn btn--primary"
+                              id="startBtn"
+                              type="button"
+                              hidden>
+                        <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2">
+                          <path d="M6 4l14 8-14 8z"/>
+                        </svg>
+
+                        <span id="startBtnText">
+                Start routine
+              </span>
+            </button>
+            <button class="btn btn--light" id="copyRoutineBtn" type="button" hidden>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copy routine
+            </button>
+            <button class="btn btn--light" id="adaptCopyBtn" type="button" hidden>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+              Adapt &amp; copy
+            </button>
+            <button class="btn btn--light" id="saveBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 3h12v18l-6-4-6 4z"/></svg>
+              Saved <strong id="savedCount">0</strong>
+            </button>
+            <!-- US-24: anyone but the owner can report the routine to the moderators. -->
+            <button class="btn btn--light" id="reportRoutineBtn" type="button" hidden>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg>
+              Report
+            </button>
+          </div>
+        </div>
+
+        <div class="author">
+          <span class="avatar avatar--letter" id="authorAvatar"></span>
+          <div>
+            <div class="author__name" id="authorName"></div>
+            <div class="author__date" id="routineCreated"></div>
+          </div>
+        </div>
+
+        <p class="hero__desc" id="routineDesc"></p>
+        <p class="hero__desc start-hint" id="startHint" hidden>Nothing is planned for today in this routine. Its habits are on other days.</p>
+
+        <div class="detail-rating">
+
+          <div class="detail-rating__average">
+
+            <div class="average-stars">
+              <span class="average-stars__empty">★★★★★</span>
+              <span class="average-stars__fill" id="ratingFill">★★★★★</span>
+            </div>
+
+            <strong id="ratingAverage">0.0</strong>
+            <span id="ratingCount">(0)</span>
+
+          </div>
+
+          <div class="detail-rating__mine">
+
+            <span>Your rating:</span>
+
+            <div class="rating-input" id="ratingInput">
+              <button type="button" class="rating-star-btn" data-value="1">★</button>
+              <button type="button" class="rating-star-btn" data-value="2">★</button>
+              <button type="button" class="rating-star-btn" data-value="3">★</button>
+              <button type="button" class="rating-star-btn" data-value="4">★</button>
+              <button type="button" class="rating-star-btn" data-value="5">★</button>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- US-28: the community votes for the category that fits this routine best. -->
+        <div class="category-vote" id="categoryVote" hidden>
+          <div class="category-vote__head">
+            <span class="category-vote__title">Community category</span>
+            <button type="button" class="btn btn--light category-vote__btn" id="categoryVoteBtn">Vote category</button>
+          </div>
+          <p class="category-vote__message" id="categoryVoteMessage"></p>
+          <ul class="category-vote__results" id="categoryVoteResults"></ul>
+        </div>
+
+        <div class="hero__meta">
+          <span class="meta">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="m9 12 2 2 4-4"/></svg>
+            <span id="habitsCount">0 habits</span>
+          </span>
+          <span class="meta meta--pill">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
+            <span id="routineCategory"></span>
+          </span>
+          <span class="meta">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <span id="routineTimeRange">—</span>
+          </span>
+          <span class="meta">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <span id="routineTotal">Total —</span>
+          </span>
+          <span class="meta__divider"></span>
+          <button class="stat stat--like" id="likeBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.5-9.3C1 8 3.4 4.5 7 4.5c2 0 3.4 1 5 2.8 1.6-1.8 3-2.8 5-2.8 3.6 0 6 3.5 4.5 7.2C19.5 16.4 12 21 12 21z"/></svg>
+            <span id="likesCount">0</span>
+          </button>
+          <a href="#comments" class="stat stat--comments">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H9l-5 4z"/></svg>
+            <span id="commentsCountTop">0</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="card schedule">
+
+      <div class="routine-schedule-head">
+
+        <div>
+
+          <h2 class="section-title">
+            Routine schedule
+          </h2>
+
+          <p class="section-sub">
+            Follow these habits in order for the best results.
+          </p>
+
+        </div>
+
+        <button
+                type="button"
+                class="btn btn--light"
+                id="editHabitsBtn"
+                hidden>
+          Edit habits
+        </button>
+
+      </div>
+      <div class="schedule-views" id="scheduleViews" role="tablist" aria-label="Schedule view" hidden>
+        <button type="button" role="tab" data-view="timeline" aria-selected="true" class="is-active">Timeline</button>
+        <button type="button" role="tab" data-view="today" aria-selected="false">Today</button>
+        <button type="button" role="tab" data-view="week" aria-selected="false">Week</button>
+      </div>
+
+      <p class="schedule-rule" id="scheduleRule" hidden>
+        Timed habits are listed by start time, and habits without a time follow as “Any time”.
+        Two timed habits never overlap on the same day.
+      </p>
+
+      <ol class="habits" id="habitsList">
+      </ol>
+
+      <div class="week-plan" id="weekPlan" hidden></div>
+      <p class="week-any-day" id="weekAnyDay" hidden></p>
+    </section>
+
+    <section class="card comments" id="comments">
+      <div class="comments__head">
+        <h2 class="section-title">Comments (<span id="commentsCount">0</span>)</h2>
+        <select class="sort-select" id="sortSelect">
+          <option value="recent">Most recent</option>
+          <option value="oldest">Oldest</option>
+          <option value="popular">Most liked</option>
+        </select>
+      </div>
+
+      <form class="comment-form" id="commentForm" novalidate>
+        <span class="avatar avatar--md" id="formAvatar">D</span>
+        <input type="text" class="comment-form__input" id="commentInput" placeholder="Write a comment..." maxlength="500" autocomplete="off" />
+        <button type="submit" class="btn btn--post" id="postBtn" disabled>Post</button>
+      </form>
+
+      <ul class="comment-list" id="commentList">
+      </ul>
+    </section>
+  </main>
+
+<div
+        class="routine-edit-overlay"
+        id="editRoutineModal">
+
+  <div class="routine-edit-modal">
+
+    <div class="routine-edit-head">
+
+      <h2>
+        Edit routine
+      </h2>
+
+      <button
+              type="button"
+              id="closeEditRoutine">
+        ×
+      </button>
+
+    </div>
+
+    <label>
+      Title
+    </label>
+
+    <input
+            id="editRoutineTitle"
+            type="text">
+
+    <label>
+      Description
+    </label>
+
+    <textarea
+            id="editRoutineDescription">
+    </textarea>
+
+    <label>
+      Category
+    </label>
+
+    <select id="editRoutineCategory">
+      <option value="Morning">Morning</option>
+      <option value="Study">Study</option>
+      <option value="Fitness">Fitness</option>
+      <option value="Wellness">Wellness</option>
+      <option value="Productivity">Productivity</option>
+      <option value="Creators">Creators</option>
+    </select>
+
+    <label>
+      Duration (minutes)
+    </label>
+
+    <input
+            id="editRoutineDuration"
+            type="number"
+            min="1">
+
+    <label>
+      Routine image URL
+    </label>
+
+    <input
+            id="editRoutineImageUrl"
+            type="text"
+            placeholder="https://example.com/image.jpg">
+
+    <label>
+      Or upload image
+    </label>
+
+    <input
+            id="editRoutineImage"
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif">
+
+    <label class="routine-public-row">
+
+      <input
+              id="editRoutinePublic"
+              type="checkbox">
+
+      Make this routine public
+
+    </label>
+
+    <p class="routine-form-error" id="editRoutineError" role="alert" hidden></p>
+
+    <div class="routine-edit-actions">
+
+      <button
+              type="button"
+              class="btn btn--light"
+              id="cancelEditRoutine">
+        Cancel
+      </button>
+
+      <button
+              type="button"
+              class="btn btn--primary"
+              id="saveEditRoutine">
+        Save changes
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- US-19: change each activity's plan before the copy is saved; nothing is saved until Save copy. -->
+<div class="routine-edit-overlay" id="adaptCopyModal">
+  <div class="routine-edit-modal routine-habits-modal adapt-copy-modal" role="dialog" aria-modal="true" aria-labelledby="adaptCopyHeading">
+
+    <div class="routine-edit-head">
+      <h2 id="adaptCopyHeading">Adapt before copying</h2>
+      <button type="button" class="adapt-copy-close" id="adaptCopyClose" aria-label="Close">×</button>
+    </div>
+
+    <p class="routine-habits-subtitle">
+      Change when each activity happens, how long it takes and on which days. Nothing is saved
+      until you press Save copy, and the original routine stays as it is.
+    </p>
+
+    <p class="routine-form-error" id="adaptCopyError" role="alert" hidden></p>
+
+    <div class="adapt-copy-list" id="adaptCopyList"></div>
+
+    <p class="adapt-copy-total" id="adaptCopyTotal"></p>
+
+    <div class="adapt-copy-actions">
+      <button type="button" class="btn btn--light" id="adaptCopyCancel">Cancel</button>
+      <button type="button" class="btn btn--primary" id="adaptCopySave">Save copy</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- US-28: choose the category that fits the routine best; nothing is sent until Confirm vote. -->
+<div class="routine-edit-overlay" id="categoryVoteModal">
+  <div class="routine-edit-modal category-vote-modal" role="dialog" aria-modal="true" aria-labelledby="categoryVoteHeading">
+
+    <div class="routine-edit-head">
+      <h2 id="categoryVoteHeading">Vote for a category</h2>
+      <button type="button" class="adapt-copy-close" id="categoryVoteClose" aria-label="Close">×</button>
+    </div>
+
+    <p class="routine-habits-subtitle">
+      Choose the category that fits this routine best. You can vote once. When voting ends, the
+      routine is filed under the category with the most votes.
+    </p>
+
+    <fieldset class="category-vote-options" id="categoryVoteOptions">
+      <legend>Categories</legend>
+    </fieldset>
+
+    <p class="routine-form-error" id="categoryVoteError" role="alert" hidden></p>
+
+    <div class="adapt-copy-actions">
+      <button type="button" class="btn btn--light" id="categoryVoteCancel">Cancel</button>
+      <button type="button" class="btn btn--primary" id="categoryVoteConfirm">Confirm vote</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- US-18: copy one activity into one of your own routines; nothing is saved until Confirm copy. -->
+<div class="routine-edit-overlay" id="copyHabitModal">
+  <div class="routine-edit-modal copy-habit-modal" role="dialog" aria-modal="true" aria-labelledby="copyHabitHeading">
+
+    <div class="routine-edit-head">
+      <h2 id="copyHabitHeading">Copy habit</h2>
+      <button type="button" class="adapt-copy-close" id="copyHabitClose" aria-label="Close">×</button>
+    </div>
+
+    <p class="routine-habits-subtitle">
+      Only this activity is added to the routine you choose. The rest of this routine is not
+      copied, and the original stays as it is.
+    </p>
+
+    <div class="copy-habit-summary">
+      <strong class="copy-habit-title" id="copyHabitTitle"></strong>
+      <dl class="copy-habit-facts">
+        <div><dt>Duration</dt><dd id="copyHabitDuration"></dd></div>
+        <div><dt>Start time</dt><dd id="copyHabitTime"></dd></div>
+        <div><dt>Repeat days</dt><dd id="copyHabitDays"></dd></div>
+      </dl>
+      <p class="copy-habit-notes" id="copyHabitNotes" hidden></p>
+    </div>
+
+    <label for="copyHabitTarget" id="copyHabitTargetLabel">Add to my routine</label>
+    <select id="copyHabitTarget"></select>
+
+    <p class="copy-habit-empty" id="copyHabitEmpty" hidden>
+      You don't have a routine of your own yet.
+      <a href="profile.html">Create a routine</a> in My Routines first, then come back to copy this habit.
+    </p>
+
+    <p class="routine-form-error" id="copyHabitError" role="alert" hidden></p>
+
+    <div class="adapt-copy-actions">
+      <button type="button" class="btn btn--light" id="copyHabitCancel">Cancel</button>
+      <button type="button" class="btn btn--primary" id="copyHabitConfirm">Confirm copy</button>
+    </div>
+
+  </div>
+</div>
+
+<div class="routine-edit-overlay" id="editHabitsModal">
+  <div class="routine-edit-modal routine-habits-modal">
+
+    <div class="routine-edit-head">
+      <h2>Edit habits</h2>
+      <button type="button" id="closeEditHabits">×</button>
+    </div>
+
+    <p class="routine-habits-subtitle">
+      Add habits from your library, arrange their order, or pause one for a while.
+      A paused habit keeps its place and history and sits out new runs until you resume it.
+    </p>
+
+    <p class="routine-habits-message" id="editHabitsMessage" role="alert" hidden></p>
+
+    <h3>Routine habits</h3>
+
+    <div id="routineHabitsEditor" class="routine-habits-editor"></div>
+
+    <h3>New activity</h3>
+
+    <div class="new-activity" id="newActivityForm">
+      <label>
+        Title
+        <input id="newActivityTitle" type="text" maxlength="255" placeholder="Read 10 pages">
+      </label>
+
+      <div class="schedule-row">
+        <label>
+          Duration (min)
+          <input id="newActivityDuration" type="number" min="1" max="1440" placeholder="15">
+        </label>
+
+        <label>
+          Start time
+          <input id="newActivityStart" type="time">
+        </label>
+      </div>
+
+      <fieldset class="day-chips" id="newActivityDays">
+        <legend>Repeat days</legend>
+      </fieldset>
+
+      <label>
+        Notes
+        <textarea id="newActivityNotes" rows="2" maxlength="500" placeholder="Optional"></textarea>
+      </label>
+
+      <button type="button" class="routine-habit-add" id="newActivityAdd">Add activity</button>
+    </div>
+
+    <h3>Add from Habit Library</h3>
+
+    <input
+            type="search"
+            id="habitLibrarySearch"
+            placeholder="Search habits"
+    >
+
+    <div id="habitLibraryList" class="habit-library-list"></div>
+
+    <div class="routine-edit-actions">
+      <button type="button" class="btn btn--light" id="cancelEditHabits">
+        Cancel
+      </button>
+
+      <button type="button" class="btn btn--primary" id="saveEditHabits">
+        Done
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const token = localStorage.getItem("token");
+  const ROUTINE_ID = Number(new URLSearchParams(window.location.search).get("id"));
+
+  let currentUser = {
+    id: null,
+    name: "User",
+    username: "username",
+    avatarUrl: ""
+  };
+
+  // Visitors can read a public routine; anything that would change it asks them to sign in.
+  let signedIn = Boolean(token);
+
+  if (!ROUTINE_ID) {
+    window.location.href = signedIn ? "profile.html" : "Explore.html";
+  }
+
+  const ICONS = {
+    water: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/></svg>',
+    bolt:  '<svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>',
+    notes: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>',
+    cap:   '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 9 10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5M22 9v5"/></svg>',
+    book:  '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 5h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H2zM22 5h-7a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h8z"/></svg>',
+    check: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>',
+  };
+  const CLOCK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+  const ARROW = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+  const HEART = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.5-9.3C1 8 3.4 4.5 7 4.5c2 0 3.4 1 5 2.8 1.6-1.8 3-2.8 5-2.8 3.6 0 6 3.5 4.5 7.2C19.5 16.4 12 21 12 21z"/></svg>';
+  const BOOKMARK = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"/></svg>';
+  const REPLY = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 6 6v4"/></svg>';
+
+  let routine = null;
+  let activeRun = null;
+  let activeRunLoaded = false;
+  let comments = [];
+  let sortMode = "recent";
+  let nextLocalId = 1000;
+
+  let ratingState = {
+    averageRating: 0,
+    ratingCount: 0,
+    userRating: 0
+  };
+
+
+
+  const $ = (id) => document.getElementById(id);
+
+  function escapeHTML(str) {
+    return SafeDom.escapeHtml(str);
+  }
+
+  function initials(name) {
+    return name.split(" ").map((p) => p[0]).join("").slice(0, 2).toUpperCase();
+  }
+  function avatarColor(name) {
+    const palette = [["#5b7cfa", "#2f5bea"], ["#f78ca0", "#e0457b"], ["#43c59e", "#1f9d74"], ["#f5a742", "#e07b1b"], ["#9b7bf7", "#6b4fe0"], ["#4fc3e8", "#1e94c4"]];
+    let h = 0;
+    for (const c of name) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+    const [a, b] = palette[h % palette.length];
+    return `linear-gradient(135deg, ${a}, ${b})`;
+  }
+
+  // Background images never fire an error event, so check them with a probe.
+  function onImageFail(url, handler) {
+    const probe = new Image();
+    probe.onerror = handler;
+    probe.src = url;
+  }
+
+  let avatarPhotoCounter = 0;
+
+  function avatarHTML(name, size, avatarUrl = "") {
+    const safeAvatarUrl = SafeDom.safeImageUrl(avatarUrl);
+
+    if (safeAvatarUrl) {
+      const avatarId = `avatar-photo-${++avatarPhotoCounter}`;
+
+      onImageFail(safeAvatarUrl, () => {
+        const avatar = $(avatarId);
+        if (!avatar) return;
+        avatar.style.background = avatarColor(name);
+        avatar.textContent = initials(name);
+      });
+
+      return `
+      <span class="avatar avatar--${size}"
+            id="${avatarId}"
+            style="
+              background-image: ${escapeHTML(SafeDom.cssImageUrl(safeAvatarUrl))};
+              background-size: cover;
+              background-position: center;
+            ">
+      </span>
+    `;
+    }
+
+    return `<span class="avatar avatar--${size}" style="background:${avatarColor(name)}">${escapeHTML(initials(name))}</span>`;
+  }
+
+  function timeAgo(iso) {
+    const date = new Date(iso.endsWith("Z") ? iso : iso + "Z");
+    const sec = Math.floor((Date.now() - date) / 1000);
+    const units = [["year", 31536000], ["month", 2592000], ["week", 604800], ["day", 86400], ["hour", 3600], ["minute", 60]];
+    for (const [name, s] of units) {
+      const n = Math.floor(sec / s);
+      if (n >= 1) return `${n} ${name}${n > 1 ? "s" : ""} ago`;
+    }
+    return "just now";
+  }
+
+  function toMinutes(hhmm) {
+    const [h, m] = hhmm.split(":").map(Number);
+    return h * 60 + m;
+  }
+
+  function formatTime(min) {
+    const h24 = Math.floor(min / 60) % 24;
+    const m = min % 60;
+    const ampm = h24 < 12 ? "AM" : "PM";
+    const h12 = h24 % 12 || 12;
+    return `${h12}:${String(m).padStart(2, "0")} ${ampm}`;
+  }
+
+  function formatDuration(min) {
+    const h = Math.floor(min / 60);
+    const m = min % 60;
+    return h ? `${h}h ${m ? m + "m" : ""}`.trim() : `${m} min`;
+  }
+
+  async function request(url, options = {}) {
+    const headers = {
+      ...(options.headers || {})
+    };
+
+    if (signedIn) {
+      headers["Authorization"] = "Bearer " + token;
+    }
+
+    if (options.body) {
+      headers["Content-Type"] = "application/json";
+    }
+
+    const response = await fetch(url, {
+      ...options,
+      headers: headers
+    });
+
+    if (!response.ok) {
+
+      let message =
+              "HTTP " + response.status;
+
+      let details =
+              null;
+
+      try {
+
+        const errorBody =
+                await response.json();
+
+        details =
+                errorBody;
+
+        if (
+                errorBody
+                &&
+                errorBody.message
+        ) {
+
+          message =
+                  errorBody.message;
+        }
+
+      } catch (error) {
+      }
+
+      const failure = new Error(message);
+      failure.status = response.status;
+      failure.details = details;
+      throw failure;
+    }
+
+    if (response.status === 204) return null;
+
+    return response.json();
+  }
+
+  const HALLOWEEN_THEMES = {
+    "Billy": "theme-billy",
+    "Ghostface": "theme-ghostface",
+    "Michael Myers": "theme-michael",
+    "Chucky": "theme-chucky",
+    "Pennywise": "theme-pennywise",
+    "Beetlejuice": "theme-beetlejuice",
+    "Freddy Krueger": "theme-freddy",
+    "Art the Clown": "theme-art",
+    "Count Dracula": "theme-dracula",
+    "Jason Voorhees": "theme-jason"
+  };
+
+  let isHalloweenRoutine = false;
+  let halloweenHandle = "";
+
+  function loadHalloweenAsset(element) {
+    return new Promise((resolve) => {
+      element.onload = resolve;
+      element.onerror = resolve;
+      document.head.appendChild(element);
+    });
+  }
+
+  async function applyHalloweenRoutine(routineData) {
+    if (!routineData.builtIn || routineData.category !== "Halloween") return;
+
+    isHalloweenRoutine = true;
+
+    const stylesheet = document.createElement("link");
+    stylesheet.rel = "stylesheet";
+    stylesheet.href = "halloween-theme.css";
+
+    const characterData = document.createElement("script");
+    characterData.src = "halloween-data.js";
+
+    await Promise.all([
+      loadHalloweenAsset(stylesheet),
+      loadHalloweenAsset(characterData)
+    ]);
+
+    const character = (window.halloweenCharacters || []).find(
+            (item) => item.title === routineData.title
+    );
+
+    halloweenHandle = character ? character.role : "";
+
+    // The character theme replaces the site theme on this page only; the saved choice is kept.
+    const siteTheme = document.documentElement.getAttribute("data-theme") || "original";
+
+    document.documentElement.removeAttribute("data-theme");
+    document.body.removeAttribute("data-theme");
+    document.querySelector(".theme-leaves")?.remove();
+
+    document.body.classList.add(
+            "halloween-detail-page",
+            HALLOWEEN_THEMES[routineData.authorName] || "theme-billy"
+    );
+
+    document.body.setAttribute("data-site-theme", siteTheme);
+
+    document.body.insertAdjacentHTML("afterbegin", `
+      <div class="halloween-floating halloween-web-left"></div>
+      <div class="halloween-floating halloween-web-right"></div>
+      <svg class="halloween-pumpkin" width="72" height="72" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 26Q11 7 10 53Q10 91 50 86Q90 91 90 53Q90 7 50 26" fill="#e97b1e" stroke="#8a441e" stroke-width="3"/><path d="M50 26Q29 45 39 83M50 26Q71 45 61 83" fill="none" stroke="#b85e1a" stroke-width="3"/><path d="M49 27Q51 10 63 8" fill="none" stroke="#4a9b43" stroke-width="8" stroke-linecap="round"/><path d="m23 53 14-12 8 15Zm32 3 8-15 14 12ZM25 65Q50 94 75 65L62 70 53 66 45 74 38 66Z" fill="#211321"/></svg>
+    `);
+
+    $("startBtn").hidden = true;
+    $("editRoutineBtn").hidden = true;
+    $("editHabitsBtn").hidden = true;
+    $("backBtn").lastChild.textContent = " Back to Explore ";
+  }
+
+  // A private, deleted or unknown routine all answer 404, so the page cannot tell them apart either.
+  function showRoutineUnavailable(error) {
+    const signedOut = error.status === 401 || error.status === 403;
+    const heading = signedOut ? "Please sign in again" : "This routine isn't available";
+    const detail = signedOut
+            ? "Your session has ended."
+            : error.status === 404
+                    ? "It may be private, or it may have been removed."
+                    : "We couldn't load it. Please try again in a moment.";
+
+    document.title = heading + " — CopyMyLife";
+
+    const section = document.createElement("section");
+    section.className = "card routine-unavailable";
+
+    const title = document.createElement("h1");
+    title.textContent = heading;
+
+    const text = document.createElement("p");
+    text.textContent = detail;
+
+    const link = document.createElement("a");
+    link.className = "btn btn--primary";
+    link.href = signedOut ? "login.html" : "Explore.html";
+    link.textContent = signedOut ? "Sign in" : "Browse routines";
+
+    section.append(title, text, link);
+
+    // A visitor may own the private routine behind this link; signing in is how they see it.
+    if (!signedIn && !signedOut) {
+      showGuestHeader();
+
+      const signIn = document.createElement("a");
+      signIn.className = "btn btn--light";
+      signIn.href = "login.html";
+      signIn.textContent = "Sign in";
+      section.append(" ", signIn);
+    }
+
+    document.querySelector("main").replaceChildren(section);
+  }
+
+  function askToSignIn(action) {
+    const notice = $("copyNotice");
+
+    notice.classList.remove("routine-copy-notice--error");
+
+    const text = document.createElement("span");
+    text.textContent = "Sign in to " + action + ".";
+
+    const signIn = document.createElement("a");
+    signIn.href = "login.html";
+    signIn.textContent = "Sign in";
+
+    const join = document.createElement("a");
+    join.href = "signin.html";
+    join.textContent = "Create an account";
+
+    notice.replaceChildren(text, signIn, join);
+    notice.hidden = false;
+    notice.scrollIntoView({block: "nearest"});
+  }
+
+  function showGuestHeader() {
+    $("userMenuToggle").hidden = true;
+    $("guestSignIn").hidden = false;
+  }
+
+  // Visitors read the routine; account controls give way to a sign-in link.
+  function showGuestView() {
+    showGuestHeader();
+
+    ratingState = {
+      averageRating: routine.averageRating,
+      ratingCount: routine.ratingCount,
+      userRating: 0
+    };
+    renderRating();
+
+    $("commentForm").hidden = true;
+    $("sortSelect").hidden = true;
+    document.querySelector(".stat--comments").hidden = true;
+    $("commentsCount").parentElement.textContent = "Comments";
+
+    const prompt = document.createElement("li");
+    prompt.className = "empty";
+
+    const signIn = document.createElement("a");
+    signIn.href = "login.html";
+    signIn.textContent = "Sign in";
+
+    prompt.append(signIn, " to read the comments and join in.");
+    $("commentList").replaceChildren(prompt);
+  }
+
+  function showCopyNotice(message, copyId, openLabel = "Open my copy") {
+    const notice = $("copyNotice");
+
+    notice.classList.toggle("routine-copy-notice--error", !copyId);
+
+    const text = document.createElement("span");
+    text.textContent = message;
+    notice.replaceChildren(text);
+
+    if (copyId) {
+      const open = document.createElement("a");
+      open.href = "routine.html?id=" + copyId;
+      open.textContent = openLabel;
+
+      const list = document.createElement("a");
+      list.href = "profile.html";
+      list.textContent = "My routines";
+
+      notice.append(open, list);
+    }
+
+    notice.hidden = false;
+  }
+
+  async function copyRoutine() {
+    if (!signedIn) {
+      askToSignIn("copy this routine");
+      return;
+    }
+
+    const button = $("copyRoutineBtn");
+    button.disabled = true;
+
+    try {
+      const copy = await request(
+              "/routines/" + ROUTINE_ID + "/copy",
+              { method: "POST" }
+      );
+
+      showCopyNotice("Routine copied to your account. It stays private until you share it.", copy.id);
+    } catch (error) {
+      button.disabled = false;
+
+      if (error.status === 404) {
+        showCopyNotice("This routine is no longer available to copy.");
+      } else if (error.status === 401 || error.status === 403) {
+        showCopyNotice("Your session has ended. Please sign in again.");
+      } else {
+        showCopyNotice("We couldn't copy this routine. Please try again.");
+      }
+    }
+  }
+
+  // US-19: adapt each activity before the copy is saved. The form starts from the source's plan
+  // each time it opens; Cancel sends nothing, and the server checks everything again.
+  let adaptSaving = false;
+
+  function frequencyText(days) {
+    const count = (days || []).length;
+
+    if (count === 0 || count === 7) return "Every day";
+
+    return count + (count === 1 ? " day a week" : " days a week");
+  }
+
+  function adaptRows() {
+    return [...document.querySelectorAll("#adaptCopyList .adapt-activity")];
+  }
+
+  function adaptDays(row) {
+    return [...row.querySelectorAll("input[type=checkbox]:checked")].map(box => box.value);
+  }
+
+  function updateAdaptSummary() {
+    let total = 0;
+
+    adaptRows().forEach(row => {
+      row.querySelector(".adapt-frequency").textContent = frequencyText(adaptDays(row));
+
+      const minutes = Number(row.querySelector("input[name=durationMinutes]").value);
+
+      if (Number.isInteger(minutes) && minutes > 0) {
+        total += minutes;
+      }
+    });
+
+    $("adaptCopyTotal").textContent = "Total " + total + " min";
+  }
+
+  // Shows why the copy was refused and marks the activity at fault (counting from 1), if any.
+  function showAdaptError(message, activity) {
+    adaptRows().forEach(row => row.classList.remove("adapt-activity--error"));
+
+    const error = $("adaptCopyError");
+    error.textContent = message;
+    error.hidden = false;
+
+    const row = activity ? adaptRows()[activity - 1] : null;
+
+    if (row) {
+      row.classList.add("adapt-activity--error");
+      row.scrollIntoView({block: "nearest"});
+    } else {
+      error.scrollIntoView({block: "nearest"});
+    }
+  }
+
+  function openAdaptCopy() {
+    if (!signedIn) {
+      askToSignIn("adapt and copy this routine");
+      return;
+    }
+
+    $("adaptCopyList").innerHTML = sortedHabits().map((habit, index) => `
+        <div class="routine-habit-schedule adapt-activity" data-id="${Number(habit.routineHabitId)}">
+            <div class="adapt-activity-head">
+                <strong class="adapt-activity-title">${escapeHTML(habit.title)}</strong>
+                <span class="adapt-frequency"></span>
+            </div>
+            <div class="schedule-row">
+                <label>
+                    Start time
+                    <input type="time" name="startTime" value="${escapeHTML(habit.startTime || "")}">
+                </label>
+                <label>
+                    Duration (min)
+                    <input type="number" name="durationMinutes" min="1" max="1440" step="1" value="${Number(habit.durationMinutes) || ""}">
+                </label>
+            </div>
+            <fieldset class="day-chips">
+                <legend>Repeat days (none: every day)</legend>
+                ${dayChips("adaptDay" + index, habit.repeatDays)}
+            </fieldset>
+            <label>
+                Notes
+                <textarea name="notes" rows="2" maxlength="500">${escapeHTML(habit.notes || "")}</textarea>
+            </label>
+        </div>`).join("");
+
+    $("adaptCopyError").hidden = true;
+    updateAdaptSummary();
+    $("adaptCopyModal").classList.add("show");
+  }
+
+  function closeAdaptCopy() {
+    $("adaptCopyModal").classList.remove("show");
+  }
+
+  async function saveAdaptedCopy() {
+    if (adaptSaving) {
+      return;
+    }
+
+    const activities = [];
+    const rows = adaptRows();
+
+    // The plain mistakes are pointed out here; the server checks everything again.
+    for (let index = 0; index < rows.length; index++) {
+      const row = rows[index];
+      const title = row.querySelector(".adapt-activity-title").textContent;
+      const startTime = row.querySelector("input[name=startTime]").value;
+      const minutesText = row.querySelector("input[name=durationMinutes]").value.trim();
+      const minutes = Number(minutesText);
+      const days = adaptDays(row);
+
+      if (!/^\d+$/.test(minutesText) || minutes < 1 || minutes > 1440) {
+        showAdaptError(title + ": Duration must be a whole number of minutes from 1 to 1440.", index + 1);
+        return;
+      }
+
+      if (startTime && days.length === 0) {
+        showAdaptError(title + ": Choose at least one repeat day for an activity with a start time.", index + 1);
+        return;
+      }
+
+      activities.push({
+        routineHabitId: Number(row.dataset.id),
+        startTime: startTime || null,
+        durationMinutes: minutes,
+        repeatDays: days,
+        notes: row.querySelector("textarea[name=notes]").value
+      });
+    }
+
+    const button = $("adaptCopySave");
+    adaptSaving = true;
+    button.disabled = true;
+    button.textContent = "Saving…";
+
+    try {
+      const copy = await request(
+              "/routines/" + ROUTINE_ID + "/adapted-copy",
+              { method: "POST", body: JSON.stringify({activities}) }
+      );
+
+      closeAdaptCopy();
+      showCopyNotice("Your adapted copy is saved. It stays private until you share it.", copy.id);
+      $("copyNotice").scrollIntoView({block: "nearest"});
+    } catch (error) {
+      if (error.status === 404) {
+        showAdaptError("This routine is no longer available to copy.");
+      } else if (error.status === 401 || error.status === 403) {
+        showAdaptError("Your session has ended. Please sign in again.");
+      } else if (error.status === 400) {
+        showAdaptError(error.message, error.details && error.details.activity);
+      } else {
+        showAdaptError("We couldn't save your copy. Please try again.");
+      }
+    } finally {
+      adaptSaving = false;
+      button.disabled = false;
+      button.textContent = "Save copy";
+    }
+  }
+
+  // US-18: copy one activity into one of the user's own routines. Opening the form only reads
+  // their routines; nothing is written until Confirm copy, and the server checks everything again.
+  let canCopyHabits = false;
+  let copyHabitSource = null;
+  let copyHabitSaving = false;
+  let copyHabitOpened = 0;
+  const copyHabitTargets = new Map();
+
+  function showCopyHabitError(message) {
+    const error = $("copyHabitError");
+    error.textContent = message;
+    error.hidden = false;
+  }
+
+  async function openCopyHabit(routineHabitId) {
+    if (!signedIn) {
+      askToSignIn("copy this habit");
+      return;
+    }
+
+    const habit = routine.habits.find(item => Number(item.id) === routineHabitId);
+
+    if (!habit) {
+      return;
+    }
+
+    const opened = ++copyHabitOpened;
+    const select = $("copyHabitTarget");
+    // The routine chosen last time stays chosen, if it is still there.
+    const chosen = select.value;
+
+    copyHabitSource = habit;
+
+    $("copyHabitTitle").textContent = habit.title;
+    $("copyHabitDuration").textContent = (Number(habit.durationMinutes) || 0) + " min";
+    $("copyHabitTime").textContent = formatWhen(habit);
+    $("copyHabitDays").textContent = (habit.repeatDays || []).length ? formatDays(habit.repeatDays) : "Every day";
+    $("copyHabitNotes").textContent = habit.notes || "";
+    $("copyHabitNotes").hidden = !habit.notes;
+    $("copyHabitError").hidden = true;
+    $("copyHabitEmpty").hidden = true;
+    $("copyHabitTargetLabel").hidden = false;
+
+    select.hidden = false;
+    select.disabled = true;
+    select.replaceChildren(new Option("Loading your routines…", ""));
+    $("copyHabitConfirm").disabled = true;
+    $("copyHabitModal").classList.add("show");
+
+    let mine;
+
+    try {
+      mine = (await request("/routines")).filter(item => Number(item.id) !== ROUTINE_ID);
+    } catch (error) {
+      if (opened !== copyHabitOpened) return;
+
+      select.replaceChildren();
+      showCopyHabitError(error.status === 401 || error.status === 403
+              ? "Your session has ended. Please sign in again."
+              : "We couldn't load your routines. Please try again.");
+      return;
+    }
+
+    // Closed and opened again meanwhile; the newer opening fills the form.
+    if (opened !== copyHabitOpened) return;
+
+    copyHabitTargets.clear();
+    mine.forEach(item => copyHabitTargets.set(String(item.id), item.title));
+
+    if (!mine.length) {
+      select.replaceChildren();
+      select.hidden = true;
+      $("copyHabitTargetLabel").hidden = true;
+      $("copyHabitEmpty").hidden = false;
+      return;
+    }
+
+    select.replaceChildren(...mine.map(item =>
+            new Option(item.title + " · " + formatDuration(Number(item.durationMinutes) || 0), String(item.id))));
+
+    if (copyHabitTargets.has(chosen)) {
+      select.value = chosen;
+    }
+
+    select.disabled = false;
+    $("copyHabitConfirm").disabled = false;
+  }
+
+  // While a copy is being saved it can no longer be called off, so Cancel waits for the answer.
+  function closeCopyHabit() {
+    if (copyHabitSaving) return;
+
+    copyHabitOpened++;
+    $("copyHabitModal").classList.remove("show");
+  }
+
+  async function confirmCopyHabit() {
+    if (copyHabitSaving || !copyHabitSource) {
+      return;
+    }
+
+    const select = $("copyHabitTarget");
+    const targetId = select.value;
+
+    if (!copyHabitTargets.has(targetId)) {
+      showCopyHabitError("Choose one of your routines.");
+      return;
+    }
+
+    const habit = copyHabitSource;
+    const targetTitle = copyHabitTargets.get(targetId);
+    const button = $("copyHabitConfirm");
+    const controls = [button, select, $("copyHabitCancel"), $("copyHabitClose")];
+
+    copyHabitSaving = true;
+    controls.forEach(control => control.disabled = true);
+    button.textContent = "Copying…";
+    $("copyHabitError").hidden = true;
+
+    try {
+      await request(
+              "/routines/" + ROUTINE_ID + "/routine-habits/" + Number(habit.id) + "/copy",
+              { method: "POST", body: JSON.stringify({targetRoutineId: Number(targetId)}) }
+      );
+
+      copyHabitSaving = false;
+      closeCopyHabit();
+      showCopyNotice(
+              "“" + habit.title + "” was added to “" + targetTitle + "”. The rest of this routine was not copied.",
+              Number(targetId),
+              "Open routine"
+      );
+      $("copyNotice").scrollIntoView({block: "nearest"});
+    } catch (error) {
+      if (error.status === 400) {
+        showCopyHabitError(error.message);
+      } else if (error.status === 409) {
+        showCopyHabitError("That routine is running now. Finish or stop it first, then copy this habit.");
+      } else if (error.status === 404 && /target/i.test(error.message)) {
+        showCopyHabitError("That routine can't be found any more. Choose another of your routines.");
+      } else if (error.status === 404) {
+        showCopyHabitError("This habit is no longer available to copy.");
+      } else if (error.status === 401 || error.status === 403) {
+        showCopyHabitError("Your session has ended. Please sign in again.");
+      } else {
+        showCopyHabitError("We couldn't copy this habit. Please try again.");
+      }
+    } finally {
+      copyHabitSaving = false;
+      controls.forEach(control => control.disabled = false);
+      button.textContent = "Confirm copy";
+    }
+  }
+
+  // US-28: the community's category vote. Only public routines are voted on; the server checks
+  // the like, the rating, the period and the one vote again.
+  let categoryVote = null;
+  let categoryVoteSaving = false;
+
+  function categoryVoteDate(iso) {
+    return new Date(iso).toLocaleDateString(undefined, {day: "numeric", month: "short", year: "numeric"});
+  }
+
+  function votesText(count) {
+    return count + (count === 1 ? " vote" : " votes");
+  }
+
+  function renderCategoryVote() {
+    const panel = $("categoryVote");
+
+    panel.hidden = !routine || routine.public !== true || routine.hiddenByAdmin === true;
+
+    if (panel.hidden) return;
+
+    const message = $("categoryVoteMessage");
+    const button = $("categoryVoteBtn");
+    const list = $("categoryVoteResults");
+
+    list.replaceChildren();
+
+    if (!signedIn) {
+      message.textContent = "Sign in to vote for the category that fits this routine best.";
+      button.hidden = false;
+      button.disabled = false;
+      return;
+    }
+
+    if (!categoryVote) {
+      message.textContent = "Loading the community vote…";
+      button.hidden = true;
+      return;
+    }
+
+    const vote = categoryVote;
+
+    (vote.results || []).forEach(result => {
+      const item = document.createElement("li");
+      const name = document.createElement("span");
+      name.textContent = result.name;
+      const count = document.createElement("strong");
+      count.textContent = votesText(Number(result.votes) || 0);
+      item.append(name, count);
+      list.appendChild(item);
+    });
+
+    button.hidden = ["ALREADY_VOTED", "CLOSED", "PRIVATE"].includes(vote.reason);
+    button.disabled = vote.reason === "LIKE_AND_RATE";
+
+    if (vote.status === "CLOSED") {
+      message.textContent = vote.winner
+              ? "Voting has closed. The community chose " + vote.winner.name + "."
+              : "Voting has closed.";
+    } else if (vote.reason === "ALREADY_VOTED") {
+      message.textContent = "You voted for " + vote.myVote.name + ". Voting ends on " + categoryVoteDate(vote.closesAt) + ".";
+    } else if (vote.reason === "LIKE_AND_RATE") {
+      message.textContent = "Like and rate this routine to vote for the category that fits it best.";
+    } else if (vote.status === "OPEN") {
+      message.textContent = votesText(vote.totalVotes) + " so far. Voting ends on " + categoryVoteDate(vote.closesAt) + ".";
+    } else {
+      message.textContent = "No votes yet. The first vote opens " + vote.votingDays + " days of voting.";
+    }
+  }
+
+  async function loadCategoryVote() {
+    if (!signedIn || !routine || routine.public !== true || routine.hiddenByAdmin === true) {
+      renderCategoryVote();
+      return;
+    }
+
+    try {
+      categoryVote = await request("/routines/" + ROUTINE_ID + "/category-vote");
+    } catch (error) {
+      categoryVote = null;
+    }
+
+    renderCategoryVote();
+  }
+
+  function showCategoryVoteError(text) {
+    const error = $("categoryVoteError");
+    error.textContent = text;
+    error.hidden = false;
+  }
+
+  async function openCategoryVote() {
+    if (!signedIn) {
+      askToSignIn("vote for this routine's category");
+      return;
+    }
+
+    const options = $("categoryVoteOptions");
+    const legend = options.querySelector("legend");
+    options.replaceChildren(legend);
+    $("categoryVoteError").hidden = true;
+    $("categoryVoteConfirm").disabled = true;
+    $("categoryVoteModal").classList.add("show");
+
+    try {
+      const categories = await request("/categories");
+
+      categories.forEach(category => {
+        const label = document.createElement("label");
+        label.className = "category-vote-option";
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "categoryVoteChoice";
+        input.value = String(category.id);
+        const name = document.createElement("span");
+        name.textContent = category.name;
+        label.append(input, name);
+        options.appendChild(label);
+      });
+
+      $("categoryVoteConfirm").disabled = false;
+    } catch (error) {
+      showCategoryVoteError("We couldn't load the categories. Please try again.");
+    }
+  }
+
+  // While a vote is being sent it can no longer be called off, so Cancel waits for the answer.
+  function closeCategoryVote() {
+    if (categoryVoteSaving) return;
+
+    $("categoryVoteModal").classList.remove("show");
+  }
+
+  async function confirmCategoryVote() {
+    if (categoryVoteSaving) return;
+
+    const chosen = document.querySelector("#categoryVoteOptions input[name=categoryVoteChoice]:checked");
+
+    if (!chosen) {
+      showCategoryVoteError("Choose a category.");
+      return;
+    }
+
+    const button = $("categoryVoteConfirm");
+    const controls = [button, $("categoryVoteCancel"), $("categoryVoteClose")];
+
+    categoryVoteSaving = true;
+    controls.forEach(control => control.disabled = true);
+    button.textContent = "Voting…";
+    $("categoryVoteError").hidden = true;
+
+    try {
+      categoryVote = await request(
+              "/routines/" + ROUTINE_ID + "/category-vote",
+              { method: "POST", body: JSON.stringify({categoryId: Number(chosen.value)}) }
+      );
+
+      categoryVoteSaving = false;
+      closeCategoryVote();
+      renderCategoryVote();
+
+      const notice = $("copyNotice");
+      notice.classList.remove("routine-copy-notice--error");
+      const text = document.createElement("span");
+      text.textContent = "Your vote for " + categoryVote.myVote.name + " is recorded. Thank you!";
+      notice.replaceChildren(text);
+      notice.hidden = false;
+    } catch (error) {
+      if (error.status === 401 || error.status === 403) {
+        showCategoryVoteError("Your session has ended. Please sign in again.");
+      } else if (error.status === 400 || error.status === 404 || error.status === 409) {
+        showCategoryVoteError(error.message);
+      } else {
+        showCategoryVoteError("We couldn't record your vote. Please try again.");
+      }
+
+      // The panel follows what the server knows now; the form stays open with the reason.
+      loadCategoryVote();
+    } finally {
+      categoryVoteSaving = false;
+      controls.forEach(control => control.disabled = false);
+      button.textContent = "Confirm vote";
+    }
+  }
+
+  async function loadRoutine() {
+    let userData = null;
+
+    if (signedIn) {
+      try {
+        userData = await request("/users/me");
+      } catch (error) {
+        if (error.status !== 401 && error.status !== 403) {
+          throw error;
+        }
+
+        // The server no longer accepts this token, so read the routine as a visitor.
+        signedIn = false;
+      }
+    }
+
+    const routineData =
+            await request("/routines/" + ROUTINE_ID);
+
+    const habitsData = await request(
+            "/routines/" + ROUTINE_ID + "/routine-habits"
+    );
+
+    // Only decides which buttons to show; the server authorizes every action itself.
+    const isRoutineOwner =
+            routineData.ownedByMe === true;
+
+    $("editRoutineBtn").hidden =
+            !isRoutineOwner;
+
+    $("reviewWithAssistantLink").hidden = !isRoutineOwner;
+    $("reviewWithAssistantLink").href = "profile.html?review=" + encodeURIComponent(ROUTINE_ID) + "#ai-review";
+
+    // Only the owner needs telling; everyone else can only ever see a public routine.
+    $("routinePrivacyBadge").hidden = !isRoutineOwner;
+    $("routinePrivacyBadge").textContent = routineData.public ? "Public" : "Private";
+    $("routinePrivacyBadge").classList.toggle("routine-privacy-badge--public", routineData.public === true);
+    $("routinePrivacyBadge").classList.toggle("routine-privacy-badge--private", routineData.public !== true);
+
+    // US-25: only the owner can still see a routine an administrator hid.
+    $("routineHiddenBadge").hidden = !(isRoutineOwner && routineData.hiddenByAdmin === true);
+
+    $("editHabitsBtn").hidden =
+            !isRoutineOwner;
+
+    $("startBtn").hidden =
+            !isRoutineOwner;
+
+    $("copyRoutineBtn").hidden =
+            isRoutineOwner || routineData.public !== true;
+
+    $("adaptCopyBtn").hidden =
+            $("copyRoutineBtn").hidden;
+
+    $("reportRoutineBtn").hidden =
+            isRoutineOwner;
+
+    // US-18: each activity can be copied by anyone the whole routine could be copied by.
+    canCopyHabits = !$("copyRoutineBtn").hidden;
+
+    if (userData) {
+      currentUser = {
+        id: userData.id,
+        name: userData.name || "User",
+        username: userData.username || "username",
+        avatarUrl: SafeDom.safeImageUrl(userData.avatarUrl)
+      };
+    }
+
+    routine = {
+      ...routineData,
+
+      imageUrl: SafeDom.safeImageUrl(routineData.imageUrl),
+
+      tag:
+              (routineData.category || "Routine") +
+              " routine",
+
+      author: {
+        name: routineData.authorUsername
+                ? "@" + routineData.authorUsername
+                : routineData.authorName || "User",
+
+        avatarUrl: SafeDom.safeImageUrl(routineData.authorAvatarUrl)
+      },
+
+      habits: habitsData,
+
+      likes:
+              Number(routineData.likeCount || 0),
+
+      saves:
+              Number(routineData.saveCount || 0),
+
+      likedByMe: false,
+      savedByMe: false
+    };
+
+    await applyHalloweenRoutine(routineData);
+
+    renderRoutine();
+    renderCategoryVote();
+  }
+
+
+  async function loadActiveRunState() {
+    activeRun = await request("/routine-runs/active");
+    activeRunLoaded = true;
+
+    renderStartButton();
+  }
+
+  // Today's plan, by the same rule as the "Today" view and the run itself. An empty or fully
+  // paused routine is left to the server, which explains those cases when Start is pressed.
+  function nothingPlannedToday() {
+    const today = todayCode();
+    const active = (routine.habits || []).filter(habit => !habit.paused);
+
+    return active.length > 0 && !active.some(habit =>
+            !(habit.repeatDays || []).length || habit.repeatDays.includes(today));
+  }
+
+  function renderStartButton() {
+    if (!activeRunLoaded) return;
+
+    const badge = $("routineRunningBadge");
+    const startButton = $("startBtn");
+    const startText = $("startBtnText");
+    const editRoutineButton = $("editRoutineBtn");
+    const editHabitsButton = $("editHabitsBtn");
+
+    const thisRoutineRunning =
+            activeRun !== null &&
+            Number(activeRun.routineId) === ROUTINE_ID;
+
+    const anotherRoutineRunning =
+            activeRun !== null && !thisRoutineRunning;
+
+    badge.hidden = !thisRoutineRunning;
+
+    const nothingToday =
+            !thisRoutineRunning && nothingPlannedToday();
+
+    if (thisRoutineRunning) {
+      badge.textContent = "Routine in progress";
+      startText.textContent = "Continue routine";
+    } else if (nothingToday) {
+      startText.textContent = "Nothing planned today";
+    } else {
+      startText.textContent = "Start routine";
+    }
+
+    $("startHint").hidden = !nothingToday || startButton.hidden;
+    startButton.disabled = anotherRoutineRunning || nothingToday;
+    editRoutineButton.disabled = thisRoutineRunning;
+    editHabitsButton.disabled = thisRoutineRunning;
+  }
+
+
+  async function loadRoutineStates() {
+    const results = await Promise.all([
+      request("/saved-routines"),
+      request("/liked-routines")
+    ]);
+
+    const savedRoutines = results[0];
+    const likedRoutines = results[1];
+
+    routine.savedByMe =
+            savedRoutines.some(
+                    item =>
+                            Number(item.id) === ROUTINE_ID
+            );
+
+    routine.likedByMe =
+            likedRoutines.some(
+                    item =>
+                            Number(item.id) === ROUTINE_ID
+            );
+
+    renderRoutineStats();
+  }
+
+  function renderRoutine() {
+    document.title = `${routine.title} — CopyMyLife`;
+    $("routineTag").querySelector("span").textContent = routine.tag;
+    $("routineTitle").textContent = routine.title;
+    $("authorName").textContent =
+            routine.author.name;
+
+    const authorAvatar =
+            $("authorAvatar");
+
+    if (routine.author.avatarUrl) {
+
+      authorAvatar.textContent = "";
+
+      authorAvatar.style.backgroundImage =
+              SafeDom.cssImageUrl(routine.author.avatarUrl);
+
+      authorAvatar.style.backgroundSize =
+              "cover";
+
+      authorAvatar.style.backgroundPosition =
+              "center";
+
+      const authorAvatarUrl = routine.author.avatarUrl;
+
+      onImageFail(authorAvatarUrl, () => {
+        if (routine.author.avatarUrl !== authorAvatarUrl) return;
+        authorAvatar.style.backgroundImage = "";
+        authorAvatar.textContent =
+                initials(routine.author.name.replace(/^@/, ""))[0];
+      });
+
+    } else {
+
+      authorAvatar.style.backgroundImage =
+              "";
+
+      authorAvatar.textContent =
+              initials(routine.author.name)[0];
+    }
+    $("routineCreated").textContent = halloweenHandle;
+    $("routineDesc").textContent = routine.description;
+    $("routineCategory").textContent = routine.category;
+
+    if (routine.imageUrl) {
+      const img = $("routineImage");
+      img.style.backgroundImage = SafeDom.cssImageUrl(routine.imageUrl);
+      img.classList.add("has-photo");
+
+      const photoUrl = routine.imageUrl;
+
+      onImageFail(photoUrl, () => {
+        if (routine.imageUrl !== photoUrl) return;
+        img.style.backgroundImage = "";
+        img.classList.remove("has-photo");
+        img.querySelector(".hero__clock").textContent =
+                routine.title.charAt(0).toUpperCase();
+      });
+    }
+
+    const habits = sortedHabits();
+    const total = habits.reduce((sum, h) => sum + (h.durationMinutes || 0), 0);
+    const pausedCount = habits.filter(h => h.paused).length;
+    $("habitsCount").textContent = `${habits.length} habit${habits.length === 1 ? "" : "s"}`
+            + (pausedCount ? ` · ${pausedCount} paused` : "");
+    $("routineTotal").textContent = `Total ${formatDuration(total)}`;
+
+    $("routineTimeRange").textContent = timeRangeOf(routine.habits) || "Flexible time";
+
+    renderRoutineStats();
+    renderHabits(habits);
+  }
+
+  function sortedHabits() {
+    return [...routine.habits];
+  }
+
+  const WEEK_DAYS = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+  let scheduleView = "timeline";
+
+  function dayName(code) {
+    return code.charAt(0) + code.slice(1).toLowerCase();
+  }
+
+  function todayCode() {
+    return WEEK_DAYS[(new Date().getDay() + 6) % 7];
+  }
+
+  function formatDays(days) {
+    const list = days || [];
+
+    if (list.length === 7) return "Every day";
+    if (list.join(",") === "MON,TUE,WED,THU,FRI") return "Mon – Fri";
+    if (list.join(",") === "SAT,SUN") return "Weekends";
+
+    return list.map(dayName).join(", ");
+  }
+
+  function formatWhen(habit) {
+    if (!habit.startTime) return "Any time";
+
+    return `${habit.startTime} – ${habit.endTime}${habit.endsNextDay ? " (next day)" : ""}`;
+  }
+
+  function hasSchedule(habits) {
+    return habits.some(habit => habit.startTime || (habit.repeatDays || []).length);
+  }
+
+  // Timed habits by start time, then the rest in their routine order.
+  function timelineOf(habits) {
+    const timed = habits.filter(habit => habit.startTime);
+    const untimed = habits.filter(habit => !habit.startTime);
+
+    timed.sort((a, b) =>
+            a.startTime.localeCompare(b.startTime) || (a.position || 0) - (b.position || 0));
+
+    return [...timed, ...untimed];
+  }
+
+  function minutesOf(time) {
+    const [hours, minutes] = time.split(":").map(Number);
+    return hours * 60 + minutes;
+  }
+
+  function timeRangeOf(habits) {
+    const timed = (habits || []).filter(habit => habit.startTime);
+
+    if (!timed.length) return "";
+
+    const first = timed.reduce((a, b) => (a.startTime <= b.startTime ? a : b));
+    const last = timed.reduce((a, b) => {
+      const endA = minutesOf(a.endTime) + (a.endsNextDay ? 1440 : 0);
+      const endB = minutesOf(b.endTime) + (b.endsNextDay ? 1440 : 0);
+      return endA >= endB ? a : b;
+    });
+
+    return `${first.startTime} – ${last.endTime}`;
+  }
+
+  function dayChips(name, selected) {
+    return WEEK_DAYS.map(day => `
+        <label class="day-chip">
+            <input type="checkbox" name="${name}" value="${day}" ${(selected || []).includes(day) ? "checked" : ""}>
+            <span>${dayName(day)}</span>
+        </label>`).join("");
+  }
+
+  function renderWeekPlan(habits) {
+    const today = todayCode();
+
+    $("weekPlan").innerHTML = WEEK_DAYS.map(day => {
+      const items = timelineOf(habits.filter(habit => (habit.repeatDays || []).includes(day)));
+
+      return `
+        <section class="week-day${day === today ? " week-day--today" : ""}" data-day="${day}">
+          <h3 class="week-day__name">${dayName(day)}${day === today ? " · Today" : ""}</h3>
+          ${items.length ? items.map(habit => `
+            <div class="week-item${habit.paused ? " week-item--paused" : ""}">
+              <span class="week-item__time">${habit.startTime || "Any time"}</span>
+              <span class="week-item__title">${escapeHTML(habit.title)}</span>
+            </div>`).join("") : `<p class="week-day__free">Free</p>`}
+        </section>`;
+    }).join("");
+
+    const anyDay = habits.filter(habit => !(habit.repeatDays || []).length);
+
+    $("weekAnyDay").textContent = anyDay.length
+            ? "Not tied to a day: " + anyDay.map(habit => habit.title).join(", ")
+            : "";
+    $("weekAnyDay").hidden = !anyDay.length;
+  }
+
+  function setScheduleView(view) {
+    scheduleView = view;
+
+    document.querySelectorAll("#scheduleViews [data-view]").forEach(button => {
+      const active = button.dataset.view === view;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-selected", active ? "true" : "false");
+    });
+
+    renderHabits(sortedHabits());
+  }
+
+  let routineHabitItems = [];
+  let libraryHabitItems = [];
+  let editHabitsBusy = false;
+  // The routine habit whose schedule form is open.
+  let pendingScheduleId = null;
+  // The routine habit waiting for "Remove" to be confirmed.
+  let pendingRemoveId = null;
+
+  function showEditHabitsMessage(text) {
+    $("editHabitsMessage").textContent = text || "";
+    $("editHabitsMessage").hidden = !text;
+  }
+
+  async function refreshRoutineHabits() {
+    routineHabitItems = await request(
+            "/routines/" + ROUTINE_ID + "/routine-habits"
+    );
+
+    routine.habits = routineHabitItems;
+    renderRoutine();
+    renderStartButton();
+  }
+
+  function renderRoutineHabitsEditor() {
+    const container = $("routineHabitsEditor");
+
+    if (!routineHabitItems.length) {
+      container.innerHTML = `
+            <p class="routine-habits-empty">
+                No habits in this routine.
+            </p>
+        `;
+      return;
+    }
+
+    container.innerHTML = routineHabitItems.map((habit, index) => {
+      const id = Number(habit.id);
+
+      const actions = pendingRemoveId === id
+              ? `
+            <div class="routine-habit-confirm">
+                <span>Delete from this routine? Past results stay saved.</span>
+                <button type="button" class="routine-habit-remove" data-action="confirm-remove" data-id="${id}">Remove</button>
+                <button type="button" data-action="cancel-remove" data-id="${id}">Cancel</button>
+            </div>`
+              : `
+            <div class="routine-habit-edit-actions">
+                <button
+                    type="button"
+                    class="routine-habit-schedule-btn"
+                    data-action="schedule"
+                    data-id="${id}"
+                >Schedule</button>
+
+                <button
+                    type="button"
+                    data-action="up"
+                    data-id="${id}"
+                    aria-label="Move up"
+                    ${index === 0 ? "disabled" : ""}
+                >↑</button>
+
+                <button
+                    type="button"
+                    data-action="down"
+                    data-id="${id}"
+                    aria-label="Move down"
+                    ${index === routineHabitItems.length - 1 ? "disabled" : ""}
+                >↓</button>
+
+                <button
+                    type="button"
+                    class="routine-habit-pause"
+                    data-action="${habit.paused ? "resume" : "pause"}"
+                    data-id="${id}"
+                >${habit.paused ? "Resume" : "Pause"}</button>
+
+                <button
+                    type="button"
+                    class="routine-habit-remove"
+                    data-action="remove"
+                    data-id="${id}"
+                >Remove</button>
+            </div>`;
+
+      const plan = [
+        `${Number(habit.durationMinutes) || 0} min`,
+        habit.startTime ? formatWhen(habit) : "",
+        formatDays(habit.repeatDays)
+      ].filter(Boolean).join(" · ");
+
+      const form = pendingScheduleId === id
+              ? `
+            <div class="routine-habit-schedule" data-id="${id}">
+                <div class="schedule-row">
+                    <label>
+                        Start time
+                        <input type="time" name="startTime" value="${habit.startTime || ""}">
+                    </label>
+                    <label>
+                        Duration (min)
+                        <input type="number" name="durationMinutes" min="1" max="1440" value="${Number(habit.durationMinutes) || ""}">
+                    </label>
+                </div>
+                <fieldset class="day-chips">
+                    <legend>Repeat days</legend>
+                    ${dayChips("repeatDay", habit.repeatDays)}
+                </fieldset>
+                <label>
+                    Notes
+                    <textarea name="notes" rows="2" maxlength="500">${escapeHTML(habit.notes || "")}</textarea>
+                </label>
+                <div class="schedule-actions">
+                    <button type="button" class="routine-habit-save" data-action="save-schedule" data-id="${id}">Save</button>
+                    <button type="button" data-action="cancel-schedule" data-id="${id}">Cancel</button>
+                </div>
+            </div>`
+              : "";
+
+      return `
+        <div class="routine-habit-edit-item${habit.paused ? " routine-habit-edit-item--paused" : ""}">
+            <span class="routine-habit-position">${index + 1}</span>
+
+            <div class="routine-habit-edit-info">
+                <strong>${escapeHTML(habit.title)}</strong>
+                <small>${escapeHTML(plan)}</small>
+                ${habit.paused ? `<span class="routine-habit-paused-badge">Paused</span>` : ""}
+            </div>
+            ${pendingScheduleId === id ? "" : actions}
+            ${form}
+        </div>
+    `;
+    }).join("");
+  }
+
+  function renderHabitLibraryList() {
+    const container = $("habitLibraryList");
+    const search = $("habitLibrarySearch").value.trim().toLowerCase();
+
+    const available = libraryHabitItems.filter(habit =>
+            (habit.title || "").toLowerCase().includes(search) ||
+            (habit.description || "").toLowerCase().includes(search)
+    );
+
+    if (!available.length) {
+      container.innerHTML = `
+            <p class="routine-habits-empty">
+                No available habits found.
+            </p>
+        `;
+      return;
+    }
+
+    container.innerHTML = available.map(habit => `
+        <div class="routine-habit-edit-item">
+            <div class="routine-habit-edit-info">
+                <strong>${escapeHTML(habit.title)}</strong>
+                <small>${habit.durationMinutes || 0} min</small>
+            </div>
+
+            <button
+                type="button"
+                class="routine-habit-add"
+                data-id="${habit.id}"
+            >
+                Add
+            </button>
+        </div>
+    `).join("");
+  }
+
+  async function openEditHabitsModal() {
+    if ($("editHabitsBtn").disabled || editHabitsBusy) return;
+
+    try {
+      const [currentHabits, allHabits] = await Promise.all([
+        request("/routines/" + ROUTINE_ID + "/routine-habits"),
+        request("/habit-library")
+      ]);
+
+      routineHabitItems = currentHabits;
+      libraryHabitItems = allHabits;
+      pendingRemoveId = null;
+      pendingScheduleId = null;
+
+      $("habitLibrarySearch").value = "";
+      $("newActivityDays").innerHTML = "<legend>Repeat days</legend>" + dayChips("newActivityDay", []);
+      showEditHabitsMessage("");
+
+      renderRoutineHabitsEditor();
+      renderHabitLibraryList();
+
+      $("editHabitsModal").classList.add("show");
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
+  function closeEditHabitsModal() {
+    if (editHabitsBusy) return;
+    $("editHabitsModal").classList.remove("show");
+  }
+
+  async function changeRoutineHabits(action, habitId) {
+    if (editHabitsBusy) return;
+
+    // Removing asks first; nothing is sent until the user confirms.
+    if (action === "remove" || action === "cancel-remove") {
+      pendingRemoveId = action === "remove" ? Number(habitId) : null;
+      renderRoutineHabitsEditor();
+      return;
+    }
+
+    if (action === "schedule" || action === "cancel-schedule") {
+      pendingScheduleId = action === "schedule" ? Number(habitId) : null;
+      showEditHabitsMessage("");
+      renderRoutineHabitsEditor();
+      return;
+    }
+
+    if (action === "save-schedule") {
+      await saveSchedule(Number(habitId));
+      return;
+    }
+
+    editHabitsBusy = true;
+
+    const modal = $("editHabitsModal");
+    modal.classList.add("routine-habits-busy");
+
+    try {
+      const base = "/routines/" + ROUTINE_ID + "/routine-habits";
+
+      if (action === "add") {
+        routineHabitItems = await request(
+                base + "/" + habitId,
+                { method: "POST" }
+        );
+      }
+
+      if (action === "confirm-remove") {
+        pendingRemoveId = null;
+        routineHabitItems = await request(
+                base + "/" + habitId,
+                { method: "DELETE" }
+        );
+      }
+
+      if (action === "pause" || action === "resume") {
+        routineHabitItems = await request(
+                base + "/" + habitId + "/" + action,
+                { method: "POST" }
+        );
+      }
+
+      if (action === "up" || action === "down") {
+        const ids = routineHabitItems.map(habit => habit.id);
+        const index = ids.findIndex(
+                id => Number(id) === Number(habitId)
+        );
+
+        const nextIndex = action === "up" ? index - 1 : index + 1;
+
+        if (index < 0 || nextIndex < 0 || nextIndex >= ids.length) {
+          return;
+        }
+
+        [ids[index], ids[nextIndex]] = [ids[nextIndex], ids[index]];
+
+        routineHabitItems = await request(
+                base + "/order",
+                {
+                  method: "PUT",
+                  body: JSON.stringify({ habitIds: ids })
+                }
+        );
+      }
+
+      showEditHabitsMessage("");
+      renderRoutineHabitsEditor();
+      renderHabitLibraryList();
+
+      routine.habits = routineHabitItems;
+      renderRoutine();
+    } catch (error) {
+      pendingRemoveId = null;
+      showEditHabitsMessage(
+              error.status
+                      ? error.message
+                      : "We couldn't reach the server. Check your connection and try again."
+      );
+      await refreshRoutineHabits().catch(console.error);
+      renderRoutineHabitsEditor();
+      renderHabitLibraryList();
+    } finally {
+      editHabitsBusy = false;
+      modal.classList.remove("routine-habits-busy");
+    }
+  }
+
+  function checkedDays(container, name) {
+    return [...container.querySelectorAll(`[name="${name}"]:checked`)].map(box => box.value);
+  }
+
+  // A refused plan keeps the form open with what the user typed.
+  async function saveSchedule(id) {
+    const form = document.querySelector(`.routine-habit-schedule[data-id="${id}"]`);
+
+    if (!form || editHabitsBusy) return;
+
+    editHabitsBusy = true;
+    $("editHabitsModal").classList.add("routine-habits-busy");
+
+    try {
+      const duration = form.querySelector('[name="durationMinutes"]').value;
+
+      routineHabitItems = await request(
+              "/routines/" + ROUTINE_ID + "/routine-habits/" + id,
+              {
+                method: "PUT",
+                body: JSON.stringify({
+                  startTime: form.querySelector('[name="startTime"]').value || null,
+                  durationMinutes: duration ? Number(duration) : null,
+                  repeatDays: checkedDays(form, "repeatDay"),
+                  notes: form.querySelector('[name="notes"]').value
+                })
+              }
+      );
+
+      pendingScheduleId = null;
+      showEditHabitsMessage("");
+      renderRoutineHabitsEditor();
+      routine.habits = routineHabitItems;
+      renderRoutine();
+    } catch (error) {
+      showEditHabitsMessage(
+              error.status
+                      ? error.message
+                      : "We couldn't reach the server. Check your connection and try again."
+      );
+    } finally {
+      editHabitsBusy = false;
+      $("editHabitsModal").classList.remove("routine-habits-busy");
+    }
+  }
+
+  async function addActivity() {
+    if (editHabitsBusy) return;
+
+    const title = $("newActivityTitle").value.trim();
+    const duration = Number($("newActivityDuration").value);
+
+    if (!title) {
+      showEditHabitsMessage("Give the activity a title.");
+      return;
+    }
+
+    if (!Number.isInteger(duration) || duration <= 0) {
+      showEditHabitsMessage("Enter the activity's duration in minutes.");
+      return;
+    }
+
+    editHabitsBusy = true;
+    $("editHabitsModal").classList.add("routine-habits-busy");
+
+    try {
+      await request(
+              "/routines/" + ROUTINE_ID + "/habits",
+              {
+                method: "POST",
+                body: JSON.stringify({
+                  title,
+                  durationMinutes: duration,
+                  startTime: $("newActivityStart").value || null,
+                  repeatDays: checkedDays($("newActivityForm"), "newActivityDay"),
+                  notes: $("newActivityNotes").value
+                })
+              }
+      );
+
+      ["newActivityTitle", "newActivityDuration", "newActivityStart", "newActivityNotes"]
+              .forEach(field => { $(field).value = ""; });
+      $("newActivityForm").querySelectorAll('[name="newActivityDay"]').forEach(box => { box.checked = false; });
+
+      const [currentHabits, allHabits] = await Promise.all([
+        request("/routines/" + ROUTINE_ID + "/routine-habits"),
+        request("/habit-library")
+      ]);
+
+      routineHabitItems = currentHabits;
+      libraryHabitItems = allHabits;
+      showEditHabitsMessage("");
+      renderRoutineHabitsEditor();
+      renderHabitLibraryList();
+      routine.habits = routineHabitItems;
+      renderRoutine();
+    } catch (error) {
+      showEditHabitsMessage(
+              error.status
+                      ? error.message
+                      : "We couldn't reach the server. Check your connection and try again."
+      );
+    } finally {
+      editHabitsBusy = false;
+      $("editHabitsModal").classList.remove("routine-habits-busy");
+    }
+  }
+
+  function renderRoutineStats() {
+    $("likesCount").textContent = routine.likes;
+    $("savedCount").textContent = routine.saves;
+
+    $("likeBtn").classList.toggle(
+            "is-active",
+            routine.likedByMe
+    );
+
+    $("saveBtn").classList.toggle(
+            "is-active",
+            routine.savedByMe
+    );
+
+    const canUseSocial =
+            routine.public === true;
+
+    $("likeBtn").style.display =
+            canUseSocial ? "inline-flex" : "none";
+
+    $("saveBtn").style.display =
+            canUseSocial ? "inline-flex" : "none";
+  }
+
+  async function loadRating() {
+    ratingState = await request(
+            "/routine-ratings/" + ROUTINE_ID
+    );
+
+    renderRating();
+  }
+
+  function renderRating() {
+    const average = Number(ratingState.averageRating || 0);
+    const count = Number(ratingState.ratingCount || 0);
+    const userRating = Number(ratingState.userRating || 0);
+
+    $("ratingFill").style.width =
+            ((average / 5) * 100) + "%";
+
+    $("ratingAverage").textContent =
+            average.toFixed(1);
+
+    $("ratingCount").textContent =
+            "(" + count + ")";
+
+    document
+            .querySelectorAll(".rating-star-btn")
+            .forEach(function (button) {
+
+              const value =
+                      Number(button.dataset.value);
+
+              button.classList.toggle(
+                      "active",
+                      value <= userRating
+              );
+            });
+  }
+
+  async function rateRoutine(value) {
+    ratingState = await request(
+            "/routine-ratings/" + ROUTINE_ID,
+            {
+              method: "POST",
+              body: JSON.stringify({
+                value: value
+              })
+            }
+    );
+
+    routine.averageRating =
+            ratingState.averageRating;
+
+    routine.ratingCount =
+            ratingState.ratingCount;
+
+    renderRating();
+    loadCategoryVote();
+  }
+
+  function renderHabits(habits) {
+    const scheduled = habits.length > 0 && hasSchedule(habits);
+
+    // Routines nobody has scheduled keep their original list.
+    $("scheduleViews").hidden = !scheduled;
+    $("scheduleRule").hidden = !scheduled;
+    $("weekPlan").hidden = !(scheduled && scheduleView === "week");
+    $("habitsList").hidden = scheduled && scheduleView === "week";
+
+    if (!scheduled) {
+      $("weekAnyDay").hidden = true;
+    }
+
+    if (habits.length === 0) {
+      $("habitsList").innerHTML = `
+      <li class="empty">
+        This routine doesn't have any habits yet.
+      </li>
+    `;
+      return;
+    }
+
+    if (scheduled && scheduleView === "week") {
+      renderWeekPlan(habits);
+      return;
+    }
+
+    $("weekAnyDay").hidden = true;
+
+    if (scheduled) {
+      const today = todayCode();
+
+      habits = timelineOf(habits);
+
+      if (scheduleView === "today") {
+        habits = habits.filter(habit =>
+                !(habit.repeatDays || []).length || habit.repeatDays.includes(today));
+      }
+
+      if (!habits.length) {
+        $("habitsList").innerHTML = `<li class="empty">Nothing is planned for today.</li>`;
+        return;
+      }
+    }
+
+    $("habitsList").innerHTML = habits.map((habit, index) => `
+    <li class="habit${habit.paused ? " habit--paused" : ""}" data-id="${Number(habit.id)}">
+      <span class="habit__num">${index + 1}</span>
+
+      <span class="habit__icon icon--purple">
+        ${ICONS.check}
+      </span>
+
+      <div class="habit__info">
+        <div class="habit__title">${escapeHTML(habit.title)}</div>
+        <div class="habit__desc">${escapeHTML(habit.description || "")}</div>
+        ${scheduled ? `
+        <div class="habit__plan">
+          <span class="habit__when">${formatWhen(habit)}</span>
+          ${(habit.repeatDays || []).length ? `<span class="habit__days">${formatDays(habit.repeatDays)}</span>` : ""}
+        </div>` : ""}
+        ${habit.notes ? `<p class="habit__notes">${escapeHTML(habit.notes)}</p>` : ""}
+        ${habit.paused ? `<span class="habit__paused">Paused</span>` : ""}
+      </div>
+
+      <span class="habit__dur">
+        ${habit.durationMinutes || 0} min
+      </span>
+
+      ${canCopyHabits ? `
+      <button type="button" class="habit__copy" data-copy-habit="${Number(habit.id)}" aria-label="Copy habit: ${escapeHTML(habit.title)}">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <span>Copy habit</span>
+      </button>` : ""}
+    </li>
+  `).join("");
+  }
+
+  async function toggleRoutine(field) {
+    if (!signedIn) {
+      askToSignIn(field === "like" ? "like this routine" : "save this routine");
+      return;
+    }
+
+    try {
+
+      if (field === "save") {
+
+        if (routine.savedByMe) {
+
+          await request(
+                  "/saved-routines/" + routine.id,
+                  {
+                    method: "DELETE"
+                  }
+          );
+
+          routine.savedByMe = false;
+          routine.saves = Math.max(0, routine.saves - 1);
+
+        } else {
+
+          await request(
+                  "/saved-routines/" + routine.id,
+                  {
+                    method: "POST"
+                  }
+          );
+
+          routine.savedByMe = true;
+          routine.saves++;
+        }
+      }
+
+      if (field === "like") {
+
+        if (routine.likedByMe) {
+
+          await request(
+                  "/liked-routines/" + routine.id,
+                  {
+                    method: "DELETE"
+                  }
+          );
+
+          routine.likedByMe = false;
+          routine.likes = Math.max(0, routine.likes - 1);
+
+        } else {
+
+          await request(
+                  "/liked-routines/" + routine.id,
+                  {
+                    method: "POST"
+                  }
+          );
+
+          routine.likedByMe = true;
+          routine.likes++;
+        }
+
+        loadCategoryVote();
+      }
+
+      renderRoutineStats();
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function loadComments() {
+
+    const data = await request(
+            "/routine-comments/routine/" + ROUTINE_ID
+    );
+
+    comments = data.map(comment => ({
+      id: comment.id,
+
+      parentId:
+              comment.parentId == null
+                      ? null
+                      : Number(comment.parentId),
+
+      author: {
+        id: comment.userId,
+
+        name:
+                comment.userName
+                || comment.username
+                || "User",
+
+        fullName:
+                comment.userName
+                || "User",
+
+        username:
+        comment.username,
+
+        avatarUrl:
+        comment.avatarUrl
+      },
+
+      text:
+      comment.text,
+
+      createdAt:
+      comment.createdAt,
+
+      likes: 0,
+
+      likedByMe: false
+    }));
+
+    renderComments();
+  }
+
+  function sortTopLevel(list) {
+    const copy = [...list];
+    if (sortMode === "recent")  copy.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    if (sortMode === "oldest")  copy.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+    if (sortMode === "popular") copy.sort((a, b) => b.likes - a.likes);
+    return copy;
+  }
+
+  // US-24: every comment but one's own can be reported; replies show it next to Reply.
+  function reportCommentButton(c, className) {
+    if (signedIn && Number(c.author.id) === Number(currentUser.id)) {
+      return "";
+    }
+
+    return `
+                          <button
+                            class="${className}"
+                            type="button"
+                            data-comment-id="${Number(c.id)}">
+                            Report
+                          </button>`;
+  }
+
+  function commentHTML(c, isReply) {
+
+    const displayName =
+            c.author.fullName
+            || c.author.name
+            || "User";
+
+    return `
+    <div
+      class="comment"
+      data-id="${c.id}"
+      data-user-id="${c.author.id}">
+
+      ${avatarHTML(
+            displayName,
+            isReply ? "xs" : "lg",
+            c.author.avatarUrl
+    )}
+
+      <div class="comment__main">
+
+        <div class="comment__head">
+
+          <span class="comment__author">
+            ${escapeHTML(displayName)}
+          </span>
+
+          <span class="comment__date">
+            ${timeAgo(c.createdAt)}
+          </span>
+
+          ${
+            isReply
+                    ? ""
+                    : `
+                      <div class="comment-menu-wrap">
+
+                        <button
+                          class="comment__more"
+                          type="button"
+                          data-user-id="${c.author.id}">
+                          ···
+                        </button>
+
+                        <div class="comment-user-menu">
+
+                          <button
+                            class="comment-user-menu-item comment-view-profile"
+                            type="button"
+                            data-user-id="${c.author.id}">
+                            View Profile
+                          </button>
+
+                          <button
+                            class="comment-user-menu-item comment-add-friend"
+                            type="button"
+                            data-user-id="${c.author.id}">
+                            Add Friend
+                          </button>
+
+                          ${reportCommentButton(c, "comment-user-menu-item comment-report-user")}
+
+                        </div>
+
+                      </div>
+                    `
+    }
+
+        </div>
+
+        <p class="comment__text">
+          ${escapeHTML(c.text)}
+        </p>
+
+        <div class="comment__actions">
+
+          <button
+            class="action"
+            type="button"
+            data-action="reply"
+            data-id="${isReply ? c.parentId : c.id}"
+            data-name="${escapeHTML(displayName)}">
+
+            ${REPLY}
+
+            <span>
+              Reply
+            </span>
+
+          </button>
+
+          ${isReply ? reportCommentButton(c, "action comment-report-user") : ""}
+
+        </div>
+
+      </div>
+
+    </div>
+  `;
+  }
+
+  function renderComments() {
+    const topLevel = sortTopLevel(comments.filter((c) => c.parentId === null));
+    const repliesOf = (id) => comments
+            .filter((c) => c.parentId === id)
+            .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+
+    $("commentsCount").textContent = comments.length;
+    $("commentsCountTop").textContent = comments.length;
+
+    if (!topLevel.length) {
+      $("commentList").innerHTML = '<li class="empty">No comments yet. Be the first!</li>';
+      return;
+    }
+
+    $("commentList").innerHTML = topLevel.map((c) => `
+    <li class="comment-thread" data-thread="${c.id}">
+      ${commentHTML(c, false)}
+      <ul class="replies">${repliesOf(c.id).map((r) => `<li>${commentHTML(r, true)}</li>`).join("")}</ul>
+    </li>`).join("");
+  }
+
+  const commentListElement =
+          document.getElementById("commentList");
+
+  commentListElement.addEventListener(
+          "click",
+          function (event) {
+
+            const moreButton =
+                    event.target.closest(
+                            ".comment__more"
+                    );
+
+            if (moreButton) {
+
+              event.stopPropagation();
+
+              const wrapper =
+                      moreButton.closest(
+                              ".comment-menu-wrap"
+                      );
+
+              const menu =
+                      wrapper.querySelector(
+                              ".comment-user-menu"
+                      );
+
+              const wasOpen =
+                      menu.classList.contains(
+                              "open"
+                      );
+
+              document
+                      .querySelectorAll(
+                              ".comment-user-menu.open"
+                      )
+                      .forEach(function (openedMenu) {
+
+                        openedMenu.classList.remove(
+                                "open"
+                        );
+
+                      });
+
+              if (!wasOpen) {
+                menu.classList.add("open");
+              }
+
+              return;
+            }
+
+
+            const viewProfileButton =
+                    event.target.closest(
+                            ".comment-view-profile"
+                    );
+
+            if (viewProfileButton) {
+
+              const userId =
+                      Number(
+                              viewProfileButton.dataset.userId
+                      );
+
+              if (!userId) {
+                return;
+              }
+
+              window.location.href =
+                      "user-profile.html?id="
+                      + userId;
+
+              return;
+            }
+
+
+            const addFriendButton =
+                    event.target.closest(
+                            ".comment-add-friend"
+                    );
+
+            if (addFriendButton) {
+
+              const userId =
+                      Number(
+                              addFriendButton.dataset.userId
+                      );
+
+              if (!userId) {
+                return;
+              }
+
+              if (
+                      Number(currentUser.id)
+                      === userId
+              ) {
+
+                addFriendButton.textContent =
+                        "Your account";
+
+                addFriendButton.disabled =
+                        true;
+
+                return;
+              }
+
+              addFriendButton.disabled =
+                      true;
+
+              addFriendButton.textContent =
+                      "Checking...";
+
+              fetch(
+                      "/users/"
+                      + userId
+                      + "/profile",
+                      {
+
+                        method: "GET",
+
+                        headers: {
+                          "Authorization":
+                                  "Bearer " + token
+                        }
+
+                      }
+              )
+                      .then(response => {
+
+                        if (!response.ok) {
+                          throw new Error(
+                                  "Failed to check friendship"
+                          );
+                        }
+
+                        return response.json();
+
+                      })
+                      .then(profile => {
+
+                        if (
+                                profile.relationshipStatus
+                                === "FRIENDS"
+                        ) {
+
+                          addFriendButton.textContent =
+                                  "Friends";
+
+                          return;
+                        }
+
+                        if (
+                                profile.relationshipStatus
+                                === "PENDING"
+                        ) {
+
+                          addFriendButton.textContent =
+                                  "Pending";
+
+                          return;
+                        }
+
+                        if (
+                                profile.relationshipStatus
+                                === "RECEIVED"
+                        ) {
+
+                          addFriendButton.textContent =
+                                  "Request received";
+
+                          return;
+                        }
+
+                        if (
+                                profile.relationshipStatus
+                                === "SELF"
+                        ) {
+
+                          addFriendButton.textContent =
+                                  "Your account";
+
+                          return;
+                        }
+
+                        return fetch(
+                                "/friends/request/"
+                                + userId,
+                                {
+
+                                  method: "POST",
+
+                                  headers: {
+                                    "Authorization":
+                                            "Bearer " + token
+                                  }
+
+                                }
+                        );
+
+                      })
+                      .then(response => {
+
+                        if (!response) {
+                          return;
+                        }
+
+                        if (!response.ok) {
+                          throw new Error(
+                                  "Failed to send friend request"
+                          );
+                        }
+
+                        addFriendButton.textContent =
+                                "Pending";
+
+                      })
+                      .catch(error => {
+
+                        console.error(error);
+
+                        addFriendButton.disabled =
+                                false;
+
+                        addFriendButton.textContent =
+                                "Add Friend";
+
+                      });
+
+              return;
+            }
+
+
+            const reportButton =
+                    event.target.closest(
+                            ".comment-report-user"
+                    );
+
+            if (reportButton) {
+
+              event.stopPropagation();
+
+              reportButton
+                      .closest(".comment-user-menu")
+                      ?.classList.remove("open");
+
+              if (!signedIn) {
+                askToSignIn("report this comment");
+                return;
+              }
+
+              CopyMyLifeReport.open({
+                type: "COMMENT",
+                id: Number(reportButton.dataset.commentId),
+                token: token
+              });
+
+              return;
+            }
+
+          }
+  );
+
+    async function addComment(
+            text,
+            parentId = null
+    ) {
+
+      text = text.trim();
+
+      if (!text) {
+        return;
+      }
+
+      const response =
+              await request(
+                      "/routine-comments/" + ROUTINE_ID,
+                      {
+                        method: "POST",
+
+                        body: JSON.stringify({
+                          text: text,
+                          parentId: parentId
+                        })
+                      }
+              );
+
+      const newComment = {
+        id:
+        response.id,
+
+        parentId:
+                response.parentId == null
+                        ? null
+                        : Number(response.parentId),
+
+        author: {
+          id:
+          response.userId,
+
+          name:
+                  response.userName
+                  || response.username
+                  || "User",
+
+          fullName:
+                  response.userName
+                  || "User",
+
+          username:
+          response.username,
+
+          avatarUrl:
+          response.avatarUrl
+        },
+
+        text:
+        response.text,
+
+        createdAt:
+        response.createdAt,
+
+        likes: 0,
+
+        likedByMe: false
+      };
+
+      if (newComment.parentId == null) {
+        comments.unshift(newComment);
+      } else {
+        comments.push(newComment);
+      }
+
+      renderComments();
+    }
+
+    function openReplyForm(
+            parentId,
+            name
+    ) {
+
+      document
+              .querySelectorAll(".reply-form")
+              .forEach(form => form.remove());
+
+      const thread =
+              document.querySelector(
+                      `[data-thread="${parentId}"]`
+              );
+
+      if (!thread) {
+        return;
+      }
+
+      const form =
+              document.createElement("form");
+
+      form.className =
+              "reply-form";
+
+      form.innerHTML = `
+      <input
+        type="text"
+        maxlength="500"
+        placeholder="Reply to ${escapeHTML(name)}..."
+        autocomplete="off">
+
+      <button
+        type="submit"
+        disabled>
+        Reply
+      </button>
+  `;
+
+      thread.appendChild(form);
+
+      const input =
+              form.querySelector("input");
+
+      const button =
+              form.querySelector("button");
+
+      input.focus();
+
+      input.addEventListener(
+              "input",
+              function () {
+
+                button.disabled =
+                        !input.value.trim();
+              }
+      );
+
+      form.addEventListener(
+              "submit",
+              async function (event) {
+
+                event.preventDefault();
+
+                const text =
+                        input.value.trim();
+
+                if (!text) {
+                  return;
+                }
+
+                button.disabled =
+                        true;
+
+                await addComment(
+                        text,
+                        parentId
+                );
+              }
+      );
+    }
+
+  function bindEvents() {
+    const input =
+            $("commentInput");
+
+    const commentForm =
+            $("commentForm");
+
+    input.addEventListener(
+            "focus",
+            function () {
+
+              commentForm
+                      .classList
+                      .add("is-writing");
+            }
+    );
+
+    input.addEventListener(
+            "blur",
+            function () {
+
+              if (!input.value.trim()) {
+
+                commentForm
+                        .classList
+                        .remove("is-writing");
+              }
+            }
+    );
+
+    input.addEventListener(
+            "input",
+            function () {
+
+              const hasText =
+                      Boolean(
+                              input.value.trim()
+                      );
+
+              $("postBtn").disabled =
+                      !hasText;
+
+              commentForm
+                      .classList
+                      .toggle(
+                              "is-writing",
+                              hasText
+                      );
+            }
+    );
+
+    $("commentForm")
+            .addEventListener(
+                    "submit",
+                    async function (event) {
+
+                      event.preventDefault();
+
+                      const text =
+                              input.value.trim();
+
+                      if (!text) {
+                        return;
+                      }
+
+                      $("postBtn").disabled =
+                              true;
+
+                      await addComment(
+                              text,
+                              null
+                      );
+
+                      input.value =
+                              "";
+
+                      $("postBtn").disabled =
+                              true;
+
+                      commentForm
+                              .classList
+                              .remove(
+                                      "is-writing"
+                              );
+                    }
+            );
+
+    $("sortSelect").addEventListener("change", (e) => { sortMode = e.target.value; renderComments(); });
+
+    $("commentList").addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-action]");
+      if (!btn) return;
+      const id = Number(btn.dataset.id);
+      if (btn.dataset.action === "reply") openReplyForm(id, btn.dataset.name);
+    });
+
+
+    $("likeBtn").addEventListener("click", () => toggleRoutine("like"));
+    $("saveBtn").addEventListener("click", () => toggleRoutine("save"));
+    $("copyRoutineBtn").addEventListener("click", copyRoutine);
+    $("adaptCopyBtn").addEventListener("click", openAdaptCopy);
+    $("reportRoutineBtn").addEventListener("click", () => {
+      if (!signedIn) {
+        askToSignIn("report this routine");
+        return;
+      }
+
+      CopyMyLifeReport.open({type: "ROUTINE", id: ROUTINE_ID, token: token});
+    });
+    $("adaptCopySave").addEventListener("click", saveAdaptedCopy);
+    $("adaptCopyCancel").addEventListener("click", closeAdaptCopy);
+    $("adaptCopyClose").addEventListener("click", closeAdaptCopy);
+    $("adaptCopyList").addEventListener("input", updateAdaptSummary);
+    $("adaptCopyList").addEventListener("change", updateAdaptSummary);
+    $("habitsList").addEventListener("click", function (event) {
+      const button = event.target.closest("[data-copy-habit]");
+
+      if (button) {
+        openCopyHabit(Number(button.dataset.copyHabit));
+      }
+    });
+    $("copyHabitConfirm").addEventListener("click", confirmCopyHabit);
+    $("categoryVoteBtn").addEventListener("click", openCategoryVote);
+    $("categoryVoteConfirm").addEventListener("click", confirmCategoryVote);
+    $("categoryVoteCancel").addEventListener("click", closeCategoryVote);
+    $("categoryVoteClose").addEventListener("click", closeCategoryVote);
+    $("copyHabitCancel").addEventListener("click", closeCopyHabit);
+    $("copyHabitClose").addEventListener("click", closeCopyHabit);
+
+    $("startBtn").addEventListener("click", async function () {
+      if (activeRun && Number(activeRun.routineId) === ROUTINE_ID) {
+        window.location.href = "routine-run.html?id=" + ROUTINE_ID;
+        return;
+      }
+
+      if (activeRun) {
+        alert("Finish your current routine before starting another one.");
+        return;
+      }
+
+      try {
+        // The run is filed under the user's own calendar day, not the server's.
+        const run = await request(
+                "/routine-runs/" + ROUTINE_ID + "/start",
+                {
+                  method: "POST",
+                  headers: {
+                    "X-Time-Zone": Intl.DateTimeFormat().resolvedOptions().timeZone || ""
+                  }
+                }
+        );
+
+        if (run.status === "COMPLETED") {
+          alert("Unable to start a new routine run.");
+          return;
+        }
+
+        window.location.href = "routine-run.html?id=" + ROUTINE_ID;
+      } catch (error) {
+        alert(error.message);
+      }
+    });
+
+
+    $("ratingInput").addEventListener(
+            "click",
+            async function (event) {
+
+              const button =
+                      event.target.closest(
+                              ".rating-star-btn"
+                      );
+
+              if (!button) return;
+
+              if (!signedIn) {
+                askToSignIn("rate this routine");
+                return;
+              }
+
+              await rateRoutine(
+                      Number(button.dataset.value)
+              );
+            }
+    );
+
+    const userMenuToggle = $("userMenuToggle");
+    const userDropdown = $("userDropdown");
+    const userMenuChevron = $("userMenuChevron");
+
+    userMenuToggle.addEventListener("click", function (event) {
+      event.stopPropagation();
+
+      const isOpen = userDropdown.classList.toggle("show");
+      userMenuChevron.classList.toggle("open", isOpen);
+    });
+
+    document.addEventListener("click", function (event) {
+      if (!event.target.closest(".topbar-user-wrap")) {
+        userDropdown.classList.remove("show");
+        userMenuChevron.classList.remove("open");
+      }
+    });
+
+    $("logoutBtn").addEventListener("click", function () {
+      CopyMyLifeSession.signOut();
+    });
+    $("backBtn").addEventListener("click", function () {
+      if (isHalloweenRoutine) {
+        window.location.href = "Explore.html?category=halloween";
+      } else if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = signedIn ? "profile.html" : "Explore.html";
+      }
+    });
+  }
+
+  UploadCheck.watchImageInput($("editRoutineImage"));
+
+  const editRoutineModal =
+          $("editRoutineModal");
+
+  $("editRoutineBtn").addEventListener(
+          "click",
+          function () {
+
+            $("editRoutineTitle").value =
+                    routine.title || "";
+
+            $("editRoutineDescription").value =
+                    routine.description || "";
+
+            // A copied routine can carry a category the list doesn't offer, such as Halloween.
+            const category = routine.category || "Morning";
+
+            if (![...$("editRoutineCategory").options].some(option => option.value === category)) {
+              $("editRoutineCategory").add(new Option(category, category));
+            }
+
+            $("editRoutineCategory").value =
+                    category;
+
+            $("editRoutineError").hidden = true;
+
+            $("editRoutineDuration").value =
+                    routine.durationMinutes || "";
+
+            $("editRoutineImageUrl").value =
+                    routine.imageUrl || "";
+
+            $("editRoutineImage").value =
+                    "";
+
+            $("editRoutinePublic").checked =
+                    routine.public === true;
+
+            editRoutineModal.classList.add(
+                    "show"
+            );
+          }
+  );
+
+  function closeRoutineEditModal() {
+
+    editRoutineModal.classList.remove(
+            "show"
+    );
+  }
+
+  $("closeEditRoutine").addEventListener(
+          "click",
+          closeRoutineEditModal
+  );
+
+  $("cancelEditRoutine").addEventListener(
+          "click",
+          closeRoutineEditModal
+  );
+
+  $("saveEditRoutine").addEventListener(
+          "click",
+          async function () {
+
+            const title =
+                    $("editRoutineTitle")
+                            .value
+                            .trim();
+
+            const description =
+                    $("editRoutineDescription")
+                            .value
+                            .trim();
+
+            const category =
+                    $("editRoutineCategory")
+                            .value;
+
+            const durationMinutes =
+                    Number(
+                            $("editRoutineDuration")
+                                    .value
+                    );
+
+            const imageUrl =
+                    $("editRoutineImageUrl")
+                            .value
+                            .trim();
+
+            const imageFile =
+                    $("editRoutineImage")
+                            .files[0];
+
+            const isPublic =
+                    $("editRoutinePublic")
+                            .checked;
+
+            const showError = text => {
+              $("editRoutineError").textContent = text;
+              $("editRoutineError").hidden = !text;
+            };
+
+            if (!title) {
+              showError("Routine title is required");
+              return;
+            }
+
+            if (
+                    !durationMinutes
+                    ||
+                    durationMinutes <= 0
+            ) {
+              showError(
+                      "Duration must be greater than 0"
+              );
+              return;
+            }
+
+            showError("");
+
+            const formData =
+                    new FormData();
+
+            formData.append(
+                    "title",
+                    title
+            );
+
+            formData.append(
+                    "description",
+                    description
+            );
+
+            formData.append(
+                    "durationMinutes",
+                    durationMinutes
+            );
+
+            formData.append(
+                    "category",
+                    category
+            );
+
+            formData.append(
+                    "isPublic",
+                    isPublic
+            );
+
+            if (imageUrl) {
+              formData.append(
+                      "imageUrl",
+                      imageUrl
+              );
+            }
+
+            if (imageFile) {
+              formData.append(
+                      "image",
+                      imageFile
+              );
+            }
+
+            try {
+
+              const response =
+                      await fetch(
+                              "/routines/"
+                              + ROUTINE_ID,
+                              {
+                                method: "PUT",
+
+                                headers: {
+                                  "Authorization":
+                                          "Bearer "
+                                          + token
+                                },
+
+                                body: formData
+                              }
+                      );
+
+              if (!response.ok) {
+
+                let message =
+                        "Failed to update routine";
+
+                try {
+
+                  const body =
+                          await response.json();
+
+                  if (body.message) {
+                    message =
+                            body.message;
+                  }
+
+                } catch (error) {
+                }
+
+                throw new Error(
+                        message
+                );
+              }
+
+              closeRoutineEditModal();
+
+              await loadRoutine();
+
+            } catch (error) {
+
+              showError(
+                      error.message
+              );
+            }
+          }
+  );
+
+  $("editHabitsBtn").addEventListener("click", openEditHabitsModal);
+
+  $("closeEditHabits").addEventListener("click", closeEditHabitsModal);
+
+  $("cancelEditHabits").addEventListener("click", closeEditHabitsModal);
+
+  $("saveEditHabits").addEventListener("click", closeEditHabitsModal);
+
+  $("habitLibrarySearch").addEventListener("input", renderHabitLibraryList);
+
+  $("newActivityAdd").addEventListener("click", addActivity);
+
+  $("scheduleViews").addEventListener("click", function (event) {
+    const button = event.target.closest("[data-view]");
+
+    if (button) {
+      setScheduleView(button.dataset.view);
+    }
+  });
+
+  $("routineHabitsEditor").addEventListener("click", async function (event) {
+    const button = event.target.closest("[data-action]");
+
+    if (!button) return;
+
+    await changeRoutineHabits(
+            button.dataset.action,
+            Number(button.dataset.id)
+    );
+  });
+
+  $("habitLibraryList").addEventListener("click", async function (event) {
+    const button = event.target.closest(".routine-habit-add");
+
+    if (!button) return;
+
+    await changeRoutineHabits(
+            "add",
+            Number(button.dataset.id)
+    );
+  });
+
+  $("editHabitsModal").addEventListener("click", function (event) {
+    if (event.target === this) {
+      closeEditHabitsModal();
+    }
+  });
+
+  document.addEventListener("DOMContentLoaded", async () => {
+
+    bindEvents();
+
+    let routineLoaded = false;
+
+    try {
+
+      await loadRoutine();
+      routineLoaded = true;
+
+      if (!signedIn) {
+        showGuestView();
+        return;
+      }
+
+      await loadActiveRunState();
+
+      $("currentUserName").textContent = currentUser.name;
+
+      const headerAvatar = $("headerAvatar");
+      const headerAvatarFallback = $("headerAvatarFallback");
+
+      if (currentUser.avatarUrl) {
+        headerAvatar.onerror = () => {
+          headerAvatar.style.display = "none";
+          headerAvatarFallback.textContent =
+                  initials(currentUser.name)[0];
+          headerAvatarFallback.style.display = "flex";
+        };
+
+        headerAvatar.src = currentUser.avatarUrl;
+        headerAvatar.style.display = "block";
+        headerAvatarFallback.style.display = "none";
+      } else {
+        headerAvatar.style.display = "none";
+        headerAvatarFallback.textContent =
+                initials(currentUser.name)[0];
+        headerAvatarFallback.style.display = "flex";
+      }
+
+      const formAvatar = $("formAvatar");
+
+      if (currentUser.avatarUrl) {
+        formAvatar.textContent = "";
+        formAvatar.style.backgroundImage =
+                SafeDom.cssImageUrl(currentUser.avatarUrl);
+
+        formAvatar.style.backgroundSize = "cover";
+        formAvatar.style.backgroundPosition = "center";
+
+        onImageFail(currentUser.avatarUrl, () => {
+          formAvatar.style.backgroundImage = "";
+          formAvatar.textContent = initials(currentUser.name)[0];
+        });
+      } else {
+        formAvatar.textContent =
+                initials(currentUser.name)[0];
+      }
+
+      await Promise.all([
+        loadRoutineStates(),
+        loadRating(),
+        loadComments(),
+        loadCategoryVote()
+      ]);
+
+    } catch (err) {
+      console.error("Failed to load routine page:", err);
+
+      if (!routineLoaded) {
+        showRoutineUnavailable(err);
+      }
+    }
+  });
+
+  document.addEventListener(
+          "click",
+          function () {
+
+            document
+                    .querySelectorAll(
+                            ".comment-user-menu.open"
+                    )
+                    .forEach(function (menu) {
+
+                      menu.classList.remove(
+                              "open"
+                      );
+
+                    });
+
+          }
+  );
+
+
+</script>
+<script src="site-rating.js"></script>
+<script defer src="mobile.js"></script>
+<script src="theme.js"></script>
+</body>
+</html>

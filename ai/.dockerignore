@@ -1,0 +1,7 @@
+# Only what the image needs; the model is downloaded and checked during the build.
+models/
+.venv*/
+__pycache__/
+.pytest_cache/
+tests/
+*.onnx

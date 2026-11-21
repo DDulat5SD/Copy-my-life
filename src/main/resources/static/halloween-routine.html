@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Halloween — CopyMyLife</title>
+</head>
+<body>
+<script src="halloween-data.js"></script>
+<script>
+  // Keeps old ?character= links working: finds the real routine by title and opens routine.html.
+  (async function () {
+    const fallbackUrl = "Explore.html?category=halloween";
+    const index = Number(new URLSearchParams(location.search).get("character"));
+    const character = window.halloweenCharacters?.[index];
+
+    if (!character) {
+      location.replace(fallbackUrl);
+      return;
+    }
+
+    try {
+      const response = await fetch("/routines/built-in");
+
+      if (!response.ok) throw new Error("HTTP " + response.status);
+
+      const routines = await response.json();
+      const routine = routines.find(item => item.title === character.title);
+
+      location.replace(routine ? "routine.html?id=" + routine.id : fallbackUrl);
+    } catch (error) {
+      location.replace(fallbackUrl);
+    }
+  })();
+</script>
+</body>
+</html>

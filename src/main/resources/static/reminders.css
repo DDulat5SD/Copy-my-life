@@ -1,0 +1,207 @@
+/* US-22: reminders shown on signed-in pages, and the reminder card in Profile -> Settings.
+   Colours come from the theme variables (theme.css), so Original and Autumn both apply. */
+.cml-reminders {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(360px, calc(100vw - 32px));
+}
+
+.cml-reminders:empty {
+  display: none;
+}
+
+.cml-reminder {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--theme-surface, #ffffff);
+  border: 1px solid var(--theme-border, #e6eaf2);
+  border-left: 4px solid var(--theme-primary, #5e64ff);
+  border-radius: 14px;
+  box-shadow: var(--theme-shadow, 0 18px 45px rgba(24, 35, 53, 0.08));
+  color: var(--theme-text, #182335);
+}
+
+.cml-reminder-icon {
+  flex: 0 0 auto;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.cml-reminder-body {
+  min-width: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cml-reminder-when {
+  color: var(--theme-primary-hover, #4a51ea);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.cml-reminder-title {
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+
+.cml-reminder-detail {
+  color: var(--theme-text, #182335);
+  font-size: 13px;
+  opacity: 0.85;
+  overflow-wrap: anywhere;
+}
+
+.cml-reminder-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.cml-reminder-open,
+.cml-reminder-dismiss {
+  padding: 7px 12px;
+  border-radius: 9px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.cml-reminder-open {
+  background: var(--theme-primary-hover, #4a51ea);
+  border: 1px solid var(--theme-primary-hover, #4a51ea);
+  color: #ffffff;
+}
+
+.cml-reminder-dismiss {
+  background: transparent;
+  border: 1px solid var(--theme-border, #e6eaf2);
+  color: var(--theme-text, #182335);
+}
+
+/* Profile -> Settings */
+.reminder-settings-card {
+  margin-top: 22px;
+}
+
+.reminder-settings-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 24px;
+}
+
+.reminder-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--theme-text, #182335);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.reminder-switch input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--theme-primary, #5e64ff);
+}
+
+.reminder-lead {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--theme-text, #182335);
+  font-size: 14px;
+}
+
+.reminder-lead select {
+  padding: 8px 10px;
+  background: var(--theme-surface, #ffffff);
+  border: 1px solid var(--theme-border, #e6eaf2);
+  border-radius: 10px;
+  color: var(--theme-text, #182335);
+  font: inherit;
+}
+
+.reminder-status {
+  margin: 12px 0 0;
+  color: var(--theme-text, #182335);
+  font-size: 13px;
+}
+
+.reminder-status.error {
+  color: #9f2626;
+}
+
+.reminder-today h4 {
+  margin: 22px 0 10px;
+  color: var(--theme-text, #182335);
+  font-size: 16px;
+}
+
+.cml-reminder-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  background: var(--theme-surface-soft, #f8f9ff);
+  border: 1px solid var(--theme-border, #e6eaf2);
+  border-radius: 12px;
+}
+
+.cml-reminder-row-time {
+  flex: 0 0 auto;
+  color: var(--theme-text, #182335);
+  font-weight: 800;
+}
+
+.cml-reminder-row-text {
+  min-width: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--theme-text, #182335);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.cml-reminder-row-state {
+  flex: 0 0 auto;
+  padding: 3px 9px;
+  background: var(--theme-primary-soft, #eef0ff);
+  border-radius: 999px;
+  color: var(--theme-text, #182335);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.cml-reminder-none {
+  margin: 0;
+  color: var(--theme-text, #182335);
+  font-size: 13px;
+}
+
+@media (max-width: 600px) {
+  .cml-reminders {
+    right: 16px;
+    left: 16px;
+    bottom: 16px;
+    width: auto;
+  }
+
+  .cml-reminder-row {
+    flex-wrap: wrap;
+  }
+}

@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CopyMyLife — Real Routines. Real Change.</title>
+  <script src="safe-dom.js"></script>
+  <script src="session.js"></script>
+  <script defer src="reminders.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="site-rating.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700&display=swap" rel="stylesheet">
+  
+
+  <link rel="stylesheet" href="main.css?v=20261106">
+<link rel="stylesheet" href="mobile.css?v=20261106">
+<link rel="stylesheet" href="theme.css?v=20261106">
+  <script>
+    // Show a placeholder only after a real load failure. The <img> stays in the
+    // DOM so a later successful load (or src change) brings the photo back.
+    (function () {
+      const fallbackRules = [
+        { selector: ".card-img img", className: "image-fallback image-fallback--card", text: function (img) { return (img.alt || "?").trim().charAt(0).toUpperCase(); } },
+        { selector: ".photo-card img", className: "image-fallback image-fallback--photo", text: function (img) { return img.alt; } },
+        { selector: ".logo-icon img", className: "image-fallback", text: function () { return "C"; } }
+      ];
+
+      document.addEventListener("error", function (event) {
+        const img = event.target;
+        if (!(img instanceof HTMLImageElement)) return;
+
+        const rule = fallbackRules.find(function (item) {
+          return img.matches(item.selector);
+        });
+        if (!rule) return;
+
+        img.style.setProperty("display", "none", "important");
+
+        const next = img.nextElementSibling;
+        if (next && next.hasAttribute("data-image-fallback")) return;
+
+        const fallback = document.createElement("div");
+        fallback.className = rule.className;
+        fallback.setAttribute("data-image-fallback", "");
+        fallback.textContent = rule.text(img);
+        if (img.alt) {
+          fallback.setAttribute("role", "img");
+          fallback.setAttribute("aria-label", img.alt);
+        }
+        img.after(fallback);
+      }, true);
+
+      document.addEventListener("load", function (event) {
+        const img = event.target;
+        if (!(img instanceof HTMLImageElement)) return;
+
+        const next = img.nextElementSibling;
+        if (next && next.hasAttribute("data-image-fallback")) {
+          next.remove();
+          img.style.removeProperty("display");
+        }
+      }, true);
+    })();
+  </script>
+</head>
+<body data-mobile-page="main">
+
+  <header class="header">
+    <div class="container header-inner">
+      <a href="main.html" class="logo">
+        <span class="logo-icon">
+          <img src="https://i.ibb.co/chRY80xC/image.png" alt="CopyMyLife logo">
+        </span>
+        <span class="logo-text">CopyMyLife</span>
+      </a>
+
+      <nav class="nav">
+        <a href="main.html" class="nav-link nav-link-active">Home</a>
+        <a href="Explore.html" class="nav-link">Explore</a>
+        <a href="top-routines.html" class="nav-link">Top Routines</a>
+
+        <div id="authArea">
+          <a href="login.html" class="signin-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="8" r="3.5"
+                      stroke="currentColor" stroke-width="1.6"/>
+              <path d="M5.5 19c.8-3.2 3.1-5 6.5-5s5.7 1.8 6.5 5"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"/>
+            </svg>
+            Sign in
+          </a>
+
+          <a href="signin.html" class="signup-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="8" r="3.5"
+                      stroke="currentColor" stroke-width="1.6"/>
+              <path d="M5.5 19c.8-3.2 3.1-5 6.5-5s5.7 1.8 6.5 5"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"/>
+            </svg>
+            Sign up
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+
+        <div class="hero-text">
+          <span class="badge">Build a better you</span>
+
+          <h1 class="hero-title">
+            Real Routines.<br>
+            Real Change.
+          </h1>
+
+          <p class="hero-subtitle">
+            Explore, copy and build routines from people who inspire you.
+            Turn good habits into a better life.
+          </p>
+        </div>
+
+        <div class="hero-photos">
+          <div class="photo-card">
+            <img
+              src="https://i.ibb.co/4nNBDdpH/photo-5274141405255250422-y.jpg"
+              alt="Person stretching by the window in the morning"
+            >
+
+            <div class="photo-info">
+              <p class="photo-info-title">Morning routine</p>
+              <p class="photo-info-time">7:00–10:00</p>
+            </div>
+          </div>
+
+          <div class="photo-card">
+            <img
+              src="https://i.ibb.co/BHfKmv3n/photo-5274141405255250340-x.jpg"
+              alt="Kitten next to an open book"
+            >
+
+            <div class="photo-tag">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 6.5C10.5 5.2 8.3 4.5 5 4.5H3v14h2c3.3 0 5.5.7 7 2 1.5-1.3 3.7-2 7-2h2v-14h-2c-3.3 0-5.5.7-7 2zM12 6.5v14"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linejoin="round"/>
+              </svg>
+              Read 30 min
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="stats-wrap">
+        <div class="container stats">
+
+          <div class="stat">
+            <p class="stat-number" id="homeUsersCount">0</p>
+            <p class="stat-label">users</p>
+          </div>
+
+          <div class="stat">
+            <p class="stat-number" id="homeRoutinesCount">0</p>
+            <p class="stat-label">routines</p>
+          </div>
+
+          <div class="stat">
+            <p class="stat-number" id="homeCreatorsCount">0</p>
+            <p class="stat-label">creators</p>
+          </div>
+
+          <div class="stat">
+            <p class="stat-number">
+              <span id="homeRating">0.0</span>
+
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9L12 3.5z"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linejoin="round"/>
+              </svg>
+            </p>
+
+            <p class="stat-label">rating</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="popular">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Community favorites</p>
+            <h2 class="section-title">Popular Routines</h2>
+            <p class="section-subtitle">
+              Tried-and-loved habits from people building more intentional days.
+            </p>
+          </div>
+
+          <a href="Explore.html" class="link-arrow">
+            Explore all
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="cards">
+
+          <article class="card">
+            <div class="card-img">
+              <img src="https://i.ibb.co/5gfVFSq0/photo-5274141405255250420-x.jpg" alt="David Goggins">
+            </div>
+            <h3 class="card-name">David Goggins</h3>
+            <p class="card-role">Discipline Itself</p>
+            <a href="#" class="card-btn">
+              View routine
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </article>
+
+          <article class="card">
+            <div class="card-img">
+              <img src="https://i.ibb.co/C52sMxMH/photo-5282767902903836637-y.jpg" alt="Elon Musk">
+            </div>
+            <h3 class="card-name">Elon Musk</h3>
+            <p class="card-role">Billionaire entrepreneur</p>
+            <a href="#" class="card-btn">
+              View routine
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </article>
+
+          <article class="card">
+            <div class="card-img">
+              <img src="https://i.ibb.co/kV9m3b5t/photo-5262830132139860025-y.jpg" alt="Michael Jordan">
+            </div>
+            <h3 class="card-name">Michael Jordan</h3>
+            <p class="card-role">2nd Best Basketball Player</p>
+            <a href="#" class="card-btn">
+              View routine
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </article>
+
+          <article class="card">
+            <div class="card-img">
+              <img src="https://i.ibb.co/bjDKgTKD/photo-5274141405255250419-x.jpg" alt="Cristiano Ronaldo">
+            </div>
+            <h3 class="card-name">Cristiano Ronaldo</h3>
+            <p class="card-role">2nd Best Football Player</p>
+            <a href="#" class="card-btn">
+              View routine
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="container site-footer-inner">
+
+      <div class="site-footer-brand">
+        <div class="site-footer-logo">
+          CopyMyLife
+        </div>
+
+        <p>
+          CopyMyLife helps you build better days, one routine at a time.
+          Discover how others structure their days, copy the routines that
+          fit you, plan them on your weekly calendar and track every habit
+          you complete.
+        </p>
+
+        <p class="site-footer-note">
+          My space and Routines open after you sign in.
+        </p>
+
+        <span class="site-footer-copy">
+        © 2026 CopyMyLife
+      </span>
+      </div>
+
+      <nav class="site-footer-column" aria-label="Explore">
+        <h4>Explore</h4>
+
+        <a href="main.html">Home</a>
+        <a href="Explore.html">Explore Routines</a>
+        <a href="top-routines.html">Top Routines</a>
+      </nav>
+
+      <nav class="site-footer-column" aria-label="Routines">
+        <h4>Routines</h4>
+
+        <a href="profile.html#create-routine">Create Routine</a>
+        <a href="profile.html#my-routines">My Routines</a>
+        <a href="profile.html#calendar">Weekly Calendar</a>
+        <a href="profile.html#progress">Progress</a>
+      </nav>
+
+      <nav class="site-footer-column" aria-label="My space">
+        <h4>My space</h4>
+
+        <a href="profile.html">My Profile</a>
+        <a href="profile.html#todo-lists">To-do Lists</a>
+        <a href="profile.html#posts">Posts</a>
+      </nav>
+
+      <div class="site-footer-column">
+        <h4>Feedback</h4>
+
+        <p>
+          Help us improve CopyMyLife by sharing
+          your experience.
+        </p>
+
+        <button type="button"
+                class="footer-rate-btn"
+                id="footerRateSiteBtn">
+          ★ Rate CopyMyLife
+        </button>
+      </div>
+
+    </div>
+  </footer>
+  <script>
+    const token = localStorage.getItem("token");
+    const authArea = document.getElementById("authArea");
+
+    document.querySelector(".site-footer-note").hidden = Boolean(token);
+
+    if (token) {
+      fetch("/users/me", {
+        method: "GET",
+        headers: {
+          "Authorization": "Bearer " + token
+        }
+      })
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error("Invalid token");
+                }
+
+                return response.json();
+              })
+              .then(user => {
+                authArea.innerHTML = `
+        <div class="user-menu">
+
+            <button id="userTrigger" class="user-trigger" type="button">
+                <span id="userAvatar" class="user-avatar">
+                
+                    <img id="userAvatarImage"
+                         alt="Profile avatar">
+
+                    <span id="userAvatarFallback"></span>
+
+                </span>
+
+                <span id="userName" class="user-name"></span>
+
+                <svg class="chevron"
+                     width="16"
+                     height="16"
+                     viewBox="0 0 24 24"
+                     fill="none">
+                    <path d="M6 9l6 6 6-6"
+                          stroke="currentColor"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                </svg>
+            </button>
+
+            <div id="userDropdown" class="user-dropdown">
+
+                <a href="profile.html" class="dropdown-item profile-item">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="7" r="4"
+                                stroke="currentColor"
+                                stroke-width="2"/>
+                        <path d="M5 21v-2c0-3.3 2.7-6 6-6h2c3.3 0 6 2.7 6 6v2"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"/>
+                    </svg>
+
+                    Profile
+                </a>
+
+                <button id="logoutBtn" class="dropdown-item logout-item">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                        <path d="M10 5H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"/>
+
+                        <path d="M14 8l4 4-4 4"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+
+                        <path d="M9 12h9"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"/>
+                    </svg>
+
+                    Log Out
+                </button>
+
+            </div>
+        </div>
+    `;
+
+                document.getElementById("userName").textContent = user.name;
+
+                const avatarImage =
+                        document.getElementById("userAvatarImage");
+
+                const avatarFallback =
+                        document.getElementById("userAvatarFallback");
+
+
+                if (SafeDom.safeImageUrl(user.avatarUrl)) {
+
+                  avatarImage.onerror = function () {
+                    avatarImage.style.display = "none";
+                    avatarFallback.textContent = user.name.charAt(0).toUpperCase();
+                    avatarFallback.style.display = "flex";
+                  };
+
+                  avatarImage.src = SafeDom.safeImageUrl(user.avatarUrl);
+
+                  avatarImage.style.display = "block";
+                  avatarFallback.style.display = "none";
+
+                } else {
+
+                  avatarImage.style.display = "none";
+
+                  avatarFallback.textContent =
+                          user.name.charAt(0).toUpperCase();
+
+                  avatarFallback.style.display = "flex";
+                }
+
+                const userTrigger = document.getElementById("userTrigger");
+                const userDropdown = document.getElementById("userDropdown");
+
+                userTrigger.addEventListener("click", function () {
+                  userDropdown.classList.toggle("show");
+                  userTrigger.classList.toggle("open");
+                });
+
+                document.addEventListener("click", function (event) {
+                  if (!event.target.closest(".user-menu")) {
+                    userDropdown.classList.remove("show");
+                    userTrigger.classList.remove("open");
+                  }
+                });
+
+                document.getElementById("logoutBtn").addEventListener("click", function () {
+                  CopyMyLifeSession.signOut();
+                });
+              })
+    }
+    async function loadMainPageData() {
+      try {
+        const [builtInResponse, statsResponse] = await Promise.all([
+          fetch("/routines/built-in"),
+          fetch("/site-stats")
+        ]);
+
+        if (!builtInResponse.ok) {
+          throw new Error("Failed to load built-in routines");
+        }
+
+        if (!statsResponse.ok) {
+          throw new Error("Failed to load site stats");
+        }
+
+        const builtInRoutines = await builtInResponse.json();
+        const stats = await statsResponse.json();
+
+        connectPopularRoutineCards(builtInRoutines);
+
+        document.getElementById("homeUsersCount").textContent =
+                stats.users;
+
+        document.getElementById("homeRoutinesCount").textContent =
+                stats.routines;
+
+        document.getElementById("homeCreatorsCount").textContent =
+                stats.creators;
+
+        document.getElementById("homeRating").textContent =
+                Number(stats.rating || 0).toFixed(1);
+
+      } catch (error) {
+        console.error("MAIN PAGE ERROR:", error);
+      }
+    }
+
+    function findBuiltInRoutine(routines, name) {
+      const specialTitles = {
+        "Elon Musk": "Elon Musk's Productivity System",
+        "Cristiano Ronaldo": "Cristiano Ronaldo Training Routine"
+      };
+
+      const title =
+              specialTitles[name] ||
+              name + " Routine";
+
+      return routines.find(function (routine) {
+        return routine.title === title;
+      });
+    }
+
+    function connectPopularRoutineCards(routines) {
+      document.querySelectorAll(".cards .card").forEach(function (card) {
+        const nameElement = card.querySelector(".card-name");
+        const roleElement = card.querySelector(".card-role");
+        const imageElement = card.querySelector(".card-img img");
+        const button = card.querySelector(".card-btn");
+
+        if (!nameElement || !button) return;
+
+        const name = nameElement.textContent.trim();
+
+        const routine =
+                findBuiltInRoutine(routines, name);
+
+        if (!routine) {
+          button.style.opacity = "0.5";
+          button.style.pointerEvents = "none";
+          return;
+        }
+
+        button.href =
+                "routine.html?id=" + routine.id;
+
+        if (routine.authorName) {
+          nameElement.textContent =
+                  routine.authorName;
+        }
+
+        if (roleElement) {
+          roleElement.textContent =
+                  routine.category +
+                  " • " +
+                  formatMainDuration(routine.durationMinutes);
+        }
+
+        if (imageElement && SafeDom.safeImageUrl(routine.imageUrl)) {
+          imageElement.src =
+                  SafeDom.safeImageUrl(routine.imageUrl);
+        }
+      });
+    }
+
+    function formatMainDuration(minutes) {
+      const value = Number(minutes || 0);
+
+      if (value < 60) {
+        return value + " min";
+      }
+
+      const hours = Math.floor(value / 60);
+      const remainingMinutes = value % 60;
+
+      if (remainingMinutes === 0) {
+        return hours + " h";
+      }
+
+      return hours + " h " + remainingMinutes + " min";
+    }
+
+    loadMainPageData();
+  </script>
+  <script src="site-rating.js"></script>
+<script defer src="mobile.js"></script>
+<script src="theme.js"></script>
+</body>
+</html>

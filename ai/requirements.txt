@@ -1,0 +1,6 @@
+# Runtime of the US-26 matching service (CPU only, no PyTorch).
+onnxruntime==1.31.1
+tokenizers==0.23.3
+numpy==2.5.4
+fastapi==0.162.4
+uvicorn==0.54.0

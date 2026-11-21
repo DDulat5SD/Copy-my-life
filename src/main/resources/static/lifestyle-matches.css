@@ -1,0 +1,391 @@
+/* US-26 Find Similar People, in the original and autumn designs. */
+
+.lm-page {
+  --lm-surface: #FFFFFF;
+  --lm-soft: #F4F6FC;
+  --lm-text: #15213B;
+  --lm-muted: #4F5B70;
+  --lm-border: #E6EAF1;
+  --lm-primary: #15213B;
+  --lm-primary-hover: #25355A;
+  --lm-on-primary: #FFFFFF;
+  --lm-accent-bg: #EEF0FF;
+  --lm-accent-text: #3A3FB8;
+  --lm-error-bg: #FDECEA;
+  --lm-error-text: #9B1C12;
+
+  /* Above the autumn leaves, which are positioned at z-index 0. */
+  position: relative;
+  z-index: 1;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 16px 64px;
+  color: var(--lm-text);
+}
+
+html[data-theme="autumn"] .lm-page {
+  --lm-surface: #FFF9F1;
+  --lm-soft: #F8EDE0;
+  --lm-text: #35251D;
+  --lm-muted: #5A5F40;
+  --lm-border: #E8D3BE;
+  --lm-primary: #9F4C27;
+  --lm-primary-hover: #8A3F1C;
+  --lm-accent-bg: #F4E2D2;
+  --lm-accent-text: #7A3516;
+  --lm-error-bg: #FBE3DC;
+  --lm-error-text: #8E2414;
+}
+
+.lm-page [hidden] {
+  display: none !important;
+}
+
+.lm-hero,
+.lm-state,
+.lm-how,
+.lm-card {
+  border: 1px solid var(--lm-border);
+  border-radius: 18px;
+  background: var(--lm-surface);
+}
+
+.lm-hero {
+  padding: 26px 28px;
+}
+
+.lm-badge {
+  display: inline-block;
+  margin: 0 0 10px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--lm-accent-bg);
+  color: var(--lm-accent-text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.lm-hero h1 {
+  margin: 0 0 8px;
+  font-family: "Manrope", sans-serif;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+.lm-intro,
+.lm-note {
+  margin: 0 0 16px;
+  color: var(--lm-muted);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.lm-note {
+  margin: 14px 0 0;
+  font-size: 13px;
+}
+
+.lm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 9px 18px;
+  border: 1px solid var(--lm-primary);
+  border-radius: 12px;
+  background: var(--lm-primary);
+  color: var(--lm-on-primary);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.lm-btn:hover {
+  background: var(--lm-primary-hover);
+}
+
+.lm-btn:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.lm-btn--ghost {
+  border-color: var(--lm-border);
+  background: var(--lm-surface);
+  color: var(--lm-text);
+}
+
+.lm-btn--ghost:hover {
+  background: var(--lm-soft);
+}
+
+.lm-state {
+  margin-top: 18px;
+  padding: 22px 24px;
+  color: var(--lm-text);
+}
+
+.lm-state h2 {
+  margin: 0 0 6px;
+  font-size: 19px;
+}
+
+.lm-state p {
+  margin: 0 0 14px;
+  color: var(--lm-muted);
+  line-height: 1.5;
+}
+
+.lm-loading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lm-loading p {
+  margin: 0;
+}
+
+.lm-spinner {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border: 3px solid var(--lm-border);
+  border-top-color: var(--lm-primary);
+  border-radius: 50%;
+  animation: lm-spin 0.9s linear infinite;
+}
+
+@keyframes lm-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lm-spinner {
+    animation: none;
+  }
+}
+
+.lm-error {
+  border-color: var(--lm-error-text);
+  background: var(--lm-error-bg);
+}
+
+.lm-error p {
+  color: var(--lm-error-text);
+}
+
+.lm-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
+  gap: 16px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lm-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 20px;
+}
+
+.lm-person {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.lm-avatar {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.lm-avatar-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--lm-accent-bg);
+  color: var(--lm-accent-text);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.lm-who {
+  min-width: 0;
+}
+
+.lm-name {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.lm-username,
+.lm-profession {
+  margin: 2px 0 0;
+  color: var(--lm-muted);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.lm-score {
+  align-self: flex-start;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--lm-accent-bg);
+  color: var(--lm-accent-text);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.lm-reasons {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--lm-text);
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.lm-parts {
+  margin: 0;
+  color: var(--lm-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.lm-routines {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lm-routines a {
+  display: inline-block;
+  max-width: 100%;
+  padding: 4px 10px;
+  border: 1px solid var(--lm-border);
+  border-radius: 999px;
+  background: var(--lm-soft);
+  color: var(--lm-text);
+  font-size: 13px;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.lm-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.lm-actions .lm-btn {
+  flex: 1 1 130px;
+  min-height: 38px;
+  font-size: 14px;
+}
+
+.lm-how {
+  margin-top: 22px;
+  padding: 16px 22px;
+  color: var(--lm-muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.lm-how summary {
+  color: var(--lm-text);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lm-how ul {
+  padding-left: 18px;
+}
+
+@media (max-width: 600px) {
+  .lm-page {
+    padding-top: 20px;
+  }
+
+  .lm-hero {
+    padding: 20px 18px;
+  }
+
+  .lm-hero h1 {
+    font-size: 26px;
+  }
+
+  .lm-hero .lm-btn {
+    width: 100%;
+  }
+}
+
+/* The autumn design colours every link; buttons and routine chips keep their own colours. */
+html[data-theme] .lm-page a.lm-btn {
+  color: var(--lm-on-primary);
+}
+
+html[data-theme] .lm-page a.lm-btn--ghost,
+html[data-theme] .lm-page .lm-routines a {
+  color: var(--lm-text);
+}
+
+/* The autumn design also recolours headings and paragraphs; the page keeps its own readable pair. */
+html[data-theme] .lm-page .lm-badge,
+html[data-theme] .lm-page .lm-score {
+  color: var(--lm-accent-text);
+}
+
+html[data-theme] .lm-page :is(h1, h2, .lm-name, .lm-reasons) {
+  color: var(--lm-text);
+}
+
+html[data-theme] .lm-page :is(.lm-intro, .lm-note, .lm-username, .lm-profession, .lm-parts, .lm-state p) {
+  color: var(--lm-muted);
+}
+
+html[data-theme] .lm-page .lm-error p {
+  color: var(--lm-error-text);
+}
+
+/* Inside the profile's AI Assistant section (lifestyle-matches.js). */
+.lm-page--embedded {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.lm-hero .lm-title {
+  margin: 0 0 8px;
+  font-family: "Manrope", sans-serif;
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+html[data-theme] .lm-page .lm-title {
+  color: var(--lm-text);
+}
+
+@media (max-width: 600px) {
+  .lm-hero .lm-title {
+    font-size: 20px;
+  }
+}

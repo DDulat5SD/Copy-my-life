@@ -1,0 +1,332 @@
+/* US-24: the Report dialog (report-dialog.js). Colours follow theme.css, so the Original and
+   Autumn designs both apply; the fallbacks are the Original ones. */
+
+html.cml-report-open,
+html.cml-report-open body {
+  overflow: hidden;
+}
+
+.cml-report-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(15, 23, 42, 0.55);
+  box-sizing: border-box;
+}
+
+.cml-report-backdrop[hidden] {
+  display: none;
+}
+
+.cml-report {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 24px;
+  border-radius: 20px;
+  border: 1px solid var(--theme-border, #e6eaf2);
+  background: var(--theme-surface, #ffffff);
+  color: var(--theme-text, #182335);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.25);
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.cml-report:focus {
+  outline: none;
+}
+
+.cml-report *,
+.cml-report *::before,
+.cml-report *::after {
+  box-sizing: border-box;
+}
+
+.cml-report__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--theme-text, #182335);
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.cml-report__close:hover {
+  background: var(--theme-chip, #f3f5fb);
+}
+
+.cml-report__title {
+  margin: 0 48px 6px 0;
+  font-family: "Manrope", "Inter", system-ui, sans-serif;
+  font-size: 21px;
+  font-weight: 800;
+  color: var(--theme-text, #182335);
+}
+
+/* Two classes, so the designs' own paragraph colours (muted in Autumn) do not apply here. */
+.cml-report .cml-report__intro,
+.cml-report .cml-report__checking {
+  margin: 0 0 16px;
+  color: var(--theme-text, #182335);
+}
+
+.cml-report__form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cml-report__form[hidden],
+.cml-report__result[hidden],
+.cml-report__checking[hidden],
+.cml-report__intro[hidden],
+.cml-report__error[hidden] {
+  display: none;
+}
+
+.cml-report__reasons {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.cml-report__label {
+  padding: 0;
+  margin: 0 0 2px;
+  font-weight: 700;
+  color: var(--theme-text, #182335);
+}
+
+.cml-report__reason {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--theme-border, #e6eaf2);
+  border-radius: 12px;
+  background: var(--theme-surface-soft, #f8f9ff);
+  cursor: pointer;
+}
+
+.cml-report__reason:has(input:checked) {
+  border-color: var(--theme-primary, #5e64ff);
+  background: var(--theme-primary-soft, #eef0ff);
+}
+
+.cml-report__reason input {
+  margin: 3px 0 0;
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--theme-primary, #5e64ff);
+}
+
+.cml-report__reason input:focus-visible {
+  outline: 3px solid var(--theme-primary, #5e64ff);
+  outline-offset: 2px;
+}
+
+.cml-report__reason-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cml-report__reason-text strong {
+  color: var(--theme-text, #182335);
+}
+
+.cml-report__hint {
+  font-size: 13px;
+  color: var(--theme-text, #182335);
+  opacity: 0.78;
+  overflow-wrap: anywhere;
+}
+
+.cml-report__details {
+  width: 100%;
+  min-height: 92px;
+  resize: vertical;
+  padding: 10px 12px;
+  border: 1px solid var(--theme-border, #e6eaf2);
+  border-radius: 12px;
+  background: var(--theme-surface, #ffffff);
+  color: var(--theme-text, #182335);
+  font: inherit;
+}
+
+.cml-report__details:focus-visible,
+.cml-report__btn:focus-visible,
+.cml-report__close:focus-visible {
+  outline: 3px solid var(--theme-primary, #5e64ff);
+  outline-offset: 2px;
+}
+
+.cml-report__count {
+  align-self: flex-end;
+  font-size: 12px;
+  color: var(--theme-text, #182335);
+  opacity: 0.75;
+}
+
+.cml-report .cml-report__error {
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: #fdecec;
+  color: #a4161a;
+  font-weight: 600;
+}
+
+.cml-report__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.cml-report__btn {
+  min-height: 44px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cml-report__btn:disabled {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+/* The darker primary keeps white text at 4.5:1 or more in both designs. */
+.cml-report__btn--primary {
+  background: var(--theme-primary-hover, #4a51ea);
+  color: #ffffff;
+}
+
+.cml-report__btn--primary:hover:not(:disabled) {
+  filter: brightness(0.9);
+}
+
+.cml-report__btn--ghost {
+  background: transparent;
+  border-color: var(--theme-border, #e6eaf2);
+  color: var(--theme-text, #182335);
+}
+
+.cml-report__result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0 0;
+  text-align: center;
+}
+
+.cml-report__result-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  font-size: 26px;
+  font-weight: 800;
+  background: var(--theme-success, #dff5e8);
+  color: #146c43;
+}
+
+.cml-report__result--already .cml-report__result-icon {
+  background: var(--theme-warning, #fff1db);
+  color: #8a4b00;
+}
+
+.cml-report .cml-report__result-title {
+  margin: 4px 0 0;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--theme-text, #182335);
+}
+
+.cml-report .cml-report__result-text {
+  margin: 0 0 10px;
+  color: var(--theme-text, #182335);
+}
+
+/* The Report buttons on pages that had none before. */
+.cml-report-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 1px solid var(--theme-border, #e6eaf2);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--theme-text, #182335);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cml-report-trigger[hidden] {
+  display: none;
+}
+
+.profile-report-btn {
+  margin-top: 16px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.cml-report-trigger:hover {
+  background: var(--theme-chip, #f3f5fb);
+}
+
+.cml-report-trigger:focus-visible {
+  outline: 3px solid var(--theme-primary, #5e64ff);
+  outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+  .cml-report {
+    padding: 20px 16px 16px;
+    border-radius: 16px;
+  }
+
+  .cml-report__title {
+    font-size: 19px;
+  }
+
+  .cml-report__actions {
+    flex-direction: column-reverse;
+  }
+
+  .cml-report__actions .cml-report__btn {
+    width: 100%;
+  }
+}

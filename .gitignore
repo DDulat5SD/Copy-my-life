@@ -1,9 +1,28 @@
 # IntelliJ IDEA
 .idea/
 *.iml
+*.iws
+*.ipr
+
+# Other IDEs
+.vscode/
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+.apt_generated
+/nbproject/private/
+/nbbuild/
+/nbdist/
+/.nb-gradle/
 
 # Maven
 target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+HELP.md
 
 # Java
 *.class
@@ -21,11 +40,31 @@ yarn.lock
 # Frontend build
 dist/
 build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
-# Environment variables
+# Environment variables and secrets: only the placeholder template is committed
 .env
-.env.local
-.env.*.local
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.jks
+
+# Local user data, database dumps and backups
+/uploads/
+*.dump
+*.sql.gz
+*.bak
+backups/
+
+# AI service: the model, environments and caches stay out of Git
+ai/models/
+ai/.venv*/
+__pycache__/
+.pytest_cache/
+*.onnx
 
 # Logs
 *.log
