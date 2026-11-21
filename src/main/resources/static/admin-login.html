@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login — CopyMyLife</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            background: #f3f5fa;
+            font-family: Inter, Arial, sans-serif;
+            color: #172033;
+        }
+        .login-card {
+            width: 100%;
+            max-width: 410px;
+            background: white;
+            border: 1px solid #e4e8f0;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 15px 50px rgba(20,30,55,.07);
+        }
+        .brand {
+            font-size: 25px;
+            font-weight: 800;
+            margin-bottom: 35px;
+        }
+        .brand span { color: #5268ed; }
+        h1 { font-size: 25px; margin: 0 0 8px; }
+        p { color: #778195; font-size: 14px; margin-bottom: 28px; }
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 650;
+            margin: 18px 0 8px;
+        }
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #dce2ed;
+            border-radius: 10px;
+            font: inherit;
+            outline: none;
+        }
+        input:focus { border-color: #5268ed; }
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 24px;
+            margin-bottom: 20px;
+            background: #182335;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0f1622;
+        }
+        button:disabled { opacity: .6; cursor: wait; }
+        .field-error {
+            color: #db3d48;
+            font-size: 12px;
+            margin: 6px 0 0;
+        }
+        .field-error[hidden] { display: none; }
+        #error {
+            color: #db3d48;
+            font-size: 13px;
+            min-height: 20px;
+            margin-top: 15px;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .login-card {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 420px;
+            min-width: 320px;
+            padding: 35px;
+        }
+
+        .login-card input,
+        .login-card button {
+            width: 100%;
+        }
+
+        .login-card button {
+            font-size: 15px;
+        }
+
+        body > img {
+            display: none;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .brand img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .brand span {
+            font-size: 25px;
+            font-weight: 800;
+            color: #172033;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            flex-shrink: 0;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .brand img {
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .brand span {
+            font-family: "Manrope", system-ui, sans-serif;
+            font-size: 26px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            line-height: 1.5;
+            color: #15213B;
+        }
+    </style>
+    <link rel="stylesheet" href="admin-theme.css">
+    <script src="admin-theme.js" defer></script>
+</head>
+<body>
+
+<div class="login-card">
+    <div class="brand">
+        <img src="https://i.ibb.co/chRY80xC/image.png" alt="CopyMyLife">
+        <span>CopyMyLife</span>
+    </div>
+    <h1>Admin Portal</h1>
+    <p>Sign in with your administrator account.</p>
+
+    <form id="loginForm" novalidate>
+        <label for="email">Admin email</label>
+        <input id="email" type="email" required autocomplete="username" aria-describedby="emailError">
+        <p id="emailError" class="field-error" role="alert" hidden></p>
+
+        <label for="password">Password</label>
+        <input id="password" type="password" required autocomplete="current-password" aria-describedby="passwordError">
+        <p id="passwordError" class="field-error" role="alert" hidden></p>
+
+        <button id="loginBtn" type="submit">Sign in</button>
+    </form>
+
+    <div id="error"></div>
+</div>
+
+<script>
+    const form = document.getElementById("loginForm");
+    const errorBox = document.getElementById("error");
+    const loginBtn = document.getElementById("loginBtn");
+
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+
+    function fieldError(input, message) {
+        const error = document.getElementById(input.id + "Error");
+        error.textContent = message;
+        error.hidden = !message;
+        input.setAttribute("aria-invalid", String(Boolean(message)));
+        return !message;
+    }
+
+    function validate() {
+        const email = emailInput.value.trim();
+        const emailValid = fieldError(emailInput, !email
+            ? "Please enter your admin email."
+            : /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) ? "" : "Please enter a valid email address.");
+        const passwordValid = fieldError(passwordInput, passwordInput.value ? "" : "Please enter your password.");
+
+        if (!emailValid) emailInput.focus();
+        else if (!passwordValid) passwordInput.focus();
+
+        return emailValid && passwordValid;
+    }
+
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        if (!validate()) return;
+
+        loginBtn.disabled = true;
+        errorBox.textContent = "";
+
+        try {
+            const response = await fetch("/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: document.getElementById("email").value.trim(),
+                    password: document.getElementById("password").value
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error("Invalid email or password");
+            }
+
+            const data = await response.json();
+
+            const adminResponse = await fetch("/admin-api/users/me", {
+                headers: {
+                    "Authorization": "Bearer " + data.token
+                }
+            });
+
+            if (!adminResponse.ok) {
+                throw new Error("Administrator access required");
+            }
+
+            const admin = await adminResponse.json();
+
+            if (admin.role !== "ADMIN" || admin.banned) {
+                throw new Error("Administrator access required");
+            }
+
+            sessionStorage.setItem("adminToken", data.token);
+            window.location.replace("admin-dashboard.html");
+
+        } catch (error) {
+            sessionStorage.removeItem("adminToken");
+            errorBox.textContent = error.message;
+        } finally {
+            loginBtn.disabled = false;
+        }
+    });
+</script>
+
+</body>
+</html>

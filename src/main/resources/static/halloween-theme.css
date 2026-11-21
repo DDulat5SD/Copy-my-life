@@ -1,0 +1,178 @@
+/* Halloween overrides scoped only to this new page */
+body.halloween-detail-page {--primary:#f4e8de; --muted:#b9a6bd; --border:#48354c;--blue:#ff8e3c;--blue-soft:#45243a;background:radial-gradient(ellipse at 78% 8%,#3c202d 0,transparent 42%),linear-gradient(155deg,#19111f,#231429 65%,#150f1b);color:#f4e8de;min-height:100vh}
+.halloween-detail-page .card {background:#231927;border-color:#543748;box-shadow:0 6px 25px #100b14aa}
+.halloween-detail-page .hero__title,.halloween-detail-page .section-title,.halloween-detail-page .habit__title,.halloween-detail-page .author__name{color:#f9eee8}
+.halloween-detail-page .tag,.halloween-detail-page .meta--pill{background:#4a2a2c;color:#fda05d}
+.halloween-detail-page .hero__image{background:#180f1b;min-height:260px;position:relative}
+.halloween-detail-page .hero__image img{width:100%;height:100%;object-fit:contain;object-position:center center;display:block}
+.halloween-detail-page .hero__image:has(img){background:#140f17}
+.halloween-detail-page .author .avatar{background:#523046;color:#fff;overflow:hidden}
+.halloween-detail-page .author .avatar img{width:100%;height:100%;object-fit:cover;object-position:center center;display:block}
+.halloween-detail-page .habit{background:#2b1f30;border-color:#584158}
+.halloween-detail-page .habit__num{background:#482d40;border-color:#644259;color:#ffe7d0}
+.halloween-detail-page .habit__icon{background:#422d51;color:#d3b3ff}
+.halloween-detail-page .habit__dur{background:#4a2b36;color:#ffb071}
+.halloween-detail-page .btn--primary{background:#ef7d35;border-color:#ef7d35;color:#27151d}
+.halloween-detail-page .routine-copy-notice{background:#231927;border-color:#543748;color:#ffe7dd}
+.halloween-detail-page .routine-copy-notice a{color:var(--accent,#ef7d35)}
+.halloween-detail-page .routine-copy-notice--error{background:#3a1b1f;border-color:#7a3a3f;color:#ffd5d0}
+.halloween-detail-page .btn--light{background:#39253a;border-color:#6b4254;color:#ffe7dd}
+.halloween-detail-page .detail-rating__mine .rating-star-btn{color:#ffffff;transition:color .16s ease}.halloween-detail-page .detail-rating__mine .rating-star-btn.halloween-rated{color:#ffcb31}
+.halloween-detail-page .average-stars{color:#f6af16}
+.halloween-detail-page .section-sub,.halloween-detail-page .habit__desc{color:#bba9b8}
+.halloween-detail-page .habit__time{display:none}
+.halloween-detail-page .halloween-habit-time{color:#c99ab1;font-size:12px;display:block;margin-top:4px}
+.halloween-detail-page .halloween-floating{position:absolute;pointer-events:none;z-index:0;opacity:.55;width:180px;height:180px;background-size:contain;background-repeat:no-repeat}
+.halloween-detail-page .halloween-web-left{top:60px;left:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%23bd8590' stroke-width='1.3'%3E%3Cpath d='M0 0H200M0 0V200M0 0L200 200M0 0L200 105M0 0L105 200M0 0L200 45M0 0L45 200'/%3E%3Cpath d='M40 0Q40 40 0 40M80 0Q80 80 0 80M120 0Q120 120 0 120M160 0Q160 160 0 160'/%3E%3C/g%3E%3C/svg%3E")}
+.halloween-detail-page .halloween-web-right{top:60px;right:0;transform:scaleX(-1);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%23bd8590' stroke-width='1.3'%3E%3Cpath d='M0 0H200M0 0V200M0 0L200 200M0 0L200 105M0 0L105 200M0 0L200 45M0 0L45 200'/%3E%3Cpath d='M40 0Q40 40 0 40M80 0Q80 80 0 80M120 0Q120 120 0 120M160 0Q160 160 0 160'/%3E%3C/g%3E%3C/svg%3E")}
+.halloween-detail-page .halloween-pumpkin{position:fixed;pointer-events:none;right:2%;bottom:3%;font-size:55px;opacity:.85}
+.halloween-detail-page .main{position:relative;z-index:1}
+@media(max-width:700px){.halloween-detail-page .hero__image{width:100%;height:310px}.halloween-detail-page .hero__image img{object-fit:contain}.halloween-detail-page .halloween-pumpkin{display:none}}
+
+
+/* Character-specific Halloween themes */
+.halloween-detail-page{--accent:#ef7d35;--accent-2:#f6af16;--accent-soft:#4a2b36;--page-bg-1:#19111f;--page-bg-2:#231429;--page-bg-3:#150f1b;--hero-card:#241926;--hero-border:#543748;--habit-card:#2b1f30;--habit-border:#584158;--glow-left:rgba(17,88,91,.18);--glow-right:rgba(210,72,44,.18);--pattern-opacity:.20;--schedule-opacity:.08;--hero-pattern:none;--schedule-pattern:none;}
+.halloween-detail-page{background:
+radial-gradient(circle at 10% 86%, var(--glow-left) 0, transparent 28%),
+radial-gradient(circle at 88% 18%, var(--glow-right) 0, transparent 30%),
+linear-gradient(90deg, rgba(10,20,30,.26) 0, transparent 12%, transparent 88%, rgba(32,18,22,.24) 100%),
+linear-gradient(155deg,var(--page-bg-1),var(--page-bg-2) 58%,var(--page-bg-3)) !important;}
+.halloween-detail-page .card{background:linear-gradient(90deg, rgba(255,255,255,.02), rgba(255,255,255,.01)), var(--hero-card) !important;border-color:var(--hero-border) !important;}
+.halloween-detail-page .hero,.halloween-detail-page .schedule{position:relative;overflow:hidden;isolation:isolate}
+.halloween-detail-page .hero::after{content:"";position:absolute;top:0;right:0;bottom:0;width:42%;background-image:var(--hero-pattern);background-size:contain;background-repeat:no-repeat;background-position:right 26px center;opacity:var(--pattern-opacity);pointer-events:none;z-index:0}
+.halloween-detail-page .schedule::before{content:"";position:absolute;inset:0;background-image:var(--schedule-pattern);background-repeat:repeat;background-size:360px auto;background-position:center;opacity:var(--schedule-opacity);pointer-events:none;z-index:0}
+.halloween-detail-page .hero > *, .halloween-detail-page .schedule > *{position:relative;z-index:1}
+.halloween-detail-page .tag,.halloween-detail-page .meta--pill{background:color-mix(in srgb, var(--accent) 16%, #2a1f28) !important;color:var(--accent-2) !important;border-color:color-mix(in srgb,var(--accent) 40%, #523746)!important}
+.halloween-detail-page .habit{background:linear-gradient(90deg, rgba(255,255,255,.02), rgba(255,255,255,0)), var(--habit-card) !important;border-color:var(--habit-border) !important}
+.halloween-detail-page .habit__num{background:color-mix(in srgb, var(--accent) 18%, #2d2330) !important;border-color:color-mix(in srgb, var(--accent) 38%, #5f4560)!important;color:#ffe7d0 !important}
+.halloween-detail-page .habit__icon{background:color-mix(in srgb, var(--accent) 14%, #392b45)!important;color:var(--accent-2)!important;box-shadow:0 0 24px color-mix(in srgb, var(--accent) 32%, transparent)}
+.halloween-detail-page .habit__dur{background:color-mix(in srgb, var(--accent) 14%, #3a2932)!important;color:#ffd8b2!important;border:1px solid color-mix(in srgb,var(--accent) 32%, #584158)}
+.halloween-detail-page .btn--primary,.halloween-detail-page .btn--light.is-active,.halloween-detail-page #saveBtn{background:var(--accent)!important;border-color:var(--accent)!important;color:#201319!important;box-shadow:0 8px 28px color-mix(in srgb, var(--accent) 28%, transparent)}
+.halloween-detail-page .stat,.halloween-detail-page .btn--light,.halloween-detail-page .meta{border-color:color-mix(in srgb,var(--accent) 26%, #54404f);}
+.halloween-detail-page .stat.is-active,.halloween-detail-page .stat:hover,.halloween-detail-page .btn--light:hover{background:color-mix(in srgb,var(--accent) 10%, #2f2433)!important;color:#fff1e8}
+.halloween-detail-page .average-stars,.halloween-detail-page .detail-rating__mine .rating-star-btn.halloween-rated,.halloween-detail-page .routine-owner-name,.halloween-detail-page .back-link{color:var(--accent-2)!important}
+.halloween-detail-page .hero__image{border-color:color-mix(in srgb,var(--accent) 36%, #654f62)!important;box-shadow:0 0 0 1px rgba(255,255,255,.02),0 14px 40px rgba(0,0,0,.32)}
+
+.halloween-detail-page.theme-billy{--accent:#ff4568;--accent-2:#ff9e62;--page-bg-1:#180912;--page-bg-2:#2a0d18;--page-bg-3:#300818;--hero-card:#2a111d;--hero-border:#7b2940;--habit-card:#2b0f1d;--habit-border:#7a2440;--glow-left:rgba(113,32,68,.18);--glow-right:rgba(194,33,73,.22);--pattern-opacity:.24;--schedule-opacity:.06;--hero-pattern:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 260'%3E%3Cg fill='none' stroke='%23ff5e85' stroke-width='4' opacity='.75'%3E%3Cpath d='M145 130c0 23-18 41-41 41s-41-18-41-41 18-41 41-41c32 0 58 26 58 58s-26 58-58 58-58-26-58-58c0-41 33-74 74-74s74 33 74 74c0 50-41 91-91 91s-91-41-91-91 41-91 91-91'/%3E%3C/g%3E%3C/svg%3E");}
+.halloween-detail-page.theme-ghostface{--accent:#97d2ff;--accent-2:#7ed6ff;--page-bg-1:#08111c;--page-bg-2:#12213c;--page-bg-3:#0b2036;--hero-card:#13233a;--hero-border:#355270;--habit-card:#122238;--habit-border:#34536f;--glow-left:rgba(16,86,120,.18);--glow-right:rgba(135,182,255,.16);--pattern-opacity:.16;--hero-pattern:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'%3E%3Cpath fill='none' stroke='%2397d2ff' stroke-width='3' opacity='.6' d='M110 24c34 0 57 22 57 55 0 57-24 95-57 117-33-22-57-60-57-117 0-33 23-55 57-55z'/%3E%3Cellipse cx='90' cy='95' rx='10' ry='19' fill='%2397d2ff' opacity='.45'/%3E%3Cellipse cx='130' cy='95' rx='10' ry='19' fill='%2397d2ff' opacity='.45'/%3E%3Cellipse cx='110' cy='136' rx='16' ry='25' fill='%2397d2ff' opacity='.42'/%3E%3C/svg%3E");}
+.halloween-detail-page.theme-michael{--accent:#f5a24a;--accent-2:#ffb860;--page-bg-1:#151012;--page-bg-2:#281a16;--page-bg-3:#342117;--hero-card:#2b1d17;--hero-border:#7c4d24;--habit-card:#2a1c17;--habit-border:#764b27;--glow-left:rgba(67,88,61,.12);--glow-right:rgba(208,111,32,.18);--pattern-opacity:.16;--hero-pattern:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Cg fill='none' stroke='%23f5a24a' stroke-width='2.2' opacity='.58'%3E%3Cpath d='M154 42c-22 19-30 39-26 60 12 2 24-2 36-11 3-25 0-41-10-49z'/%3E%3Cpath d='M120 86c10 13 14 31 10 53'/%3E%3Cpath d='M190 92c-19 2-35 10-48 23 22 8 39 6 50-6 2-5 1-10-2-17z'/%3E%3Cpath d='M98 132c18 5 33 16 43 34-23 4-40 0-51-13-1-7 1-14 8-21z'/%3E%3C/g%3E%3C/svg%3E");}
+.halloween-detail-page.theme-chucky{--accent:#f2b047;--accent-2:#f7bf5b;--page-bg-1:#1a1111;--page-bg-2:#42211c;--page-bg-3:#2b1310;--hero-card:#3a231f;--hero-border:#a56b2a;--habit-card:#35201d;--habit-border:#99652b;--glow-left:rgba(25,80,86,.14);--glow-right:rgba(234,126,44,.24);--pattern-opacity:.15;--hero-pattern:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Cg fill='none' stroke='%23f2b047' stroke-width='2.4' opacity='.6'%3E%3Cpath d='M185 42l-25 25M204 77l-25 25M166 98l-25 25M195 120l-25 25'/%3E%3Ccircle cx='166' cy='70' r='16'/%3E%3Cpath d='M154 70h24M166 58v24'/%3E%3C/g%3E%3C/svg%3E");}
+.halloween-detail-page.theme-pennywise{--accent:#ff476b;--accent-2:#ff5f7f;--page-bg-1:#220817;--page-bg-2:#461327;--page-bg-3:#4d0f27;--hero-card:#3a1121;--hero-border:#8a2442;--habit-card:#34111f;--habit-border:#8f2947;--glow-left:rgba(93,28,81,.16);--glow-right:rgba(255,62,111,.22);--pattern-opacity:.18;--hero-pattern:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Cg fill='none' stroke='%23ff6d88' stroke-width='2' opacity='.62'%3E%3Cellipse cx='150' cy='82' rx='18' ry='25'/%3E%3Cpath d='M150 107c4 16 4 29 1 43'/%3E%3Cellipse cx='195' cy='98' rx='14' ry='20'/%3E%3Cpath d='M195 118c2 15 0 29-4 40'/%3E%3Cellipse cx='178' cy='55' rx='12' ry='17'/%3E%3Cpath d='M178 72c2 13 1 22-2 32'/%3E%3C/g%3E%3C/svg%3E");}
+.halloween-detail-page.theme-beetlejuice{--accent:#97e54c;--accent-2:#9ef35c;--page-bg-1:#0f1611;--page-bg-2:#182519;--page-bg-3:#1d1528;--hero-card:#1f2322;--hero-border:#54823b;--habit-card:#1e2522;--habit-border:#4c7437;--glow-left:rgba(54,105,62,.17);--glow-right:rgba(108,235,67,.18);--pattern-opacity:.16;--schedule-opacity:.10;--hero-pattern:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Cg stroke='%2397e54c' stroke-width='12' opacity='.33'%3E%3Cpath d='M112 18v204M148 18v204M184 18v204'/%3E%3C/g%3E%3C/svg%3E");--schedule-pattern:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg stroke='%2397e54c' stroke-width='8' opacity='.16'%3E%3Cpath d='M-20 160L160-20M20 220L220 20'/%3E%3C/g%3E%3C/svg%3E");}
+.halloween-detail-page.theme-freddy{--accent:#ff954e;--accent-2:#ffbe74;--page-bg-1:#1a1110;--page-bg-2:#462013;--page-bg-3:#3b170f;--hero-card:#3a2117;--hero-border:#9d5830;--habit-card:#341f18;--habit-border:#93552f;--glow-left:rgba(31,78,71,.12);--glow-right:rgba(255,123,39,.22);--pattern-opacity:.18;--schedule-opacity:.06;--hero-pattern:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Cg stroke='%23ff954e' stroke-width='7' stroke-linecap='round' opacity='.42'%3E%3Cpath d='M148 40l-22 78M183 35l-22 81M218 33l-23 83'/%3E%3Ccircle cx='170' cy='152' r='3' fill='%23ff954e'/%3E%3C/g%3E%3C/svg%3E");--schedule-pattern:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'%3E%3Cg stroke='%23ff954e' stroke-width='2' opacity='.12'%3E%3Cpath d='M0 180L220 40M0 220L220 80'/%3E%3C/g%3E%3C/svg%3E");}
+.halloween-detail-page.theme-art{--accent:#ff5c73;--accent-2:#ff6b81;--page-bg-1:#141214;--page-bg-2:#232126;--page-bg-3:#372026;--hero-card:#262227;--hero-border:#6a5f67;--habit-card:#242126;--habit-border:#665c64;--glow-left:rgba(73,56,80,.12);--glow-right:rgba(161,85,101,.16);--pattern-opacity:.16;--hero-pattern:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Cg fill='none' stroke='%23f0ced5' stroke-width='2' opacity='.5'%3E%3Cpath d='M170 44l45 45-45 45-45-45 45-45zM170 125l25 25-25 25-25-25 25-25z'/%3E%3Ccircle cx='170' cy='89' r='6' fill='%23ff5c73'/%3E%3Ccircle cx='170' cy='150' r='6' fill='%23ff5c73'/%3E%3C/g%3E%3C/svg%3E");}
+.halloween-detail-page.theme-dracula{--accent:#e8bf63;--accent-2:#f0cb6d;--page-bg-1:#22111a;--page-bg-2:#4b2029;--page-bg-3:#31141d;--hero-card:#3b1f27;--hero-border:#8b6740;--habit-card:#341d24;--habit-border:#825d3b;--glow-left:rgba(106,45,57,.12);--glow-right:rgba(244,150,56,.16);--pattern-opacity:.16;--hero-pattern:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Cg fill='none' stroke='%23e8bf63' stroke-width='2.4' opacity='.55'%3E%3Cpath d='M160 190V78c0-25 18-43 43-43s43 18 43 43v112'/%3E%3Cpath d='M180 190V109h46v81'/%3E%3Cpath d='M203 35v18'/%3E%3Cpath d='M195 43l8-8 8 8'/%3E%3C/g%3E%3C/svg%3E");}
+.halloween-detail-page.theme-jason{--accent:#aed99a;--accent-2:#c1e9a8;--page-bg-1:#0e1818;--page-bg-2:#143235;--page-bg-3:#0d2527;--hero-card:#183032;--hero-border:#53745f;--habit-card:#193133;--habit-border:#4e7560;--glow-left:rgba(60,120,98,.18);--glow-right:rgba(132,186,168,.16);--pattern-opacity:.16;--hero-pattern:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Cg fill='none' stroke='%23aed99a' stroke-width='3' opacity='.46'%3E%3Cpath d='M132 173h90M132 189h90M132 205h90'/%3E%3Cpath d='M148 170V88M174 170V76M203 170V96'/%3E%3Cpath d='M148 88l-17 21h34zM174 76l-19 25h38zM203 96l-17 21h34z'/%3E%3C/g%3E%3C/svg%3E");}
+
+/* Static cobwebs: no drifting, rotation or scroll animation. */
+.halloween-detail-page .halloween-floating{animation:none !important;transition:none !important;will-change:auto;}
+.halloween-detail-page .halloween-web-left{transform:none !important;}
+.halloween-detail-page .halloween-web-right{transform:scaleX(-1) !important;}
+
+/* The header follows the site theme; the page below keeps the character theme. */
+.halloween-detail-page .topbar {
+  --primary: #0f1b4d;
+  --muted: #6b7591;
+  --border: #e6ebf5;
+  position: relative;
+  z-index: 100;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  color: #121a3a;
+}
+
+.halloween-detail-page[data-site-theme="autumn"] .topbar {
+  background: #FFF9F1;
+  border-bottom-color: #E8D3BE;
+}
+
+.halloween-detail-page[data-site-theme="autumn"] .topbar .logo-text,
+.halloween-detail-page[data-site-theme="autumn"] .topbar .nav-link,
+.halloween-detail-page[data-site-theme="autumn"] .topbar .user-name {
+  color: #35251D;
+}
+
+.halloween-detail-page[data-site-theme="autumn"] .topbar .nav-link:hover,
+.halloween-detail-page[data-site-theme="autumn"] .topbar-dropdown-item:not(.topbar-logout-btn) {
+  color: #B75D32;
+}
+
+/* Hero photo and rating state on the shared routine.html markup */
+.halloween-detail-page .hero__image.has-photo {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #140f17;
+}
+
+.halloween-detail-page .detail-rating__mine .rating-star-btn.active {
+  color: #ffcb31;
+}
+
+.halloween-detail-page .stat--like,
+.halloween-detail-page .stat--comments {
+  background: color-mix(in srgb, var(--accent) 12%, #2a1f28);
+  color: var(--accent-2);
+}
+
+/* Comments on the shared routine.html markup */
+.halloween-detail-page .comments__head .section-title,
+.halloween-detail-page .comment__text,
+.halloween-detail-page .comment__actions button {
+  color: #f4e8de;
+}
+
+.halloween-detail-page .sort-select,
+.halloween-detail-page .comment-form__input,
+.halloween-detail-page .reply-form input {
+  background: var(--habit-card);
+  border-color: var(--habit-border);
+  color: #f9eee8;
+}
+
+.halloween-detail-page .comment-form__input::placeholder,
+.halloween-detail-page .reply-form input::placeholder {
+  color: #bba9b8;
+}
+
+.halloween-detail-page .comment-form__input:focus,
+.halloween-detail-page .reply-form input:focus {
+  border-color: var(--accent);
+}
+
+.halloween-detail-page .comment-form__input:focus-visible,
+.halloween-detail-page .reply-form input:focus-visible {
+  outline-color: var(--accent);
+}
+
+.halloween-detail-page .comment-form.is-writing .comment-form__input,
+.halloween-detail-page .reply-form:focus-within input {
+  background: var(--habit-card);
+  border-color: var(--accent);
+  color: #f9eee8;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+.halloween-detail-page .btn--post,
+.halloween-detail-page .reply-form button {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #201319;
+}
+
+.halloween-detail-page .comment-user-menu {
+  background: var(--hero-card);
+  border-color: var(--hero-border);
+}
+
+.halloween-detail-page .comment-user-menu-item {
+  color: #f4e8de;
+}
+
+.halloween-detail-page .comment-user-menu-item:hover {
+  background: var(--habit-card);
+}
+
+.halloween-detail-page .empty {
+  color: #bba9b8;
+}

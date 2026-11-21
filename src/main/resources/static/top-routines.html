@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Top Routines — CopyMyLife</title>
+    <script src="safe-dom.js"></script>
+    <script src="session.js"></script>
+    <script defer src="reminders.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="top-routines.css">
+    <link rel="stylesheet" href="mobile.css">
+    <link rel="stylesheet" href="theme.css">
+    <script>
+      // Show a placeholder only after a real load failure. The <img> stays in the
+      // DOM so a later successful load (or src change) brings the photo back.
+      (function () {
+        const fallbackRules = [
+          { selector: ".ranking-image", className: "ranking-image-fallback", text: function (img) { return img.dataset.fallback || (img.alt || "?").charAt(0).toUpperCase(); } },
+          { selector: ".logo-icon img", className: "image-fallback", text: function () { return "C"; } }
+        ];
+
+        document.addEventListener("error", function (event) {
+          const img = event.target;
+          if (!(img instanceof HTMLImageElement)) return;
+
+          const rule = fallbackRules.find(function (item) {
+            return img.matches(item.selector);
+          });
+          if (!rule) return;
+
+          img.style.setProperty("display", "none", "important");
+
+          const next = img.nextElementSibling;
+          if (next && next.hasAttribute("data-image-fallback")) return;
+
+          const fallback = document.createElement("div");
+          fallback.className = rule.className;
+          fallback.setAttribute("data-image-fallback", "");
+          fallback.textContent = rule.text(img);
+          if (img.alt) {
+            fallback.setAttribute("role", "img");
+            fallback.setAttribute("aria-label", img.alt);
+          }
+          img.after(fallback);
+        }, true);
+
+        document.addEventListener("load", function (event) {
+          const img = event.target;
+          if (!(img instanceof HTMLImageElement)) return;
+
+          const next = img.nextElementSibling;
+          if (next && next.hasAttribute("data-image-fallback")) {
+            next.remove();
+            img.style.removeProperty("display");
+          }
+        }, true);
+      })();
+    </script>
+</head>
+
+<body data-mobile-page="top-routines">
+
+<header class="header">
+
+    <div class="container header-inner">
+
+        <a href="main.html" class="logo">
+
+            <span class="logo-icon">
+                <img src="https://i.ibb.co/chRY80xC/image.png"
+                     alt="CopyMyLife logo">
+            </span>
+
+            <span class="logo-text">
+                CopyMyLife
+            </span>
+
+        </a>
+
+        <nav class="nav">
+
+            <a href="main.html"
+               class="nav-link">
+                Home
+            </a>
+
+            <a href="Explore.html"
+               class="nav-link">
+                Explore
+            </a>
+
+            <a href="top-routines.html"
+               class="nav-link nav-link-active">
+                Top Routines
+            </a>
+
+            <div id="authArea">
+                <a href="login.html" class="signin-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.6"/>
+                        <path d="M5.5 19c.8-3.2 3.1-5 6.5-5s5.7 1.8 6.5 5"
+                              stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                    </svg>
+                    Sign in
+                </a>
+
+                <a href="signin.html" class="signup-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.6"/>
+                        <path d="M5.5 19c.8-3.2 3.1-5 6.5-5s5.7 1.8 6.5 5"
+                              stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                    </svg>
+                    Sign up
+                </a>
+            </div>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main class="top-routines-page">
+
+    <div class="top-routines-layout">
+
+        <section class="ranking-section">
+
+            <div class="ranking-badge">
+                <span></span>
+                Discover a better you
+            </div>
+
+            <h1>
+                Top Routines
+            </h1>
+
+            <p class="ranking-description">
+                Routines are ranked by community engagement — likes, saves, and ratings.
+            </p>
+
+
+            <div class="period-tabs">
+
+                <button
+                        class="period-btn"
+                        type="button"
+                        data-period="day">
+                    Day
+                </button>
+
+                <button
+                        class="period-btn active"
+                        type="button"
+                        data-period="week">
+                    Week
+                </button>
+
+                <button
+                        class="period-btn"
+                        type="button"
+                        data-period="month">
+                    Month
+                </button>
+
+            </div>
+
+
+            <div class="ranking-filters">
+
+                <button
+                        class="ranking-filter active"
+                        type="button"
+                        data-filter="overall">
+                    🏆 Overall
+                </button>
+
+                <button
+                        class="ranking-filter"
+                        type="button"
+                        data-filter="liked">
+                    ♡ Most liked
+                </button>
+
+                <button
+                        class="ranking-filter"
+                        type="button"
+                        data-filter="saved">
+                    🔖 Most saved
+                </button>
+
+                <button
+                        class="ranking-filter"
+                        type="button"
+                        data-filter="rated">
+                    ☆ Highest rated
+                </button>
+
+
+                <div class="ranking-selects">
+
+                <select
+                        class="category-filter"
+                        id="categoryFilter"
+                        aria-label="Category">
+
+                    <option value="all">
+                        All categories
+                    </option>
+
+                    <option value="Morning">
+                        Morning
+                    </option>
+
+                    <option value="Fitness">
+                        Fitness
+                    </option>
+
+                    <option value="Study">
+                        Study
+                    </option>
+
+                    <option value="Wellness">
+                        Wellness
+                    </option>
+
+                    <option value="Productivity">
+                        Productivity
+                    </option>
+
+                    <option value="Creators">
+                        Creators
+                    </option>
+
+                    <option value="Halloween">
+                        Halloween
+                    </option>
+
+                </select>
+
+                <!-- US-30: when a routine's first timed activity starts; not its category. -->
+                <select
+                        class="category-filter time-filter"
+                        id="timeFilter"
+                        aria-label="Time of day">
+
+                    <option value="all">
+                        All times
+                    </option>
+
+                    <option value="morning">
+                        🌅 Morning
+                    </option>
+
+                    <option value="afternoon">
+                        ☀️ Afternoon
+                    </option>
+
+                    <option value="evening">
+                        🌙 Evening
+                    </option>
+
+                </select>
+
+                </div>
+
+            </div>
+
+
+            <p
+                    class="ranking-time-note"
+                    id="timeNote"
+                    hidden>
+            </p>
+
+
+            <div
+                    class="ranking-list"
+                    id="rankingList">
+            </div>
+
+
+            <p class="ranking-note">
+                Rankings update automatically based on the selected period.
+            </p>
+
+        </section>
+
+
+        <aside class="ranking-side-card">
+
+            <div class="side-star">
+                ✦
+            </div>
+
+            <h2>
+                Better habits.<br>
+                A brighter you.
+            </h2>
+
+            <p>
+                Explore how real people structure their days — and find what works for you.
+            </p>
+
+            <div class="side-quote">
+                Small steps.<br>
+                Big change.
+            </div>
+
+        </aside>
+
+    </div>
+
+</main>
+
+
+<script>
+
+    const token =
+        localStorage.getItem("token");
+
+    const authArea =
+        document.getElementById("authArea");
+
+    const rankingList =
+        document.getElementById("rankingList");
+
+    const categoryFilter =
+        document.getElementById("categoryFilter");
+
+    let currentPeriod =
+        "week";
+
+    let currentSort =
+        "overall";
+
+    let currentCategory =
+        "all";
+
+    const timeFilter =
+        document.getElementById("timeFilter");
+
+    const timeNote =
+        document.getElementById("timeNote");
+
+    let currentTime =
+        "all";
+
+    // US-30: the choices the address may hold; anything else stays at its default.
+    const PERIODS =
+        ["day", "week", "month"];
+
+    const SORTS =
+        ["overall", "liked", "saved", "rated"];
+
+    const TIMES = {
+        morning: {label: "Morning", range: "04:00 and 11:59"},
+        afternoon: {label: "Afternoon", range: "12:00 and 16:59"},
+        evening: {label: "Evening", range: "17:00 and 03:59"}
+    };
+
+    // Each load is numbered, so that an answer for an earlier choice never replaces a later one.
+    let loadRound =
+        0;
+
+
+    if (token) {
+
+        fetch("/users/me", {
+
+            method: "GET",
+
+            headers: {
+                "Authorization":
+                    "Bearer " + token
+            }
+
+        })
+            .then(response => {
+
+                if (!response.ok) {
+                    throw new Error("Invalid token");
+                }
+
+                return response.json();
+
+            })
+            .then(user => {
+
+                authArea.innerHTML = `
+                        <div class="user-menu">
+
+                            <button
+                                    id="userTrigger"
+                                    class="user-trigger"
+                                    type="button">
+
+                                <span
+                                        id="userAvatar"
+                                        class="user-avatar">
+
+                                    <img
+                                            id="userAvatarImage"
+                                            alt="Profile avatar">
+
+                                    <span
+                                            id="userAvatarFallback">
+                                    </span>
+
+                                </span>
+
+                                <span
+                                        id="userName"
+                                        class="user-name">
+                                </span>
+
+                                <svg
+                                        class="chevron"
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none">
+
+                                    <path
+                                            d="M6 9l6 6 6-6"
+                                            stroke="currentColor"
+                                            stroke-width="2.5"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"/>
+
+                                </svg>
+
+                            </button>
+
+                            <div
+                                    id="userDropdown"
+                                    class="user-dropdown">
+
+                                <a
+                                        href="profile.html"
+                                        class="dropdown-item profile-item">
+
+                                    <svg
+                                            width="22"
+                                            height="22"
+                                            viewBox="0 0 24 24"
+                                            fill="none">
+
+                                        <circle
+                                                cx="12"
+                                                cy="7"
+                                                r="4"
+                                                stroke="currentColor"
+                                                stroke-width="2"/>
+
+                                        <path
+                                                d="M5 21v-2c0-3.3 2.7-6 6-6h2c3.3 0 6 2.7 6 6v2"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"/>
+
+                                    </svg>
+
+                                    Profile
+
+                                </a>
+
+                                <button
+                                        id="logoutBtn"
+                                        class="dropdown-item logout-item">
+
+                                    <svg
+                                            width="22"
+                                            height="22"
+                                            viewBox="0 0 24 24"
+                                            fill="none">
+
+                                        <path
+                                                d="M10 5H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"/>
+
+                                        <path
+                                                d="M14 8l4 4-4 4"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"/>
+
+                                        <path
+                                                d="M9 12h9"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"/>
+
+                                    </svg>
+
+                                    Log Out
+
+                                </button>
+
+                            </div>
+
+                        </div>
+                    `;
+
+                document
+                    .getElementById("userName")
+                    .textContent =
+                    user.name;
+
+
+                const avatarImage =
+                    document.getElementById(
+                        "userAvatarImage"
+                    );
+
+                const avatarFallback =
+                    document.getElementById(
+                        "userAvatarFallback"
+                    );
+
+
+                if (SafeDom.safeImageUrl(user.avatarUrl)) {
+
+                    avatarImage.onerror = function () {
+                      avatarImage.style.display = "none";
+                      avatarFallback.textContent = user.name.charAt(0).toUpperCase();
+                      avatarFallback.style.display = "flex";
+                    };
+
+                    avatarImage.src =
+                        SafeDom.safeImageUrl(user.avatarUrl);
+
+                    avatarImage.style.display =
+                        "block";
+
+                    avatarFallback.style.display =
+                        "none";
+
+                } else {
+
+                    avatarImage.style.display =
+                        "none";
+
+                    avatarFallback.textContent =
+                        user.name
+                            .charAt(0)
+                            .toUpperCase();
+
+                    avatarFallback.style.display =
+                        "flex";
+
+                }
+
+
+                const userTrigger =
+                    document.getElementById(
+                        "userTrigger"
+                    );
+
+                const userDropdown =
+                    document.getElementById(
+                        "userDropdown"
+                    );
+
+
+                userTrigger.addEventListener(
+                    "click",
+                    function (event) {
+
+                        event.stopPropagation();
+
+                        userDropdown
+                            .classList
+                            .toggle("show");
+
+                        userTrigger
+                            .classList
+                            .toggle("open");
+
+                    }
+                );
+
+
+                document.addEventListener(
+                    "click",
+                    function (event) {
+
+                        if (
+                            !event.target.closest(
+                                ".user-menu"
+                            )
+                        ) {
+
+                            userDropdown
+                                .classList
+                                .remove("show");
+
+                            userTrigger
+                                .classList
+                                .remove("open");
+
+                        }
+
+                    }
+                );
+
+
+                document
+                    .getElementById("logoutBtn")
+                    .addEventListener(
+                        "click",
+                        function () {
+
+                            CopyMyLifeSession.signOut();
+
+                        }
+                    );
+
+            })
+            .catch(function () {
+
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+
+            });
+
+    }
+
+
+    // US-30: the period, sort, category and time of day from the address, when they are known ones.
+    function readAddress() {
+
+        const params =
+            new URLSearchParams(location.search);
+
+        if (PERIODS.includes(params.get("period"))) {
+            currentPeriod = params.get("period");
+        }
+
+        if (SORTS.includes(params.get("sort"))) {
+            currentSort = params.get("sort");
+        }
+
+        if ([...categoryFilter.options].some(option => option.value === params.get("category"))) {
+            currentCategory = params.get("category");
+        }
+
+        if (Object.hasOwn(TIMES, params.get("time") || "")) {
+            currentTime = params.get("time");
+        }
+
+        showChoices();
+
+    }
+
+
+    // Keeps what was chosen in the address, leaving out what is still the default.
+    function writeAddress() {
+
+        const params =
+            new URLSearchParams();
+
+        if (currentPeriod !== "week") {
+            params.set("period", currentPeriod);
+        }
+
+        if (currentSort !== "overall") {
+            params.set("sort", currentSort);
+        }
+
+        if (currentCategory !== "all") {
+            params.set("category", currentCategory);
+        }
+
+        if (currentTime !== "all") {
+            params.set("time", currentTime);
+        }
+
+        const query =
+            params.toString();
+
+        history.replaceState(
+            null,
+            "",
+            location.pathname + (query ? "?" + query : "") + location.hash
+        );
+
+    }
+
+
+    function showChoices() {
+
+        document
+            .querySelectorAll(".period-btn")
+            .forEach(function (button) {
+                button.classList.toggle("active", button.dataset.period === currentPeriod);
+            });
+
+        document
+            .querySelectorAll(".ranking-filter")
+            .forEach(function (button) {
+                button.classList.toggle("active", button.dataset.filter === currentSort);
+            });
+
+        categoryFilter.value =
+            currentCategory;
+
+        timeFilter.value =
+            currentTime;
+
+        timeNote.hidden =
+            currentTime === "all";
+
+        timeNote.textContent =
+            currentTime === "all"
+                ? ""
+                : TIMES[currentTime].label
+                + ": routines whose first timed activity starts between "
+                + TIMES[currentTime].range
+                + ".";
+
+    }
+
+
+    function isDefaultChoice() {
+
+        return currentPeriod === "week"
+            && currentSort === "overall"
+            && currentCategory === "all"
+            && currentTime === "all";
+
+    }
+
+
+    function resetFilters() {
+
+        currentPeriod = "week";
+        currentSort = "overall";
+        currentCategory = "all";
+        currentTime = "all";
+
+        showChoices();
+
+        loadTopRoutines();
+
+    }
+
+
+    // "No Fitness routines starting in the afternoon found for this period.", or as much of it as was chosen.
+    function emptyMessage() {
+
+        const category =
+            currentCategory === "all"
+                ? ""
+                : categoryFilter.selectedOptions[0].textContent.trim() + " ";
+
+        const time =
+            currentTime === "all"
+                ? ""
+                : " starting in the " + currentTime;
+
+        return "No " + category + "routines" + time + " found for this period.";
+
+    }
+
+
+    async function loadTopRoutines() {
+
+        const round =
+            ++loadRound;
+
+        writeAddress();
+
+        rankingList.innerHTML = `
+            <div class="ranking-empty">
+                Loading routines...
+            </div>
+        `;
+
+        try {
+
+            const response =
+                await fetch(
+                    "/top-routines"
+                    + "?period="
+                    + encodeURIComponent(currentPeriod)
+                    + "&sort="
+                    + encodeURIComponent(currentSort)
+                    + "&category="
+                    + encodeURIComponent(currentCategory)
+                    + "&time="
+                    + encodeURIComponent(currentTime)
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Failed to load top routines: "
+                    + response.status
+                );
+
+            }
+
+
+            const routines =
+                await response.json();
+
+
+            if (round !== loadRound) {
+                return;
+            }
+
+
+            renderTopRoutines(routines);
+
+        } catch (error) {
+
+            if (round !== loadRound) {
+                return;
+            }
+
+            console.error(
+                "TOP ROUTINES ERROR:",
+                error
+            );
+
+            rankingList.innerHTML = `
+                <div class="ranking-empty">
+                    Failed to load routines.
+                </div>
+            `;
+
+        }
+
+    }
+
+
+    function renderTopRoutines(routines) {
+
+        rankingList.innerHTML =
+            "";
+
+
+        if (!routines || routines.length === 0) {
+
+            const empty =
+                document.createElement("div");
+
+            empty.className =
+                "ranking-empty";
+
+            empty.textContent =
+                emptyMessage();
+
+            // One card holds the message and what can be done about it.
+            const state =
+                document.createElement("div");
+
+            state.className =
+                "ranking-empty-state";
+
+            state.appendChild(empty);
+
+            rankingList.appendChild(state);
+
+
+            // US-30: what was chosen can be undone in one step.
+            if (!isDefaultChoice()) {
+
+                const actions =
+                    document.createElement("div");
+
+                actions.className =
+                    "ranking-empty-actions";
+
+                if (currentTime !== "all") {
+
+                    const hint =
+                        document.createElement("p");
+
+                    hint.className =
+                        "ranking-empty-hint";
+
+                    hint.textContent =
+                        "Only routines whose activities have a start time are sorted by time of day.";
+
+                    actions.appendChild(hint);
+
+                }
+
+                const reset =
+                    document.createElement("button");
+
+                reset.type =
+                    "button";
+
+                reset.className =
+                    "ranking-reset";
+
+                reset.textContent =
+                    "Reset filters";
+
+                reset.addEventListener(
+                    "click",
+                    resetFilters
+                );
+
+                actions.appendChild(reset);
+
+                state.appendChild(actions);
+
+            }
+
+            return;
+
+        }
+
+
+        routines.forEach(
+            function (routine, index) {
+
+                const rank =
+                    index + 1;
+
+                let rankClass =
+                    "";
+
+                if (rank === 1) {
+
+                    rankClass =
+                        "rank-one";
+
+                } else if (rank === 3) {
+
+                    rankClass =
+                        "rank-three";
+
+                }
+
+
+                const imageHtml =
+                    SafeDom.imageSrc(routine.imageUrl)
+                        ? `
+                                        <img
+                                                class="ranking-image"
+                                                data-fallback="${escapeHtml(getInitial(routine.authorName))}"
+                                                src="${SafeDom.imageSrc(routine.imageUrl)}"
+                                                alt="${escapeHtml(routine.title)}">
+                                      `
+                        : `
+                                        <div class="ranking-image-fallback">
+                                            ${escapeHtml(getInitial(routine.authorName))}
+                                        </div>
+                                      `;
+
+
+                // US-30: no rating is shown as none, not as 0.0, and a timed routine says when it starts.
+                const rated =
+                    Number(routine.ratingCount || 0) > 0;
+
+                const timeHtml =
+                    Object.hasOwn(TIMES, routine.timeOfDay || "") && routine.startsAt
+                        ? `
+                                        <p class="ranking-time">
+                                            ${escapeHtml(TIMES[routine.timeOfDay].label)} · starts ${escapeHtml(routine.startsAt)}
+                                        </p>
+                                      `
+                        : "";
+
+
+                const card =
+                    document.createElement(
+                        "article"
+                    );
+
+
+                card.className =
+                    "ranking-card"
+                    + (
+                        rank === 1
+                            ? " top-card"
+                            : ""
+                    );
+
+
+                card.dataset.routineId =
+                    routine.id;
+
+
+                card.innerHTML = `
+
+                        <div
+                                class="rank-number ${rankClass}">
+                            ${rank}
+                        </div>
+
+
+                        ${imageHtml}
+
+
+                        <div class="ranking-info">
+
+                            <h2>
+                                ${escapeHtml(routine.title)}
+                            </h2>
+
+                            <p class="ranking-author">
+                                ${escapeHtml(
+                    routine.authorName
+                    || "User"
+                )}
+                            </p>
+
+                            ${timeHtml}
+
+                            <p class="ranking-text">
+                                ${escapeHtml(
+                    routine.description
+                    || "No description"
+                )}
+                            </p>
+
+                        </div>
+
+
+                        <div class="ranking-stat">
+
+                            <strong>
+                                ♡ ${formatCount(
+                    routine.likeCount
+                )}
+                            </strong>
+
+                            <span>
+                                Likes
+                            </span>
+
+                        </div>
+
+
+                        <div class="ranking-stat">
+
+                            <strong>
+                                🔖 ${formatCount(
+                    routine.saveCount
+                )}
+                            </strong>
+
+                            <span>
+                                Saves
+                            </span>
+
+                        </div>
+
+
+                        <div class="ranking-stat">
+
+                            <strong>
+                                ☆ ${rated
+                    ? Number(routine.averageRating).toFixed(1)
+                    : "–"}
+                            </strong>
+
+                            <span>
+                                ${rated ? "Rating" : "No ratings"}
+                            </span>
+
+                            ${rated
+                    ? `<small>(${formatCount(routine.ratingCount)})</small>`
+                    : ""}
+
+                        </div>
+
+                    `;
+
+
+                rankingList.appendChild(
+                    card
+                );
+
+            }
+        );
+
+    }
+
+
+    function formatCount(value) {
+
+        const number =
+            Number(value || 0);
+
+
+        if (number >= 1000000) {
+
+            return (
+                number / 1000000
+            ).toFixed(1) + "M";
+
+        }
+
+
+        if (number >= 1000) {
+
+            return (
+                number / 1000
+            ).toFixed(1) + "K";
+
+        }
+
+
+        return String(number);
+
+    }
+
+
+    function getInitial(value) {
+
+        const text =
+            String(
+                value || "?"
+            ).trim();
+
+        if (!text) {
+            return "?";
+        }
+
+        // Plain text; it is escaped where it is shown, once.
+        return text
+            .charAt(0)
+            .toUpperCase();
+
+    }
+
+
+    function escapeHtml(value) {
+
+        return String(value || "")
+            .replaceAll(
+                "&",
+                "&amp;"
+            )
+            .replaceAll(
+                "<",
+                "&lt;"
+            )
+            .replaceAll(
+                ">",
+                "&gt;"
+            )
+            .replaceAll(
+                '"',
+                "&quot;"
+            )
+            .replaceAll(
+                "'",
+                "&#039;"
+            );
+
+    }
+
+
+    document
+        .querySelectorAll(
+            ".period-btn"
+        )
+        .forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        document
+                            .querySelectorAll(
+                                ".period-btn"
+                            )
+                            .forEach(
+                                function (item) {
+
+                                    item.classList
+                                        .remove(
+                                            "active"
+                                        );
+
+                                }
+                            );
+
+
+                        button.classList
+                            .add(
+                                "active"
+                            );
+
+
+                        currentPeriod =
+                            button.dataset.period;
+
+
+                        loadTopRoutines();
+
+                    }
+                );
+
+            }
+        );
+
+
+    document
+        .querySelectorAll(
+            ".ranking-filter"
+        )
+        .forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        document
+                            .querySelectorAll(
+                                ".ranking-filter"
+                            )
+                            .forEach(
+                                function (item) {
+
+                                    item.classList
+                                        .remove(
+                                            "active"
+                                        );
+
+                                }
+                            );
+
+
+                        button.classList
+                            .add(
+                                "active"
+                            );
+
+
+                        currentSort =
+                            button.dataset.filter;
+
+
+                        loadTopRoutines();
+
+                    }
+                );
+
+            }
+        );
+
+
+    categoryFilter.addEventListener(
+        "change",
+        function () {
+
+            currentCategory =
+                categoryFilter.value;
+
+            loadTopRoutines();
+
+        }
+    );
+
+
+    timeFilter.addEventListener(
+        "change",
+        function () {
+
+            currentTime =
+                timeFilter.value;
+
+            showChoices();
+
+            loadTopRoutines();
+
+        }
+    );
+
+
+    rankingList.addEventListener(
+        "click",
+        function (event) {
+
+            const card =
+                event.target.closest(
+                    ".ranking-card"
+                );
+
+
+            if (!card) {
+                return;
+            }
+
+
+            const routineId =
+                card.dataset.routineId;
+
+
+            if (!routineId) {
+                return;
+            }
+
+
+            window.location.href =
+                "routine.html?id="
+                + routineId;
+
+        }
+    );
+
+
+    readAddress();
+
+    loadTopRoutines();
+
+</script>
+
+<script defer src="mobile.js"></script>
+<script src="theme.js"></script>
+</body>
+</html>

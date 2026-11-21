@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routine — CopyMyLife Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin-simple-detail.css">
+</head>
+<body>
+
+<header class="topbar">
+    <a href="admin-dashboard.html" class="brand">
+        <img src="https://i.ibb.co/chRY80xC/image.png" alt="">
+        <span>CopyMyLife</span>
+    </a>
+    <a id="backLink" class="back-link" href="admin-users.html">← Back to Profile</a>
+</header>
+
+<div class="page">
+
+    <main class="content">
+        <div class="heading">
+            <h1 id="title">Loading routine...</h1>
+            <p>Routine information, habits and comments</p>
+        </div>
+
+        <div id="error"></div>
+
+        <section class="panel" id="information">
+            <div class="panel-heading">
+                <span class="side-icon yellow">▦</span>
+                <h2>Routine Overview</h2>
+            </div>
+            <p class="description" id="description"></p>
+            <div class="tags" id="routineTags"></div>
+        </section>
+
+        <section class="panel" id="habits">
+            <div class="panel-heading">
+                <span class="side-icon purple">✓</span>
+                <h2>Routine Habits</h2>
+            </div>
+            <div class="cards" id="habitsList"></div>
+        </section>
+
+        <section class="panel" id="comments">
+            <div class="panel-heading">
+                <span class="side-icon blue">♧</span>
+                <h2>Routine Comments</h2>
+            </div>
+            <div id="commentsList"></div>
+        </section>
+    </main>
+</div>
+
+<script>
+    const token = sessionStorage.getItem("adminToken");
+    const params = new URLSearchParams(location.search);
+    const id = params.get("id");
+    const userId = params.get("userId");
+    const commentId = params.get("commentId");
+    const $ = value => document.getElementById(value);
+
+    if (!token) location.replace("admin-login.html");
+
+    if (userId && /^\d+$/.test(userId)) {
+        $("backLink").href = `admin-profile.html?id=${userId}`;
+    }
+
+    async function api(path) {
+        const response = await fetch("/admin-api/" + path, {
+            headers: { Authorization: "Bearer " + token }
+        });
+
+        if (response.status === 401 || response.status === 403) {
+            location.replace("admin-login.html");
+            throw new Error("Admin access required");
+        }
+
+        if (!response.ok) throw new Error("Request failed: " + response.status);
+        return response.json();
+    }
+
+    function text(parent, tag, value, className) {
+        const element = document.createElement(tag);
+        element.textContent = value ?? "";
+        if (className) element.className = className;
+        parent.appendChild(element);
+        return element;
+    }
+
+    function tag(root, value, danger = false) {
+        text(root, "span", value, danger ? "tag danger" : "tag");
+    }
+
+
+    function renderRoutine(routine) {
+        $("title").textContent = routine.title || "Routine";
+        $("description").textContent =
+            routine.description || "No description";
+
+        const tags = $("routineTags");
+        tags.replaceChildren();
+
+        tag(tags, `${routine.durationMinutes || 0} min`);
+        tag(tags, routine.category || "General");
+        tag(tags, routine.publicRoutine ? "Public" : "Private");
+
+        if (routine.deleted) {
+            tag(tags, "Deleted", true);
+        }
+    }
+
+
+    function renderHabits(habits) {
+        const root = $("habitsList");
+        root.replaceChildren();
+
+        if (!habits.length) {
+            text(root, "p", "No habits found", "empty");
+            return;
+        }
+
+        habits.forEach(habit => {
+            const card = document.createElement("article");
+            card.className = "detail-card";
+
+            text(card, "h3", habit.title || "Untitled habit");
+            text(card, "p", habit.description || "No description");
+
+            const tags = document.createElement("div");
+            tags.className = "tags";
+            tag(tags, `${habit.durationMinutes || 0} min`);
+            card.appendChild(tags);
+
+            const link = text(card, "a", "Show Habit →", "detail-action");
+            link.href = `admin-habit-view.html?id=${habit.habitId}&userId=${userId || ""}`;
+
+            root.appendChild(card);
+        });
+    }
+
+    function renderComments(comments) {
+        const root = $("commentsList");
+        root.replaceChildren();
+
+        if (!comments.length) {
+            text(root, "p", "No comments found", "empty");
+            return;
+        }
+
+        comments.forEach(comment => {
+            const card = document.createElement("article");
+            card.className = "comment-card";
+            card.id = "comment-" + comment.id;
+
+            if (String(comment.id) === String(commentId)) {
+                card.classList.add("selected");
+            }
+
+            const header = document.createElement("div");
+            header.className = "comment-head";
+            text(header, "strong", comment.userName || comment.username || "User");
+            text(header, "span", comment.createdAt
+                ? new Date(comment.createdAt).toLocaleString()
+                : "", "comment-date");
+
+            card.appendChild(header);
+            text(card, "p", comment.text || "", "description");
+
+            if (comment.deleted) {
+                const tags = document.createElement("div");
+                tags.className = "tags";
+                tag(tags, "Removed", true);
+                card.appendChild(tags);
+            }
+
+            root.appendChild(card);
+        });
+
+        if (commentId) {
+            const selected = $("comment-" + commentId);
+            if (selected) {
+                $("comments").scrollIntoView({block: "start"});
+                selected.scrollIntoView({block: "center"});
+            }
+        }
+    }
+
+    async function load() {
+        if (!id || !/^\d+$/.test(id)) {
+            $("error").textContent = "Invalid routine ID";
+            return;
+        }
+
+        try {
+            const [routine, habits, comments] = await Promise.all([
+                api("routines/" + id),
+                api("routines/" + id + "/habits"),
+                api("comments?routineId=" + id)
+            ]);
+
+            renderRoutine(routine);
+            renderHabits(habits);
+            renderComments(comments);
+
+        } catch (error) {
+            $("error").textContent = error.message;
+        }
+    }
+
+    load();
+</script>
+</body>
+</html>

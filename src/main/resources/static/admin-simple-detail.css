@@ -1,0 +1,296 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #eef1f8;
+    color: #171b4d;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.topbar {
+    height: 76px;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border-bottom: 1px solid #eaecf3;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #15213b;
+    text-decoration: none;
+}
+
+.brand img {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    object-fit: cover;
+}
+
+.brand span {
+    font-family: "Manrope", sans-serif;
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.back-link {
+    color: #4457e8;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.page {
+    display: block;
+    width: 100%;
+    max-width: 1050px;
+    margin: 0 auto;
+    padding: 40px 22px;
+}
+
+.content {
+    width: 100%;
+    min-width: 0;
+}
+
+.heading {
+    margin-bottom: 26px;
+}
+
+.heading h1 {
+    margin: 0 0 10px;
+    font-size: 36px;
+    font-weight: 800;
+    color: #171b4d;
+}
+
+.heading p {
+    margin: 0;
+    font-size: 15px;
+    color: #8790a8;
+}
+
+.panel {
+    margin-bottom: 20px;
+    padding: 26px;
+    background: #ffffff;
+    border: 1px solid #e5e9f2;
+    border-radius: 20px;
+}
+
+.panel-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.panel-heading h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.side-icon {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 11px;
+    background: #e8e8ff;
+    color: #5b5fe0;
+    font-size: 18px;
+}
+
+.side-icon svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.side-icon.yellow {
+    background: #fff3d7;
+    color: #cf9417;
+}
+
+.side-icon.purple {
+    background: #f2eaff;
+    color: #8b56dd;
+}
+
+.side-icon.blue {
+    background: #eaf0ff;
+    color: #5274df;
+}
+
+.description {
+    color: #737c96;
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-top: 18px;
+}
+
+.tag {
+    display: inline-flex;
+    padding: 7px 12px;
+    background: #edf1ff;
+    border-radius: 20px;
+    color: #5268df;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.tag.danger {
+    background: #ffe8eb;
+    color: #d74752;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.detail-card {
+    padding: 20px;
+    border: 1px solid #e2e8f2;
+    border-radius: 14px;
+    min-width: 0;
+}
+
+.detail-card h3 {
+    margin: 0 0 10px;
+    font-size: 17px;
+}
+
+.detail-card p {
+    color: #7b849d;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.detail-action {
+    display: block;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid #eaecf3;
+    color: #17328e;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.detail-action:hover {
+    color: #5268ed;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 16px 0;
+    border-bottom: 1px solid #edf0f5;
+    font-size: 14px;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    color: #8790a8;
+}
+
+.info-value {
+    font-weight: 600;
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+.comment-card {
+    padding: 19px;
+    margin-bottom: 12px;
+    border: 1px solid #e2e8f2;
+    border-radius: 14px;
+    scroll-margin-top: 100px;
+}
+
+.comment-card.selected {
+    border: 2px solid #5268ed;
+    background: #f0f3ff;
+}
+
+.comment-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+.comment-date {
+    color: #9299aa;
+    font-size: 12px;
+}
+
+.empty {
+    padding: 30px 10px;
+    text-align: center;
+    color: #9299aa;
+    font-size: 14px;
+}
+
+#error {
+    color: #d94352;
+    margin-bottom: 14px;
+}
+
+@media (max-width: 700px) {
+    .topbar {
+        padding: 0 18px;
+    }
+
+    .brand span {
+        font-size: 20px;
+    }
+
+    .page {
+        padding: 24px 16px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+}
+.page {
+    display: block;
+    width: 100%;
+    max-width: 1050px;
+    margin: 0 auto;
+    padding: 40px 22px;
+}
+
+.content {
+    width: 100%;
+    min-width: 0;
+}

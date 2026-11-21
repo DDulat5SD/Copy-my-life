@@ -1,0 +1,464 @@
+/* To-do lists and posts: one look for both pages, in the original and autumn designs. */
+
+.mc-page {
+  --mc-surface: #FFFFFF;
+  --mc-text: #15213B;
+  --mc-muted: #4F5B70;
+  --mc-border: #E6EAF1;
+  --mc-primary: #15213B;
+  --mc-primary-hover: #25355A;
+  --mc-on-primary: #FFFFFF;
+  --mc-public-bg: #E3F4EA;
+  --mc-public-text: #14653A;
+  --mc-private-bg: #EEF0F6;
+  --mc-private-text: #3A4560;
+  --mc-danger: #B42318;
+  --mc-error-bg: #FDECEA;
+
+  /* Above the autumn leaves, which are positioned at z-index 0. */
+  position: relative;
+  z-index: 1;
+
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 36px 16px 64px;
+  color: var(--mc-text);
+}
+
+/* Inside the profile the section's white panel already gives the spacing. */
+.mc-page.mc-page--embedded {
+  max-width: none;
+  margin: 0;
+  padding: 24px 26px 28px;
+}
+
+.mc-page--embedded > .mc-card:first-of-type {
+  margin-top: 0;
+}
+
+.mc-status {
+  margin-top: 18px;
+  color: var(--mc-muted);
+  font-size: 14px;
+}
+
+/* display: flex on a form would otherwise show it to visitors despite hidden. */
+.mc-page [hidden] {
+  display: none !important;
+}
+
+html[data-theme="autumn"] .mc-page {
+  --mc-surface: var(--theme-surface, #FFF9F1);
+  --mc-text: var(--theme-text, #35251D);
+  --mc-muted: var(--theme-muted, #66704D);
+  --mc-border: var(--theme-border, #E8D3BE);
+  --mc-primary: #9F4C27;
+  --mc-primary-hover: #8A3F1C;
+  --mc-public-bg: #EAF1DF;
+  --mc-public-text: #3F5A24;
+  --mc-private-bg: #F4E2D2;
+  --mc-private-text: #8A3F1C;
+  --mc-danger: #A1281A;
+}
+
+/* The autumn leaves sit behind the heading; a surface keeps it readable. */
+html[data-theme="autumn"] .mc-page .page-head {
+  padding: 14px 18px;
+  border: 1px solid var(--mc-border);
+  border-radius: 14px;
+  background: var(--mc-surface);
+}
+
+.page-head h1 {
+  font-family: var(--font-head);
+  font-size: 30px;
+  line-height: 1.2;
+  color: var(--mc-text);
+}
+
+.page-head p {
+  margin-top: 6px;
+  color: var(--mc-muted);
+  font-size: 15px;
+}
+
+.page-message {
+  margin-top: 16px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--mc-error-bg);
+  color: var(--mc-danger);
+  font-size: 14px;
+}
+
+.mc-card {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid var(--mc-border);
+  border-radius: 14px;
+  background: var(--mc-surface);
+}
+
+.mc-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.mc-input,
+.mc-textarea {
+  flex: 1 1 240px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--mc-border);
+  border-radius: 10px;
+  background: #FFFFFF;
+  color: var(--mc-text);
+  font: inherit;
+  font-size: 15px;
+}
+
+.mc-textarea {
+  flex-basis: 100%;
+  min-height: 90px;
+  resize: vertical;
+}
+
+.mc-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--mc-text);
+  font-size: 14px;
+}
+
+.mc-field-error {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--mc-danger);
+  font-size: 13px;
+}
+
+.mc-field-error[hidden] {
+  display: none;
+}
+
+.mc-hint {
+  flex-basis: 100%;
+  color: var(--mc-muted);
+  font-size: 13px;
+}
+
+.mc-btn {
+  min-height: 38px;
+  padding: 8px 16px;
+  border: 1px solid var(--mc-primary);
+  border-radius: 10px;
+  background: var(--mc-primary);
+  color: var(--mc-on-primary);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mc-btn:hover {
+  background: var(--mc-primary-hover);
+}
+
+.mc-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.mc-btn--ghost {
+  border-color: var(--mc-border);
+  background: var(--mc-surface);
+  color: var(--mc-text);
+}
+
+.mc-btn--ghost:hover {
+  background: var(--mc-private-bg);
+}
+
+.mc-btn--danger {
+  border-color: var(--mc-border);
+  background: var(--mc-surface);
+  color: var(--mc-danger);
+}
+
+.mc-btn--danger-solid {
+  border-color: var(--mc-danger);
+  background: var(--mc-danger);
+  color: #FFFFFF;
+}
+
+.mc-empty {
+  margin-top: 18px;
+  padding: 36px 18px;
+  border: 1px dashed var(--mc-border);
+  border-radius: 14px;
+  color: var(--mc-muted);
+  text-align: center;
+}
+
+.mc-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.mc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.visibility-badge {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.visibility-badge--public {
+  background: var(--mc-public-bg);
+  color: var(--mc-public-text);
+}
+
+.visibility-badge--private {
+  background: var(--mc-private-bg);
+  color: var(--mc-private-text);
+}
+
+/* US-25: a post an administrator hid, as its author sees it. */
+.post-hidden-badge {
+  background: #fff1dd;
+  color: #8a4a06;
+}
+
+html[data-theme="autumn"] .post-hidden-badge {
+  background: #FCEDE6;
+  color: #8E2F14;
+}
+
+.confirm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--mc-error-bg);
+  color: var(--mc-danger);
+  font-size: 14px;
+}
+
+.confirm span {
+  flex: 1 1 200px;
+}
+
+/* ---- to-do lists ---- */
+
+.todo-list__title {
+  font-family: var(--font-head);
+  font-size: 19px;
+  overflow-wrap: anywhere;
+}
+
+.todo-tasks {
+  list-style: none;
+  margin-top: 12px;
+}
+
+.todo-task {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-top: 1px solid var(--mc-border);
+}
+
+.todo-task label {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.todo-task input[type=checkbox] {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  accent-color: var(--mc-primary);
+}
+
+.todo-task__text {
+  overflow-wrap: anywhere;
+}
+
+.todo-task--done .todo-task__text {
+  text-decoration: line-through;
+  color: var(--mc-muted);
+}
+
+.add-task-form {
+  margin-top: 12px;
+}
+
+/* ---- posts ---- */
+
+.post__meta {
+  color: var(--mc-muted);
+  font-size: 13px;
+}
+
+.post__text {
+  margin-top: 10px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.post__image img {
+  display: block;
+  max-width: 100%;
+  max-height: 480px;
+  margin-top: 12px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+/* ---- post likes and comments (US-15) ---- */
+
+.post-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--mc-border);
+}
+
+.post-like {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.post-like--on {
+  border-color: var(--mc-danger);
+  color: var(--mc-danger);
+}
+
+.post-like__count {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- saved posts (US-16) ---- */
+
+.post-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 16px;
+}
+
+.post-tab[aria-selected="true"] {
+  border-color: var(--mc-primary);
+  background: var(--mc-primary);
+  color: var(--mc-on-primary);
+}
+
+.post-save--on {
+  border-color: var(--mc-public-text);
+  color: var(--mc-public-text);
+}
+
+.post-comments {
+  margin-top: 12px;
+}
+
+.post-comments__list {
+  list-style: none;
+}
+
+.post-comment {
+  padding: 10px 0;
+  border-top: 1px solid var(--mc-border);
+}
+
+.post-comment:first-child {
+  border-top: none;
+}
+
+.post-comment__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.post-comment__author {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.post-comment__meta {
+  color: var(--mc-muted);
+  font-size: 13px;
+}
+
+.post-comment__text {
+  margin-top: 4px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.post-comment__delete,
+.post-comment__report {
+  margin-top: 8px;
+}
+
+/* US-24: Report sits at the far end of the row, away from Like. */
+.post-report {
+  margin-left: auto;
+}
+
+.post-comments__status {
+  padding: 8px 0;
+  color: var(--mc-muted);
+  font-size: 14px;
+}
+
+.post-comments__status--error {
+  color: var(--mc-danger);
+}
+
+.post-comment-form {
+  margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+  .mc-page {
+    padding-top: 22px;
+  }
+
+  .post-social .mc-btn {
+    flex: 1 1 auto;
+  }
+
+  .page-head h1 {
+    font-size: 25px;
+  }
+
+  .mc-form .mc-btn,
+  .mc-actions .mc-btn {
+    flex: 1 1 auto;
+  }
+}

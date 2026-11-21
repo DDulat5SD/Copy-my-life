@@ -1,0 +1,31 @@
+package com.copymylife.copymylife.dto;
+
+public class HabitUpdateRequest {
+
+    private String title;
+    private String description;
+    private Integer durationMinutes;
+
+    public String getTitle() {
+        return title;
+    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getDurationMinutes() {
+        return durationMinutes;
+    }
+    public void setDurationMinutes(Integer durationMinutes) {
+        this.durationMinutes = durationMinutes;
+    }
+
+    
+}

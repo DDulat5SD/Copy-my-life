@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login — CopyMyLife</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="login.css?v=20261106">
+  <link rel="stylesheet" href="mobile.css?v=20261106">
+  <link rel="stylesheet" href="theme.css?v=20261106">
+</head>
+<body data-mobile-page="login">
+  <div class="page">
+    <div class="auth-card">
+
+      <div class="form-panel">
+          <a href="main.html" class="brand">
+              <span class="brand-icon">
+                  <img src="https://i.ibb.co/chRY80xC/image.png" alt="CopyMyLife logo">
+              </span>
+              <span class="brand-name">CopyMyLife</span>
+          </a>
+
+        <div class="form-content">
+          <h1>Welcome back</h1>
+          <p class="subtitle">Continue building the routines that move you forward.</p>
+
+
+            <p id="loginNotice" class="login-notice" role="status" hidden></p>
+
+            <form id="loginForm" novalidate>
+            <label for="email">Email</label>
+                <input
+                        type="email"
+                        id="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        aria-describedby="emailError"
+                        required
+                >
+                <p id="emailError" class="login-field-error" role="alert" hidden></p>
+
+            <label for="password">Password</label>
+            <div class="password-wrap">
+                <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        aria-describedby="passwordError"
+                        required
+                >
+              <button type="button" class="eye-toggle" aria-label="Show password" aria-pressed="false">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M2 2l20 20"/>
+                  <path d="M9.9 5.1A9.7 9.7 0 0 1 12 5c5 0 9 4.5 10 7-0.4 1-1.1 2.2-2.1 3.3M6.7 6.7C4.7 8.1 3.3 10 2 12c1 2.5 5 7 10 7 1.5 0 2.9-.4 4.1-1"/>
+                  <path d="M9.5 9.6a3 3 0 0 0 4.2 4.2"/>
+                </svg>
+              </button>
+            </div>
+            <p id="passwordError" class="login-field-error login-password-error" role="alert" hidden></p>
+
+            <div class="row-between">
+              <label class="checkbox">
+              </label>
+              <a href="forgot-password.html" class="link">Forgot password?</a>
+            </div>
+
+              <button type="submit" class="primary-btn">Sign in</button>
+
+              <p id="loginError" class="login-form-error" role="alert" aria-live="polite" hidden></p>
+            </form>
+
+          <p class="switch-text">Don't have an account? <a href="signin.html" class="link-strong">Sign up</a></p>
+        </div>
+
+        <p class="footnote">Small habits, thoughtfully repeated.</p>
+      </div>
+
+      <div class="photo-panel">
+        <img src="https://i.pinimg.com/736x/ad/69/60/ad6960d58e6cded5745d723c10a51c0e.jpg" alt="Aim High" class="profile-photo">
+      </div>
+
+    </div>
+  </div>
+  <script>
+    (function () {
+      const params = new URLSearchParams(location.search);
+      const notice = document.getElementById("loginNotice");
+      const text = params.has("signedout")
+              ? "You have signed out. See you soon!"
+              : params.get("session") === "expired"
+                      ? "Your session has ended. Please sign in again."
+                      : "";
+
+      notice.textContent = text;
+      notice.hidden = !text;
+    })();
+
+    const loginForm = document.getElementById("loginForm");
+    const loginError = document.getElementById("loginError");
+    const loginEmail = document.getElementById("email");
+    const loginPassword = document.getElementById("password");
+    const emailError = document.getElementById("emailError");
+    const passwordError = document.getElementById("passwordError");
+
+    function setFieldError(input, error, message) {
+      error.textContent = message;
+      error.hidden = !message;
+      input.setAttribute("aria-invalid", String(Boolean(message)));
+    }
+
+    function validateEmail() {
+      const value = loginEmail.value.trim();
+      const message = !value
+              ? "Please enter your email address."
+              : /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value) ? "" : "Please enter a valid email address.";
+      setFieldError(loginEmail, emailError, message);
+      return !message;
+    }
+
+    function validatePassword() {
+      const message = loginPassword.value ? "" : "Please enter your password.";
+      setFieldError(loginPassword, passwordError, message);
+      return !message;
+    }
+
+    loginEmail.addEventListener("input", function () {
+      if (!emailError.hidden) validateEmail();
+    });
+
+    loginPassword.addEventListener("input", function () {
+      if (!passwordError.hidden) validatePassword();
+    });
+
+    loginForm.addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const emailValid = validateEmail();
+      const passwordValid = validatePassword();
+
+      if (!emailValid || !passwordValid) {
+        (emailValid ? loginPassword : loginEmail).focus();
+        return;
+      }
+
+      const email = loginEmail.value.trim();
+      const password = loginPassword.value;
+      const submitButton = loginForm.querySelector('button[type="submit"]');
+
+      loginError.hidden = true;
+      loginError.textContent = "";
+      submitButton.disabled = true;
+      submitButton.textContent = "Signing in...";
+
+      try {
+        const response = await fetch("/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password
+          })
+        });
+
+        if (!response.ok) {
+          let message = "Unable to sign in. Please try again.";
+
+          if (response.status === 401) {
+            message = "Invalid email or password. Please try again.";
+
+            try {
+              const errorData = await response.json();
+              if (errorData.message) {
+                message = errorData.message;
+              }
+            } catch (error) {
+            }
+          } else if (response.status === 400) {
+            message = "Please enter a valid email and password.";
+          } else if (response.status >= 500) {
+            message = "Server error. Please try again later.";
+          }
+
+          loginError.textContent = message;
+          loginError.hidden = false;
+          return;
+        }
+
+        const data = await response.json();
+
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+
+        window.location.href = "main.html";
+
+      } catch (error) {
+        loginError.textContent = "Connection failed. Please check your internet and try again.";
+        loginError.hidden = false;
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = "Sign in";
+      }
+    });
+  </script>
+  <script>
+    const passwordInput = document.getElementById("password");
+    const eyeToggle = document.querySelector(".eye-toggle");
+
+    const eyeOpen = `
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
+             stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/>
+            <circle cx="12" cy="12" r="3"/>
+        </svg>
+    `;
+
+    const eyeClosed = `
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
+             stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 3l18 18"/>
+            <path d="M10.6 5.1A10.8 10.8 0 0 1 12 5c6.5 0 10 7 10 7a15.5 15.5 0 0 1-3.1 4.1"/>
+            <path d="M6.6 6.6C3.7 8.3 2 12 2 12s3.5 7 10 7c1.5 0 2.9-.4 4.1-1"/>
+            <path d="M10 10a3 3 0 0 0 4 4"/>
+        </svg>
+    `;
+
+    function updateEye() {
+      const visible = passwordInput.type === "text";
+      eyeToggle.innerHTML = visible ? eyeOpen : eyeClosed;
+      eyeToggle.setAttribute("aria-label", visible ? "Hide password" : "Show password");
+      eyeToggle.setAttribute("aria-pressed", String(visible));
+    }
+
+    eyeToggle.addEventListener("click", function () {
+      passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+      updateEye();
+    });
+
+    updateEye();
+  </script>
+  <script src="theme.js"></script>
+</body>
+</html>

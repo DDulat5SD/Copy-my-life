@@ -1,0 +1,1270 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile — CopyMyLife Admin</title>
+    <script src="safe-dom.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --navy: #171b4d;
+            --bg: #eef1f8;
+            --border: #e2e8f2;
+            --muted: #7b849d;
+        }
+
+        body {
+            font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--navy);
+        }
+
+        button, input {
+            font: inherit;
+        }
+
+        .topbar {
+            height: 76px;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            border-bottom: 1px solid #eaecf3;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #15213b;
+            text-decoration: none;
+        }
+
+        .brand img {
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+            object-fit: cover;
+        }
+
+        .brand span {
+            font-family: Manrope, sans-serif;
+            font-size: 26px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: #4457e8;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .page {
+            max-width: 1560px;
+            margin: 0 auto;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 345px minmax(0, 1fr);
+            gap: 32px;
+            align-items: start;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 20px;
+            padding: 32px 28px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(23, 27, 77, 0.05);
+        }
+
+        .avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            background: #dde4ff;
+            color: #5b6bf0;
+            font-size: 34px;
+            font-weight: 700;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 21px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .profile-username {
+            color: #9ca3af;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .profile-profession {
+            color: #4f5f86;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .profile-bio {
+            color: #6b7085;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 14px;
+        }
+
+        .profile-email {
+            font-size: 13px;
+            color: #8790a8;
+            overflow-wrap: anywhere;
+            margin-bottom: 16px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 7px 14px;
+            border-radius: 20px;
+            background: #ddf7eb;
+            color: #159669;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .status.banned {
+            background: #ffe5e8;
+            color: #d94352;
+        }
+
+        .role {
+            font-size: 12px;
+            color: #9299aa;
+            margin-top: 12px;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .nav-button {
+            width: 100%;
+            min-height: 66px;
+            display: grid;
+            grid-template-columns: 46px 1fr 24px;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 16px;
+            border: 1px solid #e2e8f2;
+            border-radius: 14px;
+            background: #ffffff;
+            color: var(--navy);
+            font-size: 16px;
+            font-weight: 700;
+            text-align: left;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(23, 27, 77, 0.05);
+            transition: 0.15s ease;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-1px);
+            border-color: #ccd5e6;
+        }
+
+        .nav-button.active {
+            background: #e8edff;
+            border-color: #dce4ff;
+            color: #193bb2;
+        }
+
+        .nav-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .icon-overview {
+            background: #e8e8ff;
+            color: #5b5fe0;
+        }
+
+        .icon-routines {
+            background: #fff3d7;
+            color: #cf9417;
+        }
+
+        .icon-habits {
+            background: #f2eaff;
+            color: #8b56dd;
+        }
+
+        .icon-comments {
+            background: #eaf0ff;
+            color: #5274df;
+        }
+
+        .arrow {
+            justify-self: end;
+            color: #8f9aaf;
+            font-size: 26px;
+            font-weight: 400;
+        }
+
+        .content {
+            min-width: 0;
+        }
+
+        .page-heading {
+            margin: 5px 0 26px;
+        }
+
+        .page-heading h1 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .page-heading p {
+            color: #7b849d;
+            font-size: 15px;
+        }
+
+        .panel {
+            background: #ffffff;
+            border: 1px solid #e5e9f2;
+            border-radius: 20px;
+            padding: 26px;
+            margin-bottom: 20px;
+        }
+
+        .panel h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .stat {
+            background: white;
+            border: 1px solid #e5e9f2;
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #7b849d;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            margin-top: 10px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #edf0f5;
+            font-size: 14px;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #8790a8;
+        }
+
+        .info-value {
+            text-align: right;
+            overflow-wrap: anywhere;
+            font-weight: 600;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .search {
+            width: 100%;
+            height: 48px;
+            border: 1px solid #dfe4ee;
+            border-radius: 10px;
+            outline: none;
+            padding: 0 16px;
+            margin-bottom: 20px;
+            color: var(--navy);
+            background: white;
+            font-size: 14px;
+        }
+
+        .search:focus {
+            border-color: #5b6bf0;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .item-card {
+            border: 1px solid #e2e8f2;
+            border-radius: 14px;
+            padding: 20px;
+            background: white;
+            min-width: 0;
+        }
+
+        .item-card h3 {
+            color: var(--navy);
+            font-size: 17px;
+            margin-bottom: 9px;
+            overflow-wrap: anywhere;
+        }
+
+        .item-card p {
+            color: #7b849d;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+        }
+
+        .item-meta {
+            margin-top: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .pill {
+            display: inline-block;
+            border-radius: 20px;
+            padding: 6px 11px;
+            background: #edf1ff;
+            color: #5268df;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .pill.deleted {
+            background: #ffe8e9;
+            color: #d74752;
+        }
+
+        .comment-card {
+            border: 1px solid #e2e8f2;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 12px;
+        }
+
+        .comment-card p {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            overflow-wrap: anywhere;
+        }
+
+        .comment-footer {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            color: #8790a8;
+            font-size: 12px;
+        }
+
+        .empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: #9299aa;
+            padding: 40px 15px;
+            font-size: 14px;
+        }
+
+        #error {
+            color: #d94352;
+            margin-bottom: 14px;
+        }
+
+        /* US-25: edit, hide or clear the public profile. */
+        .status[hidden] {
+            display: none;
+        }
+
+        .status.hidden-profile {
+            background: #fff1dd;
+            color: #9a5a08;
+            margin-left: 6px;
+        }
+
+        .profile-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .profile-actions[hidden] {
+            display: none;
+        }
+
+        .profile-action {
+            border: 1px solid #dfe3ee;
+            border-radius: 10px;
+            background: #ffffff;
+            color: #26306b;
+            padding: 9px 12px;
+            font: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .profile-action.danger {
+            border-color: #f2c4ca;
+            color: #b3283a;
+        }
+
+        .profile-action:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        #notice {
+            color: #15784f;
+            margin-bottom: 14px;
+            font-weight: 700;
+        }
+
+        .admin-confirm-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            background: rgba(14, 20, 55, .45);
+        }
+
+        .admin-confirm-modal {
+            width: min(460px, 100%);
+            max-height: calc(100vh - 32px);
+            overflow-y: auto;
+            padding: 24px;
+            border-radius: 16px;
+            background: #ffffff;
+            box-shadow: 0 20px 60px rgba(17, 27, 77, .25);
+        }
+
+        .admin-confirm-title {
+            color: #171b4d;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .admin-confirm-message {
+            color: #4b5470;
+            font-size: 14px;
+            margin-bottom: 14px;
+        }
+
+        .admin-edit-label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #26306b;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .admin-edit-field {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d6dbe8;
+            border-radius: 10px;
+            font: inherit;
+            font-size: 14px;
+        }
+
+        textarea.admin-edit-field {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .admin-form-error {
+            color: #b3283a;
+            font-size: 13px;
+            margin-top: 10px;
+        }
+
+        .admin-confirm-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .admin-confirm-btn {
+            border: 0;
+            border-radius: 10px;
+            padding: 10px 16px;
+            font: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .admin-confirm-cancel {
+            background: #eef0f7;
+            color: #26306b;
+        }
+
+        .admin-confirm-submit {
+            background: #c8283d;
+            color: #ffffff;
+        }
+
+        .admin-confirm-submit.primary {
+            background: #171b4d;
+        }
+
+        @media (max-width: 1000px) {
+            .page {
+                grid-template-columns: 290px minmax(0, 1fr);
+                gap: 22px;
+                padding: 25px;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .topbar {
+                padding: 0 20px;
+            }
+
+            .brand span {
+                font-size: 21px;
+            }
+
+            .page {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+        .show-detail-btn {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 18px;
+            padding-top: 14px;
+            border-top: 1px solid #eaecf3;
+            color: #17328e;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .show-detail-btn:hover {
+            color: #5268ed;
+        }
+    </style>
+</head>
+<body>
+
+<header class="topbar">
+    <a class="brand" href="admin-dashboard.html">
+        <img src="https://i.ibb.co/chRY80xC/image.png" alt="CopyMyLife logo">
+        <span>CopyMyLife</span>
+    </a>
+
+    <a class="back-link" href="admin-users.html">
+        ← Back to Users
+    </a>
+</header>
+
+<div class="page">
+
+    <aside class="sidebar">
+        <div class="profile-card">
+            <div class="avatar" id="avatar">?</div>
+
+            <h2 class="profile-name" id="name">Loading...</h2>
+            <p class="profile-username" id="username"></p>
+            <p class="profile-profession" id="profession"></p>
+            <p class="profile-bio" id="bio"></p>
+            <p class="profile-email" id="email"></p>
+
+            <span class="status" id="status"></span>
+            <span class="status hidden-profile" id="hiddenStatus" hidden>Hidden</span>
+            <p class="role" id="role"></p>
+
+            <div class="profile-actions" id="profileActions" hidden>
+                <button type="button" class="profile-action" id="adminEditProfileBtn">Edit profile</button>
+                <button type="button" class="profile-action" id="adminHideProfileBtn">Hide profile</button>
+                <button type="button" class="profile-action danger" id="adminRemoveDetailsBtn">Remove profile details</button>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <button type="button" class="nav-button active" data-tab="overview">
+                <span class="nav-icon icon-overview">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1"/>
+                    </svg>
+                </span>
+                Overview
+                <span class="arrow">›</span>
+            </button>
+
+            <button type="button" class="nav-button" data-tab="routines">
+                <span class="nav-icon icon-routines">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="3" y="5" width="18" height="16" rx="2"/>
+                        <path d="M8 3v4M16 3v4M3 10h18"/>
+                    </svg>
+                </span>
+                Routines
+                <span class="arrow">›</span>
+            </button>
+
+            <button type="button" class="nav-button" data-tab="habits">
+                <span class="nav-icon icon-habits">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20 6 9 17l-5-5"/>
+                    </svg>
+                </span>
+                Habits
+                <span class="arrow">›</span>
+            </button>
+
+            <button type="button" class="nav-button" data-tab="comments">
+                <span class="nav-icon icon-comments">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A9 9 0 1 1 21 11.5Z"/>
+                    </svg>
+                </span>
+                Comments
+                <span class="arrow">›</span>
+            </button>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <div class="page-heading">
+            <h1 id="pageTitle">Overview</h1>
+            <p id="pageSubtitle">Account information and activity overview.</p>
+        </div>
+
+        <p id="error"></p>
+        <p id="notice" role="status"></p>
+
+        <section class="section active" id="overview">
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-label">Total Routines</div>
+                    <div class="stat-value" id="routineCount">—</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Total Habits</div>
+                    <div class="stat-value" id="habitCount">—</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Total Comments</div>
+                    <div class="stat-value" id="commentCount">—</div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>Account Information</h2>
+                <div id="accountInfo"></div>
+            </div>
+        </section>
+
+        <section class="section" id="routines">
+            <div class="panel">
+                <h2>User Routines</h2>
+                <input class="search" id="routinesSearch"
+                       type="search" placeholder="Search routines...">
+                <div class="cards-grid" id="routinesList"></div>
+            </div>
+        </section>
+
+        <section class="section" id="habits">
+            <div class="panel">
+                <h2>User Habits</h2>
+                <input class="search" id="habitsSearch"
+                       type="search" placeholder="Search habits...">
+                <div class="cards-grid" id="habitsList"></div>
+            </div>
+        </section>
+
+        <section class="section" id="comments">
+            <div class="panel">
+                <h2>User Comments</h2>
+                <input class="search" id="commentsSearch"
+                       type="search" placeholder="Search comments...">
+                <div id="commentsList"></div>
+            </div>
+        </section>
+    </main>
+
+</div>
+
+<script>
+    const adminToken = sessionStorage.getItem("adminToken");
+    const userId = new URLSearchParams(location.search).get("id");
+
+    let profileData = null;
+    let commentsData = [];
+
+    const titles = {
+        overview: ["Overview", "Account information and activity overview."],
+        routines: ["Routines", "All routines created by this user."],
+        habits: ["Habits", "All habits in this user's library."],
+        comments: ["Comments", "All comments written by this user."]
+    };
+
+    const $ = id => document.getElementById(id);
+
+    if (!adminToken) {
+        location.replace("admin-login.html");
+    } else if (!userId || !/^\d+$/.test(userId)) {
+        location.replace("admin-users.html");
+    } else {
+        loadProfile();
+    }
+
+    document.querySelectorAll(".nav-button").forEach(button => {
+        button.addEventListener("click", () => {
+            const tab = button.dataset.tab;
+
+            document.querySelectorAll(".nav-button").forEach(item => {
+                item.classList.toggle("active", item === button);
+            });
+
+            document.querySelectorAll(".section").forEach(section => {
+                section.classList.toggle("active", section.id === tab);
+            });
+
+            $("pageTitle").textContent = titles[tab][0];
+            $("pageSubtitle").textContent = titles[tab][1];
+        });
+    });
+
+    async function adminGet(path) {
+        const response = await fetch("/admin-api/" + path, {
+            headers: {
+                Authorization: "Bearer " + adminToken
+            }
+        });
+
+        if (response.status === 401 || response.status === 403) {
+            sessionStorage.removeItem("adminToken");
+            location.replace("admin-login.html");
+            throw new Error("Administrator access required");
+        }
+
+        if (!response.ok) {
+            throw new Error("Request failed: " + response.status);
+        }
+
+        return response.json();
+    }
+
+    // US-25: a change to the profile; the answer is the profile as it is now.
+    async function adminSend(method, path, body) {
+        const response = await fetch("/admin-api/" + path, {
+            method,
+            headers: {
+                Authorization: "Bearer " + adminToken,
+                ...(body ? {"Content-Type": "application/json"} : {})
+            },
+            body: body ? JSON.stringify(body) : undefined
+        });
+
+        if (response.status === 401) {
+            sessionStorage.removeItem("adminToken");
+            location.replace("admin-login.html");
+            throw new Error("Administrator access required");
+        }
+
+        const text = await response.text();
+        let data = null;
+
+        try {
+            data = text ? JSON.parse(text) : null;
+        } catch (_) {}
+
+        if (!response.ok) {
+            throw new Error((data && data.message) || "Request failed: " + response.status);
+        }
+
+        return data;
+    }
+
+    // A dialog that asks before a change, or collects the fields of one. Resolves with true,
+    // the values by name, or null when cancelled. Values are set as properties, never as HTML.
+    function adminDialog({heading, message, fields = null, submitText, danger = false}) {
+        return new Promise(resolve => {
+            const backdrop = document.createElement("div");
+            backdrop.className = "admin-confirm-backdrop";
+
+            const modal = document.createElement(fields ? "form" : "div");
+            const box = document.createElement("div");
+            box.className = "admin-confirm-modal" + (fields ? " admin-edit-modal" : "");
+            box.setAttribute("role", "dialog");
+            box.setAttribute("aria-modal", "true");
+
+            addText(box, "h2", heading, "admin-confirm-title").id = "adminDialogHeading";
+            box.setAttribute("aria-labelledby", "adminDialogHeading");
+            addText(box, "p", message, "admin-confirm-message");
+
+            (fields || []).forEach((field, index) => {
+                const label = addText(modal, "label", field.label, "admin-edit-label");
+                const input = document.createElement(field.type === "textarea" ? "textarea" : "input");
+                input.className = "admin-edit-field";
+                input.name = field.name;
+                input.id = "adminDialogField" + index;
+                input.value = field.value ?? "";
+                if (field.maxlength) input.maxLength = field.maxlength;
+                label.htmlFor = input.id;
+                modal.appendChild(input);
+            });
+
+            const actions = document.createElement("div");
+            actions.className = "admin-confirm-actions";
+            const cancel = addText(actions, "button", "Cancel", "admin-confirm-btn admin-confirm-cancel");
+            cancel.type = "button";
+            const submit = addText(actions, "button", submitText,
+                "admin-confirm-btn admin-confirm-submit" + (danger ? "" : " primary"));
+            submit.type = fields ? "submit" : "button";
+            modal.appendChild(actions);
+            box.appendChild(modal);
+            backdrop.appendChild(box);
+
+            function close(result) {
+                document.removeEventListener("keydown", onKey);
+                backdrop.remove();
+                resolve(result);
+            }
+
+            function onKey(event) {
+                if (event.key === "Escape") close(null);
+            }
+
+            cancel.addEventListener("click", () => close(null));
+            backdrop.addEventListener("click", event => {
+                if (event.target === backdrop) close(null);
+            });
+
+            if (fields) {
+                modal.addEventListener("submit", event => {
+                    event.preventDefault();
+                    const values = {};
+                    fields.forEach(field => {
+                        values[field.name] = modal.elements.namedItem(field.name).value.trim();
+                    });
+                    close(values);
+                });
+            } else {
+                submit.addEventListener("click", () => close(true));
+            }
+
+            document.body.appendChild(backdrop);
+            document.addEventListener("keydown", onKey);
+            (modal.querySelector(".admin-edit-field") || cancel).focus();
+        });
+    }
+
+    async function changeProfile(work, done) {
+        $("error").textContent = "";
+        $("notice").textContent = "";
+        document.querySelectorAll(".profile-action").forEach(button => button.disabled = true);
+
+        try {
+            await work();
+            await loadProfile();
+            $("notice").textContent = done;
+        } catch (error) {
+            $("error").textContent = error.message;
+        } finally {
+            document.querySelectorAll(".profile-action").forEach(button => button.disabled = false);
+        }
+    }
+
+    $("adminEditProfileBtn").addEventListener("click", async () => {
+        const user = profileData;
+        const values = await adminDialog({
+            heading: "Edit profile",
+            message: "Changes show on the public profile straight away.",
+            submitText: "Save",
+            fields: [
+                {name: "name", label: "Full name", value: user.name, maxlength: 60},
+                {name: "username", label: "Username", value: user.username, maxlength: 31},
+                {name: "profession", label: "Profession", value: user.profession, maxlength: 100},
+                {name: "bio", label: "Bio", type: "textarea", value: user.bio, maxlength: 500},
+                {name: "interests", label: "Interests", type: "textarea", value: user.interests, maxlength: 500},
+                {name: "goals", label: "Goals", type: "textarea", value: user.goals, maxlength: 500}
+            ]
+        });
+
+        if (!values) return;
+
+        await changeProfile(() => adminSend("PUT", "profiles/" + userId, values), "Profile updated");
+    });
+
+    $("adminHideProfileBtn").addEventListener("click", async () => {
+        const hide = !profileData.profileHidden;
+        const confirmed = await adminDialog({
+            heading: hide ? "Hide profile?" : "Show profile again?",
+            message: hide
+                ? "The public profile, with its public routines list, to-do lists and posts, will no longer be shown. The account keeps working."
+                : "The public profile will be shown again.",
+            submitText: hide ? "Hide" : "Show",
+            danger: hide
+        });
+
+        if (!confirmed) return;
+
+        await changeProfile(() => adminSend("PUT", "profiles/" + userId + (hide ? "/hide" : "/unhide")),
+            hide ? "Profile hidden from the public pages" : "Profile shown again");
+    });
+
+    $("adminRemoveDetailsBtn").addEventListener("click", async () => {
+        const confirmed = await adminDialog({
+            heading: "Remove profile details?",
+            message: "The photo, profession, bio, interests and goals will be removed. The name, username and account stay.",
+            submitText: "Remove",
+            danger: true
+        });
+
+        if (!confirmed) return;
+
+        await changeProfile(() => adminSend("DELETE", "profiles/" + userId + "/details"), "Profile details removed");
+    });
+
+    function addText(parent, tag, value, className) {
+        const element = document.createElement(tag);
+        element.textContent = value ?? "";
+
+        if (className) {
+            element.className = className;
+        }
+
+        parent.appendChild(element);
+        return element;
+    }
+
+    function addPill(parent, value, deleted = false) {
+        addText(parent, "span", value, deleted ? "pill deleted" : "pill");
+    }
+
+    function addInfo(label, value) {
+        const row = document.createElement("div");
+        row.className = "info-row";
+
+        addText(row, "span", label, "info-label");
+        addText(row, "span", value ?? "—", "info-value");
+
+        $("accountInfo").appendChild(row);
+    }
+
+    function empty(root) {
+        addText(root, "div", "No records found", "empty");
+    }
+
+    function matchesSearch(values, query) {
+        return values.some(value =>
+            String(value ?? "").toLowerCase().includes(query)
+        );
+    }
+
+
+    function renderRoutines() {
+        const root = $("routinesList");
+        root.replaceChildren();
+
+        const query = $("routinesSearch").value.trim().toLowerCase();
+
+        const routines = (profileData?.routines || [])
+            .filter(r => matchesSearch(
+                [r.title, r.description, r.category], query
+            ));
+
+        if (!routines.length) {
+            empty(root);
+            return;
+        }
+
+        routines.forEach(routine => {
+            const card = document.createElement("div");
+            card.className = "item-card";
+
+            addText(card, "h3", routine.title || "Untitled routine");
+            addText(card, "p", routine.description || "No description");
+
+            const meta = document.createElement("div");
+            meta.className = "item-meta";
+
+            addPill(meta, `${routine.durationMinutes || 0} min`);
+            addPill(meta, routine.category || "General");
+            addPill(meta, routine.publicRoutine ? "Public" : "Private");
+
+            if (routine.deleted) addPill(meta, "Deleted", true);
+
+            card.appendChild(meta);
+
+            const link = document.createElement("a");
+            link.className = "show-detail-btn";
+            link.href = `admin-routine-view.html?id=${routine.id}&userId=${userId}`;
+            link.textContent = "Show Routine →";
+
+            card.appendChild(link);
+            root.appendChild(card);
+        });
+    }
+
+
+
+    function renderHabits() {
+        const root = $("habitsList");
+        root.replaceChildren();
+
+        const query = $("habitsSearch").value.trim().toLowerCase();
+
+        const habits = (profileData?.habits || [])
+            .filter(h => matchesSearch([h.title, h.description], query));
+
+        if (!habits.length) {
+            empty(root);
+            return;
+        }
+
+        habits.forEach(habit => {
+            const card = document.createElement("div");
+            card.className = "item-card";
+
+            addText(card, "h3", habit.title || "Untitled habit");
+            addText(card, "p", habit.description || "No description");
+
+            const meta = document.createElement("div");
+            meta.className = "item-meta";
+            addPill(meta, `${habit.durationMinutes || 0} min`);
+
+            card.appendChild(meta);
+
+            const link = document.createElement("a");
+            link.className = "show-detail-btn";
+            link.href = `admin-habit-view.html?id=${habit.id}&userId=${userId}`;
+            link.textContent = "Show Habit →";
+
+            card.appendChild(link);
+            root.appendChild(card);
+        });
+    }
+
+
+
+    function renderComments() {
+        const root = $("commentsList");
+        root.replaceChildren();
+
+        const query = $("commentsSearch").value.trim().toLowerCase();
+
+        const comments = commentsData.filter(comment =>
+            matchesSearch([comment.text, comment.routineTitle], query)
+        );
+
+        if (!comments.length) {
+            empty(root);
+            return;
+        }
+
+        comments.forEach(comment => {
+            const card = document.createElement("div");
+            card.className = "comment-card";
+
+            addText(card, "p", comment.text || "");
+
+            const footer = document.createElement("div");
+            footer.className = "comment-footer";
+
+            addText(footer, "span", comment.routineTitle || "Unknown routine");
+
+            addText(
+                footer,
+                "span",
+                comment.createdAt
+                    ? new Date(comment.createdAt).toLocaleString()
+                    : ""
+            );
+
+            if (comment.deleted) {
+                addPill(footer, "Removed", true);
+            }
+
+            card.appendChild(footer);
+
+            const link = document.createElement("a");
+            link.className = "show-detail-btn";
+            link.href = `admin-routine-view.html?id=${comment.routineId}&commentId=${comment.id}&userId=${userId}`;
+            link.textContent = "Show Comment →";
+
+            card.appendChild(link);
+            root.appendChild(card);
+        });
+    }
+
+
+    async function loadProfile() {
+        try {
+            profileData = await adminGet("profiles/" + userId);
+
+            const user = profileData;
+
+            $("name").textContent = user.name || "Unnamed user";
+            $("username").textContent =
+                user.username ? "@" + user.username : "";
+
+            $("profession").textContent = user.profession || "";
+            $("bio").textContent = user.bio || "";
+            $("email").textContent = user.email || "";
+            $("role").textContent = user.role || "";
+
+            const status = $("status");
+            status.textContent = user.banned ? "Banned" : "Active";
+            status.className = user.banned ? "status banned" : "status";
+
+            // US-25: administrator accounts are not changed from here, as with bans.
+            $("hiddenStatus").hidden = !user.profileHidden;
+            $("profileActions").hidden = user.role !== "USER";
+            $("adminHideProfileBtn").textContent = user.profileHidden ? "Show profile" : "Hide profile";
+
+            const avatar = $("avatar");
+            avatar.replaceChildren();
+
+            if (SafeDom.safeImageUrl(user.avatarUrl)) {
+                const img = document.createElement("img");
+                img.src = SafeDom.safeImageUrl(user.avatarUrl);
+                img.alt = "User avatar";
+                img.referrerPolicy = "no-referrer";
+                avatar.appendChild(img);
+            } else {
+                avatar.textContent =
+                    (user.name || "?").charAt(0).toUpperCase();
+            }
+
+            $("routineCount").textContent =
+                (user.routines || []).filter(r => !r.deleted).length;
+
+            $("habitCount").textContent = (user.habits || []).length;
+
+            $("accountInfo").replaceChildren();
+            addInfo("User ID", user.id);
+            addInfo("Full name", user.name);
+            addInfo("Username", user.username ? "@" + user.username : "—");
+            addInfo("Email", user.email);
+            addInfo("Profession", user.profession);
+            addInfo("Bio", user.bio);
+            addInfo("Role", user.role);
+            addInfo("Status", user.banned ? "Banned" : "Active");
+            addInfo("Public profile", user.profileHidden ? "Hidden by an administrator" : "Shown");
+
+            renderRoutines();
+            renderHabits();
+
+            try {
+                commentsData = await adminGet(
+                    "comments?userId=" + encodeURIComponent(userId)
+                );
+
+                $("commentCount").textContent = commentsData.length;
+                renderComments();
+            } catch (error) {
+                $("commentCount").textContent = "—";
+                $("commentsList").textContent =
+                    "Failed to load comments: " + error.message;
+            }
+
+        } catch (error) {
+            $("error").textContent = error.message;
+        }
+    }
+
+    $("routinesSearch").addEventListener("input", renderRoutines);
+    $("habitsSearch").addEventListener("input", renderHabits);
+    $("commentsSearch").addEventListener("input", renderComments);
+</script>
+
+</body>
+</html>

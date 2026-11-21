@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile — CopyMyLife</title>
+    <script src="safe-dom.js"></script>
+    <script src="session.js"></script>
+    <script defer src="reminders.js"></script>
+    <script src="todo-lists.js"></script>
+    <script src="posts.js"></script>
+    <script src="report-dialog.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="user-profile.css">
+    <link rel="stylesheet" href="my-content.css">
+    <link rel="stylesheet" href="mobile.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="report-dialog.css">
+</head>
+
+<body data-mobile-page="user-profile">
+
+<header class="topbar">
+
+    <a href="main.html" class="topbar-left">
+        <div class="logo-icon">
+            <img src="https://i.ibb.co/chRY80xC/image.png" alt="CopyMyLife logo">
+        </div>
+
+        <span class="logo-text">
+      CopyMyLife
+    </span>
+    </a>
+
+    <nav class="topbar-nav">
+        <a href="main.html">Home</a>
+        <a href="Explore.html">Explore</a>
+        <a href="top-routines.html">Top Routines</a>
+    </nav>
+
+    <div class="topbar-user-wrap">
+        <a href="login.html" class="profile-primary-btn topbar-signin" id="guestSignIn" hidden>Sign in</a>
+
+        <div class="topbar-user" id="userMenuToggle">
+
+            <div class="header-avatar">
+                <img id="headerAvatar" alt="">
+                <span id="headerAvatarFallback">U</span>
+            </div>
+
+            <span id="headerUserName">
+            User
+        </span>
+
+            <svg
+                    class="chevron"
+                    id="userMenuChevron"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none">
+
+                <path
+                        d="M6 9L12 15L18 9"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"/>
+
+            </svg>
+
+        </div>
+
+        <div
+                class="topbar-user-dropdown"
+                id="userDropdown">
+
+            <a
+                    href="profile.html"
+                    class="topbar-dropdown-item">
+
+                <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none">
+
+                    <circle
+                            cx="12"
+                            cy="7"
+                            r="4"
+                            stroke="currentColor"
+                            stroke-width="2"/>
+
+                    <path
+                            d="M5 21v-2c0-3.3 2.7-6 6-6h2c3.3 0 6 2.7 6 6v2"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"/>
+
+                </svg>
+
+                Profile
+
+            </a>
+
+            <button
+                    type="button"
+                    class="topbar-dropdown-item topbar-logout-btn"
+                    id="logoutBtn">
+
+                <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none">
+
+                    <path
+                            d="M10 5H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"/>
+
+                    <path
+                            d="M14 8l4 4-4 4"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"/>
+
+                    <path
+                            d="M9 12h9"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"/>
+
+                </svg>
+
+                Log Out
+
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="user-profile-page">
+
+    <a href="profile.html" class="back-link" id="backLink">
+        ← Back
+    </a>
+
+    <section class="user-profile-card">
+
+        <div class="user-profile-left">
+
+            <div class="profile-avatar-large">
+
+                <img
+                        id="userProfileAvatar"
+                        alt="">
+
+                <span id="userProfileAvatarFallback">
+                    U
+                </span>
+
+            </div>
+
+            <div class="user-profile-info">
+
+                <h1 id="userProfileName">
+                    Loading...
+                </h1>
+
+                <p
+                        class="profile-username"
+                        id="userProfileUsername">
+                    @username
+                </p>
+
+                <p
+                        class="profile-profession"
+                        id="userProfileProfession">
+                    No profession added.
+                </p>
+
+                <p
+                        class="profile-bio"
+                        id="userProfileBio">
+                    No bio yet.
+                </p>
+
+                <div class="follow-stats" aria-label="Follow statistics">
+                    <span class="follow-stat"><strong id="followersCount">0</strong> <span id="followersLabel">Followers</span></span>
+                    <span class="follow-stat"><strong id="followingCount">0</strong> Following</span>
+                </div>
+
+
+                <button
+                        class="profile-primary-btn follow-btn"
+                        id="followBtn"
+                        type="button"
+                        aria-pressed="false"
+                        hidden>
+                    Follow
+                </button>
+
+                <p
+                        class="follow-error"
+                        id="followError"
+                        role="alert"
+                        hidden>
+                </p>
+
+                <!-- US-24: a member can report this profile to the moderators. -->
+                <button
+                        class="cml-report-trigger profile-report-btn"
+                        id="reportUserBtn"
+                        type="button"
+                        hidden>
+                    Report user
+                </button>
+
+            </div>
+
+        </div>
+
+        <div
+                class="profile-actions"
+                id="profileActions">
+        </div>
+
+        <p class="friend-action-error" id="friendActionError" role="alert" hidden></p>
+
+    </section>
+
+
+    <section class="public-routines-section" id="publicRoutinesSection">
+
+        <div class="public-routines-header">
+
+            <div>
+                <h2>Public Routines</h2>
+                <p>Routines shared publicly by this user.</p>
+            </div>
+
+        </div>
+
+        <div
+                class="public-routines-grid"
+                id="publicRoutinesGrid">
+
+            <div class="public-routines-empty">
+                No public routines yet.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="public-routines-section public-content-section" id="publicTodoSection">
+
+        <div class="public-routines-header">
+
+            <div>
+                <h2>Public To-do Lists</h2>
+                <p>To-do lists shared publicly by this user.</p>
+            </div>
+
+        </div>
+
+        <div
+                class="public-routines-grid"
+                id="publicTodoGrid">
+
+            <div class="public-routines-empty public-content-empty">
+                Loading public to-do lists...
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="public-routines-section public-content-section" id="publicPostsSection">
+
+        <div class="public-routines-header">
+
+            <div>
+                <h2>Public Posts</h2>
+                <p>Posts shared publicly by this user.</p>
+            </div>
+
+        </div>
+
+        <div
+                class="public-routines-grid"
+                id="publicPostsGrid">
+
+            <div class="public-routines-empty public-content-empty">
+                Loading public posts...
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<!-- View list and View post open here, read-only for the list, with likes and comments for the post. -->
+<div class="public-detail" id="publicDetail" hidden>
+    <div class="public-detail-dialog" role="dialog" aria-modal="true" aria-labelledby="publicDetailTitle">
+        <div class="public-detail-head">
+            <h2 id="publicDetailTitle"></h2>
+            <button type="button" class="public-detail-close" id="publicDetailClose" aria-label="Close">×</button>
+        </div>
+        <div class="mc-page mc-page--embedded public-detail-body" id="publicDetailBody"></div>
+    </div>
+</div>
+
+
+<script>
+
+    const token =
+        localStorage.getItem("token");
+
+    // US-05: a visitor reads the public profile and public routines; everything else asks
+    // them to sign in.
+    const guest = !token;
+
+    const readHeaders =
+        guest ? {} : {"Authorization": "Bearer " + token};
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const userId =
+        Number(
+            params.get("id")
+        );
+
+    if (!userId) {
+        window.location.href = guest ? "Explore.html" : "profile.html";
+    }
+
+    const headerAvatar =
+        document.getElementById(
+            "headerAvatar"
+        );
+
+    const headerAvatarFallback =
+        document.getElementById(
+            "headerAvatarFallback"
+        );
+
+    const headerUserName =
+        document.getElementById(
+            "headerUserName"
+        );
+
+    const userProfileAvatar =
+        document.getElementById(
+            "userProfileAvatar"
+        );
+
+    const userProfileAvatarFallback =
+        document.getElementById(
+            "userProfileAvatarFallback"
+        );
+
+    const userProfileName =
+        document.getElementById(
+            "userProfileName"
+        );
+
+    const userProfileUsername =
+        document.getElementById(
+            "userProfileUsername"
+        );
+
+    const userProfileProfession =
+        document.getElementById(
+            "userProfileProfession"
+        );
+
+    const userProfileBio =
+        document.getElementById(
+            "userProfileBio"
+        );
+
+    const profileActions =
+        document.getElementById(
+            "profileActions"
+        );
+
+    const publicRoutinesGrid =
+        document.getElementById(
+            "publicRoutinesGrid"
+        );
+
+
+    function loadHeaderUser() {
+
+        fetch("/users/me", {
+
+            method: "GET",
+
+            headers: {
+                "Authorization":
+                    "Bearer " + token
+            }
+
+        })
+            .then(response => {
+
+                if (!response.ok) {
+                    throw new Error(
+                        "Failed to load current user"
+                    );
+                }
+
+                return response.json();
+
+            })
+            .then(user => {
+
+                headerUserName.textContent =
+                    user.name;
+
+                const firstLetter =
+                    (user.name || "U")
+                        .charAt(0)
+                        .toUpperCase();
+
+                if (SafeDom.safeImageUrl(user.avatarUrl)) {
+
+                    headerAvatar.src =
+                        SafeDom.safeImageUrl(user.avatarUrl);
+
+                    headerAvatar.style.display =
+                        "block";
+
+                    headerAvatarFallback.style.display =
+                        "none";
+
+                } else {
+
+                    headerAvatar.style.display =
+                        "none";
+
+                    headerAvatarFallback.textContent =
+                        firstLetter;
+
+                    headerAvatarFallback.style.display =
+                        "flex";
+                }
+
+            })
+            .catch(error => {
+
+                console.error(error);
+
+            });
+
+    }
+
+
+    function loadUserProfile() {
+
+        fetch(
+            "/users/"
+            + userId
+            + "/profile",
+            {
+
+                method: "GET",
+
+                headers: readHeaders
+
+            }
+        )
+            .then(response => {
+
+                if (!response.ok) {
+                    throw new Error(
+                        "Failed to load profile"
+                    );
+                }
+
+                return response.json();
+
+            })
+            .then(profile => {
+
+                renderUserProfile(profile);
+
+            })
+            .catch(error => {
+
+                console.error(error);
+
+                userProfileName.textContent =
+                    "Profile not found";
+
+                userProfileUsername.textContent =
+                    "";
+
+                userProfileProfession.textContent =
+                    "";
+
+                userProfileBio.textContent =
+                    "";
+
+                profileActions.innerHTML =
+                    "";
+
+            });
+
+    }
+
+    function loadUserPublicRoutines() {
+
+        fetch(
+            "/users/"
+            + userId
+            + "/routines/public",
+            {
+                method: "GET",
+                headers: readHeaders
+            }
+        )
+            .then(response => {
+
+                if (!response.ok) {
+                    throw new Error(
+                        "Failed to load public routines"
+                    );
+                }
+
+                return response.json();
+
+            })
+            .then(routines => {
+
+                renderUserPublicRoutines(routines);
+
+            })
+            .catch(error => {
+
+                console.error(error);
+
+                publicRoutinesGrid.innerHTML = `
+                    <div class="public-routines-empty">
+                        Failed to load public routines.
+                    </div>
+                `;
+
+            });
+
+    }
+
+
+    function renderUserPublicRoutines(routines) {
+
+        if (routines.length === 0) {
+
+            publicRoutinesGrid.innerHTML = `
+            <div class="public-routines-empty">
+                No public routines yet.
+            </div>
+        `;
+
+            return;
+        }
+
+        publicRoutinesGrid.innerHTML = "";
+
+        routines.forEach(function (routine) {
+
+            const image =
+                SafeDom.imageSrc(routine.imageUrl)
+                    ? `
+                        <img
+                            class="public-routine-image"
+                            src="${SafeDom.imageSrc(routine.imageUrl)}"
+                            alt="${SafeDom.escapeHtml(routine.title)}">
+                        `
+                    : `
+                        <div class="public-routine-placeholder">
+                            ${SafeDom.escapeHtml((routine.title || "R")
+                        .charAt(0)
+                        .toUpperCase())}
+                        </div>
+                        `;
+
+            publicRoutinesGrid.innerHTML += `
+            <article class="public-routine-card">
+
+                ${image}
+
+                <div class="public-routine-body">
+
+                    <div class="public-routine-top">
+
+                        <span class="public-routine-category">
+                            ${SafeDom.escapeHtml(routine.category || "General")}
+                        </span>
+
+                        <span class="public-routine-duration">
+                            ${routine.durationMinutes || 0} min
+                        </span>
+
+                    </div>
+
+                    <h3 class="public-routine-title">
+                        ${SafeDom.escapeHtml(routine.title)}
+                    </h3>
+
+                    <p class="public-routine-description">
+                        ${SafeDom.escapeHtml(routine.description || "No description")}
+                    </p>
+
+                    <div class="public-routine-footer">
+
+                        <span class="public-routine-rating">
+                            ★ ${Number(routine.averageRating || 0).toFixed(1)}
+                            (${routine.ratingCount || 0})
+                        </span>
+
+                        <a
+                            href="routine.html?id=${routine.id}"
+                            class="public-routine-link">
+                            View routine →
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+        `;
+
+        });
+
+    }
+
+
+    const followBtn =
+        document.getElementById(
+            "followBtn"
+        );
+
+    const followError =
+        document.getElementById(
+            "followError"
+        );
+
+    let isFollowing = false;
+
+
+    function renderFollowStatus(status) {
+
+        isFollowing = status.isFollowing === true;
+
+        document.getElementById("followersCount").textContent =
+            status.followersCount;
+
+        document.getElementById("followersLabel").textContent =
+            status.followersCount === 1 ? "Follower" : "Followers";
+
+        document.getElementById("followingCount").textContent =
+            status.followingCount;
+
+        followBtn.textContent =
+            isFollowing ? "Following" : "Follow";
+
+        followBtn.title =
+            isFollowing ? "Unfollow" : "";
+
+        followBtn.setAttribute(
+            "aria-pressed",
+            String(isFollowing)
+        );
+
+        followBtn.classList.toggle("profile-primary-btn", !isFollowing);
+        followBtn.classList.toggle("profile-secondary-btn", isFollowing);
+
+    }
+
+
+    function followFailureMessage(status, body) {
+
+        if (status === 404) {
+            return "This user is no longer available.";
+        }
+
+        if (status === 401 || status === 403) {
+            return "Your session has ended. Please sign in again.";
+        }
+
+        if (status === 400 && body.message) {
+            return body.message;
+        }
+
+        return "We couldn't update this follow. Please try again.";
+
+    }
+
+
+    document.getElementById("reportUserBtn").addEventListener(
+        "click",
+        function () {
+            CopyMyLifeReport.open({type: "USER", id: userId, token: token});
+        }
+    );
+
+
+    followBtn.addEventListener(
+        "click",
+        function () {
+
+            followBtn.disabled = true;
+            followError.hidden = true;
+
+            fetch(
+                "/users/" + userId + "/follow",
+                {
+                    method: isFollowing ? "DELETE" : "POST",
+
+                    headers: {
+                        "Authorization":
+                            "Bearer " + token
+                    }
+                }
+            )
+                .then(async response => {
+
+                    if (response.ok) {
+                        renderFollowStatus(await response.json());
+                        return;
+                    }
+
+                    const body =
+                        await response.json().catch(() => ({}));
+
+                    followError.textContent =
+                        followFailureMessage(response.status, body);
+
+                    followError.hidden = false;
+
+                })
+                .catch(error => {
+
+                    console.error(error);
+
+                    followError.textContent =
+                        followFailureMessage();
+
+                    followError.hidden = false;
+
+                })
+                .finally(() => {
+
+                    followBtn.disabled = false;
+
+                });
+
+        }
+    );
+
+
+    function renderUserProfile(profile) {
+
+        renderFollowStatus(profile);
+
+        followBtn.hidden =
+            profile.relationshipStatus === "SELF"
+            || profile.relationshipStatus === "GUEST";
+
+        document.getElementById("reportUserBtn").hidden =
+            followBtn.hidden;
+
+        userProfileName.textContent =
+            profile.name || "User";
+
+        userProfileUsername.textContent =
+            profile.username
+                ? "@" + profile.username
+                : "No username";
+
+        userProfileProfession.textContent =
+            profile.profession
+                ? profile.profession
+                : "No profession added.";
+
+        userProfileBio.textContent =
+            profile.bio
+                ? profile.bio
+                : "No bio yet.";
+
+        const firstLetter =
+            (profile.name || "U")
+                .charAt(0)
+                .toUpperCase();
+
+        if (SafeDom.safeImageUrl(profile.avatarUrl)) {
+
+            userProfileAvatar.src =
+                SafeDom.safeImageUrl(profile.avatarUrl);
+
+            userProfileAvatar.style.display =
+                "block";
+
+            userProfileAvatarFallback.style.display =
+                "none";
+
+        } else {
+
+            userProfileAvatar.style.display =
+                "none";
+
+            userProfileAvatarFallback.textContent =
+                firstLetter;
+
+            userProfileAvatarFallback.style.display =
+                "flex";
+        }
+
+
+        if (
+            profile.relationshipStatus === "GUEST"
+        ) {
+
+            profileActions.innerHTML = `
+        <a
+          href="login.html"
+          class="profile-primary-btn">
+          Sign in to follow
+        </a>
+      `;
+
+            return;
+        }
+
+
+        if (
+            profile.relationshipStatus === "SELF"
+        ) {
+
+            profileActions.innerHTML = `
+        <a
+          href="profile.html"
+          class="profile-primary-btn">
+          Your profile
+        </a>
+      `;
+
+            return;
+        }
+
+
+        if (
+            profile.relationshipStatus === "NONE"
+        ) {
+
+            profileActions.innerHTML = `
+        <button
+          class="profile-primary-btn"
+          id="addFriendBtn"
+          type="button">
+          Add Friend
+        </button>
+      `;
+
+            return;
+        }
+
+
+        if (
+            profile.relationshipStatus === "PENDING"
+        ) {
+
+            profileActions.innerHTML = `
+        <button
+          class="profile-disabled-btn"
+          type="button"
+          disabled>
+          Request sent
+        </button>
+
+        <button
+          class="profile-secondary-btn"
+          id="cancelRequestBtn"
+          type="button"
+          data-request-id="${profile.requestId}">
+          Cancel
+        </button>
+      `;
+
+            return;
+        }
+
+
+        if (
+            profile.relationshipStatus === "RECEIVED"
+        ) {
+
+            profileActions.innerHTML = `
+        <button
+          class="profile-primary-btn"
+          id="acceptRequestBtn"
+          type="button"
+          data-request-id="${profile.requestId}">
+          Accept
+        </button>
+
+        <button
+          class="profile-secondary-btn"
+          id="rejectRequestBtn"
+          type="button"
+          data-request-id="${profile.requestId}">
+          Decline
+        </button>
+      `;
+
+            return;
+        }
+
+
+        if (
+            profile.relationshipStatus === "FRIENDS"
+        ) {
+
+            profileActions.innerHTML = `
+        <button
+          class="profile-disabled-btn"
+          type="button"
+          disabled>
+          Friends
+        </button>
+
+        <button
+          class="profile-secondary-btn"
+          id="removeFriendBtn"
+          type="button">
+          Remove friend
+        </button>
+      `;
+
+        }
+
+    }
+
+
+    // US-29: every friend action; one at a time, so a double click sends one request.
+    let friendActionBusy = false;
+
+    const FRIEND_ACTIONS = {
+        addFriendBtn: ["Sending...", "POST", () => "/friends/request/" + userId],
+        cancelRequestBtn: ["Cancelling...", "DELETE", button => "/friends/requests/" + button.dataset.requestId],
+        acceptRequestBtn: ["Accepting...", "PUT", button => "/friends/requests/" + button.dataset.requestId + "/accept"],
+        rejectRequestBtn: ["Declining...", "PUT", button => "/friends/requests/" + button.dataset.requestId + "/reject"],
+        removeFriendBtn: ["Removing...", "DELETE", () => "/friends/" + userId]
+    };
+
+    function showFriendActionError(message) {
+        const error = document.getElementById("friendActionError");
+        error.textContent = message;
+        error.hidden = !message;
+    }
+
+    profileActions.addEventListener(
+        "click",
+        async function (event) {
+
+            const button = event.target.closest("button[id]");
+            const action = button && FRIEND_ACTIONS[button.id];
+
+            if (!action || friendActionBusy) {
+                return;
+            }
+
+            const [busyText, method, path] = action;
+
+            friendActionBusy = true;
+            profileActions.querySelectorAll("button").forEach(item => item.disabled = true);
+            button.textContent = busyText;
+            showFriendActionError("");
+
+            try {
+                const response = await fetch(path(button), {
+                    method,
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    }
+                });
+
+                if (!response.ok) {
+                    let message = "Something went wrong. Please try again.";
+
+                    try {
+                        message = (await response.json()).message || message;
+                    } catch (ignored) {
+                        // No reason was given.
+                    }
+
+                    showFriendActionError(
+                        response.status === 401 || response.status === 403
+                            ? "Your session has ended. Please sign in again."
+                            : message
+                    );
+                }
+            } catch (error) {
+                showFriendActionError("We couldn't reach the server. Please try again.");
+            } finally {
+                friendActionBusy = false;
+                // The buttons show what is true now, also after a refusal.
+                loadUserProfile();
+            }
+        }
+    );
+
+    const userMenuToggle =
+        document.getElementById("userMenuToggle");
+
+    const userDropdown =
+        document.getElementById("userDropdown");
+
+    const userMenuChevron =
+        document.getElementById("userMenuChevron");
+
+    const logoutBtn =
+        document.getElementById("logoutBtn");
+
+
+    userMenuToggle.addEventListener(
+        "click",
+        function (event) {
+
+            event.stopPropagation();
+
+            const isOpen =
+                userDropdown.classList.toggle("show");
+
+            userMenuChevron.classList.toggle(
+                "open",
+                isOpen
+            );
+
+        }
+    );
+
+
+    document.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                !event.target.closest(
+                    ".topbar-user-wrap"
+                )
+            ) {
+
+                userDropdown.classList.remove("show");
+
+                userMenuChevron.classList.remove("open");
+
+            }
+
+        }
+    );
+
+
+    logoutBtn.addEventListener(
+        "click",
+        function () {
+
+            CopyMyLifeSession.signOut();
+
+        }
+    );
+
+    // ---- Public To-do Lists and Public Posts, below Public Routines ----
+
+    const publicTodoGrid =
+        document.getElementById("publicTodoGrid");
+
+    const publicPostsGrid =
+        document.getElementById("publicPostsGrid");
+
+    const esc = SafeDom.escapeHtml;
+
+    function publicEmpty(text) {
+        return `<div class="public-routines-empty public-content-empty">${esc(text)}</div>`;
+    }
+
+    async function publicContent(path) {
+        const response = await fetch(path, {
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        if (response.status === 401) {
+            CopyMyLifeSession.sessionEnded();
+        }
+
+        if (!response.ok) {
+            throw new Error("HTTP " + response.status);
+        }
+
+        return response.json();
+    }
+
+    async function loadPublicTodoLists() {
+        try {
+            renderPublicTodoLists(await publicContent("/users/" + userId + "/todo-lists"));
+        } catch (error) {
+            console.error(error);
+            publicTodoGrid.innerHTML = publicEmpty("Failed to load public to-do lists.");
+        }
+    }
+
+    function renderPublicTodoLists(lists) {
+        if (lists.length === 0) {
+            publicTodoGrid.innerHTML = publicEmpty("No public to-do lists yet.");
+            return;
+        }
+
+        publicTodoGrid.innerHTML = lists.map(function (list) {
+            const tasks = list.tasks || [];
+            const done = tasks.filter(task => task.done).length;
+
+            return `
+            <article class="public-routine-card public-content-card public-todo-card" data-list-id="${Number(list.id)}">
+
+                <div class="public-routine-body">
+
+                    <div class="public-routine-top">
+                        <span class="public-routine-category">Public</span>
+                        <span class="public-routine-duration">${tasks.length} ${tasks.length === 1 ? "task" : "tasks"}</span>
+                    </div>
+
+                    <h3 class="public-routine-title">${esc(list.title)}</h3>
+
+                    <p class="public-routine-description">
+                        ${tasks.length ? `${done} of ${tasks.length} done` : "No tasks yet"}
+                    </p>
+
+                    <div class="public-routine-footer">
+                        <span class="public-routine-rating">${tasks.length ? Math.round(done * 100 / tasks.length) + "% complete" : ""}</span>
+                        <button type="button" class="public-routine-link public-content-view"
+                                data-view="list" data-id="${Number(list.id)}" data-title="${esc(list.title)}">
+                            View list →
+                        </button>
+                    </div>
+
+                </div>
+
+            </article>`;
+        }).join("");
+    }
+
+    async function loadPublicPosts() {
+        try {
+            renderPublicPosts(await publicContent("/users/" + userId + "/posts"));
+        } catch (error) {
+            console.error(error);
+            publicPostsGrid.innerHTML = publicEmpty("Failed to load public posts.");
+        }
+    }
+
+    function postDate(value) {
+        const date = new Date(value);
+        return isNaN(date) ? "" : date.toLocaleDateString(undefined, {year: "numeric", month: "short", day: "numeric"});
+    }
+
+    function renderPublicPosts(posts) {
+        if (posts.length === 0) {
+            publicPostsGrid.innerHTML = publicEmpty("No public posts yet.");
+            return;
+        }
+
+        publicPostsGrid.innerHTML = posts.map(function (post) {
+            const id = Number(post.id);
+            const picture = post.imageUrl
+                ? `<img class="public-routine-image" data-post-photo="${id}" alt="Photo shared by ${esc(post.authorName)}">`
+                : `<div class="public-routine-placeholder" aria-hidden="true">“</div>`;
+
+            return `
+            <article class="public-routine-card public-content-card public-post-card" data-post-id="${id}">
+
+                ${picture}
+
+                <div class="public-routine-body">
+
+                    <div class="public-routine-top">
+                        <span class="public-routine-category">Public</span>
+                        <span class="public-routine-duration">${esc(postDate(post.createdAt))}</span>
+                    </div>
+
+                    <p class="public-routine-description public-post-excerpt">${esc(post.text || "Photo")}</p>
+
+                    <div class="public-routine-footer">
+                        <span class="public-routine-rating">
+                            <span class="public-post-likes">♥ ${Number(post.likeCount) || 0}</span>
+                            <span class="public-post-comments">💬 ${Number(post.commentCount) || 0}</span>
+                        </span>
+                        <button type="button" class="public-routine-link public-content-view"
+                                data-view="post" data-id="${id}">
+                            View post →
+                        </button>
+                    </div>
+
+                </div>
+
+            </article>`;
+        }).join("");
+
+        publicPostsGrid.querySelectorAll("img[data-post-photo]").forEach(loadPostPhoto);
+    }
+
+    // Photo files are never public: each one is asked of its post with the token.
+    function loadPostPhoto(img) {
+        fetch("/posts/" + Number(img.dataset.postPhoto) + "/image", {
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        })
+            .then(response => (response.ok ? response.blob() : null))
+            .then(blob => {
+                if (blob && blob.type.startsWith("image/") && img.isConnected) {
+                    img.src = URL.createObjectURL(blob);
+                }
+            })
+            .catch(() => {
+            });
+    }
+
+    // ---- View list / View post ----
+
+    const publicDetail = document.getElementById("publicDetail");
+    const publicDetailTitle = document.getElementById("publicDetailTitle");
+    const publicDetailClose = document.getElementById("publicDetailClose");
+    let publicDetailOpener = null;
+
+    function openPublicDetail(kind, id, title) {
+        publicDetailOpener = {kind, id};
+        publicDetailTitle.textContent = kind === "list" ? title : "Post";
+
+        // A fresh root each time, so nothing from the previous item stays wired up.
+        const body = document.getElementById("publicDetailBody");
+        const root = body.cloneNode(false);
+        body.replaceWith(root);
+
+        const module = kind === "list" ? CopyMyLifeTodoLists : CopyMyLifePosts;
+        module.mount(root, {
+            token,
+            viewedUserId: userId,
+            itemId: id,
+            idPrefix: "publicDetail-",
+            heading: false
+        });
+
+        publicDetail.hidden = false;
+        document.body.classList.add("public-detail-open");
+        publicDetailClose.focus();
+    }
+
+    function closePublicDetail() {
+        if (publicDetail.hidden) {
+            return;
+        }
+
+        publicDetail.hidden = true;
+        document.body.classList.remove("public-detail-open");
+
+        const opener = publicDetailOpener;
+        const backToOpener = () => document
+            .querySelector(`.public-content-view[data-view="${opener.kind}"][data-id="${opener.id}"]`)
+            ?.focus();
+
+        if (opener.kind === "post") {
+            // Likes and comments may have changed while the post was open.
+            loadPublicPosts().then(backToOpener);
+        } else {
+            backToOpener();
+        }
+    }
+
+    document.querySelector(".user-profile-page").addEventListener("click", function (event) {
+        const button = event.target.closest(".public-content-view");
+
+        if (button) {
+            openPublicDetail(button.dataset.view, Number(button.dataset.id), button.dataset.title || "");
+        }
+    });
+
+    publicDetailClose.addEventListener("click", closePublicDetail);
+
+    publicDetail.addEventListener("click", function (event) {
+        if (event.target === publicDetail) {
+            closePublicDetail();
+        }
+    });
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+            closePublicDetail();
+        }
+    });
+
+    function showGuestView() {
+
+        document.getElementById("userMenuToggle").hidden = true;
+        document.getElementById("guestSignIn").hidden = false;
+
+        const backLink = document.getElementById("backLink");
+        backLink.href = "Explore.html";
+        backLink.textContent = "← Back to Explore";
+
+        const signInToSee = what => `
+            <div class="public-routines-empty public-content-empty">
+                <a href="login.html">Sign in</a> to see ${what}.
+            </div>`;
+
+        publicTodoGrid.innerHTML = signInToSee("this user's public to-do lists");
+        publicPostsGrid.innerHTML = signInToSee("this user's public posts");
+    }
+
+    loadUserProfile();
+    loadUserPublicRoutines();
+
+    if (guest) {
+        showGuestView();
+    } else {
+        loadHeaderUser();
+        loadPublicTodoLists();
+        loadPublicPosts();
+    }
+
+</script>
+
+<script defer src="mobile.js"></script>
+<script src="theme.js"></script>
+</body>
+</html>

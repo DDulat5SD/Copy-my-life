@@ -1,0 +1,3094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore routines — CopyMyLife</title>
+  <script src="safe-dom.js"></script>
+  <script src="session.js"></script>
+  <script defer src="reminders.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="site-rating.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital@1&family=Manrope:wght@600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="Explore_Style.css?v=20261106">
+<link rel="stylesheet" href="mobile.css?v=20261106">
+<link rel="stylesheet" href="theme.css?v=20261106">
+<style>
+
+/* Halloween-only additions. Existing selectors are not changed. */
+/* Decorations appear only while Halloween is selected. They do not affect layout. */
+body.halloween-mode .explore-hero {position:relative;}
+body.halloween-mode .explore-hero::before {content:"";position:absolute;right:8%;bottom:0;width:76px;height:76px;pointer-events:none;background:center / contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 24c-18-16-40-1-40 30 0 31 20 39 40 32 20 7 40-1 40-32 0-31-22-46-40-30Z' fill='%23e77d1c' stroke='%23783c14' stroke-width='3'/%3E%3Cpath d='M50 25Q34 40 36 65q2 18 14 21m0-61q16 15 14 40-2 18-14 21' fill='none' stroke='%23b85f13' stroke-width='3'/%3E%3Cpath d='M50 28q0-19 12-22' fill='none' stroke='%233c8739' stroke-width='7' stroke-linecap='round'/%3E%3Cpath d='m23 51 16-12 5 17Zm34 5 5-17 16 12Z M26 66q24 29 48 0l-10 5-9-5-8 9-10-9Z' fill='%2322121b'/%3E%3C/svg%3E");}
+
+body.halloween-mode::before,body.halloween-mode::after { content:"";position:absolute;z-index:1;pointer-events:none;opacity:.55;width:220px;height:220px;background-repeat:no-repeat;background-size:contain; }
+body.halloween-mode::before {top:60px;left:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 230 230'%3E%3Cg stroke='%23bc8a91' stroke-opacity='.65' stroke-width='1.1' fill='none'%3E%3Cpath d='M0 0L230 0M0 0L0 230M0 0L210 210M0 0L230 105M0 0L105 230M0 0L230 45M0 0L45 230'/%3E%3Cpath d='M40 0Q40 40 0 40M85 0Q85 85 0 85M125 0Q125 125 0 125M165 0Q165 165 0 165M205 0Q205 205 0 205'/%3E%3C/g%3E%3C/svg%3E");}
+body.halloween-mode::after {top:60px;right:0;transform:scaleX(-1);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 230 230'%3E%3Cg stroke='%23bc8a91' stroke-opacity='.65' stroke-width='1.1' fill='none'%3E%3Cpath d='M0 0L230 0M0 0L0 230M0 0L210 210M0 0L230 105M0 0L105 230M0 0L230 45M0 0L45 230'/%3E%3Cpath d='M40 0Q40 40 0 40M85 0Q85 85 0 85M125 0Q125 125 0 125M165 0Q165 165 0 165M205 0Q205 205 0 205'/%3E%3C/g%3E%3C/svg%3E");}
+body.halloween-mode .explore-hero::after{content:"";position:absolute;right:13%;top:10px;width:180px;height:180px;border-radius:50%;background:rgba(201,103,55,.09);pointer-events:none;}
+body.halloween-mode .featured-img img {object-position: center 18%;}
+
+body.halloween-mode .filters { scrollbar-color: #6b3f4c transparent; }
+.halloween-filters > .chip { flex-shrink: 0; white-space: nowrap; }
+.halloween-btn { color: #ba5b16; }
+.halloween-btn .halloween-pumpkin { flex: 0 0 16px; width: 16px; height: 16px; }
+.halloween-btn:hover { box-shadow: 0 0 12px rgba(255,122,32,.22); border-color: #ec9a53; }
+body.halloween-transition-ready { transition: background-color .35s ease, color .35s ease; }
+body.halloween-mode { --bg:#130d1b; --white:#1e1427; --navy:#f9eef6; --text:#d3c1d6; --gray:#bdacc1; --border:#4b3346; --placeholder:#392538; background-color:#130d1b; color:#f9eef6; }
+body.halloween-mode .explore-hero { background: radial-gradient(ellipse at 75% 12%,rgba(255,103,35,.2),transparent 42%),radial-gradient(ellipse at 15% 85%,rgba(121,49,139,.25),transparent 55%),#160e1e; }
+body.halloween-mode .halloween-btn.chip-active { background:#48231e; color:#ffae56; border-color:#bb6b38; box-shadow:0 0 18px rgba(255,116,32,.13); }
+body.halloween-mode .featured,body.halloween-mode .card,body.halloween-mode .mini-card,body.halloween-mode .promo { border-color:#583847; }
+body.halloween-mode .featured-btn,body.halloween-mode .card-btn { background:#fb832e; color:#21131b; }
+body.halloween-mode .featured-img img,body.halloween-mode .card-img img,body.halloween-mode .mini-img img,body.halloween-mode .view-all-image img { width:100%; height:100%; object-fit:cover; object-position:center 25%; display:block; }
+body.halloween-mode :is(#routineResults, #viewAllGrid) .save-routine-btn,
+body.halloween-mode :is(#routineResults, #viewAllGrid) .like-routine-btn { background:transparent !important; border:1px solid #865246 !important; color:#ffa66b !important; }
+body.halloween-mode :is(#routineResults, #viewAllGrid) .save-routine-btn svg { color:inherit !important; stroke:currentColor !important; }
+body.halloween-mode :is(#routineResults, #viewAllGrid) .save-routine-btn span { color:inherit !important; }
+body.halloween-mode :is(#routineResults, #viewAllGrid) :is(.save-routine-btn, .like-routine-btn):hover,
+body.halloween-mode :is(#routineResults, #viewAllGrid) .save-routine-btn.is-saved,
+body.halloween-mode :is(#routineResults, #viewAllGrid) .like-routine-btn.is-liked { background:#43252b !important; border-color:#bb6b38 !important; color:#ffae56 !important; }
+body.halloween-mode :is(#routineResults, #viewAllGrid) :is(.rating-value, .rating-count, .routine-rating-value, .routine-rating-count) { color:#d3c1d6 !important; }
+body.halloween-mode :is(#routineResults, #viewAllGrid) .rating-stars .star.empty { color:#5b4256 !important; }
+body.halloween-mode :is(#routineResults, #viewAllGrid) .routine-rating-stars::before { color:#5b4256 !important; }
+.halloween-detail-backdrop { position:fixed; inset:0; background:rgba(12,7,15,.76); backdrop-filter:blur(5px); z-index:20000; overflow:auto; padding:32px 14px; }
+.halloween-detail-dialog { max-width:900px; margin:auto; background:#fffaf4; color:#352a23; border-radius:18px; padding:20px; font-family:Inter,system-ui,sans-serif; }
+.halloween-detail-close { float:right; border:1px solid #d6bba8; background:white; color:#543425; padding:8px 13px; border-radius:9px; cursor:pointer; }
+.halloween-detail-profile { display:flex; gap:22px; border:1px solid #e5d5c9; border-radius:14px; padding:15px; margin-top:12px; }
+.halloween-detail-photo { width:210px; height:245px; border-radius:12px; object-fit:cover; object-position:center 20%; flex-shrink:0; }
+.halloween-detail-info { padding:12px 2px; }
+.halloween-detail-info h2 { margin:10px 0; font-size:27px; }
+.halloween-detail-info p { margin:9px 0; color:#806e63; }
+.halloween-detail-tag { color:#ad632a; font-size:13px; }
+.halloween-detail-metrics { margin-top:23px; display:flex; flex-wrap:wrap; gap:17px; font-size:14px; color:#976945; }
+.halloween-detail-schedule { border:1px solid #e5d5c9; padding:18px; border-radius:14px; margin-top:16px; }
+.halloween-detail-schedule h3 { margin:0; }
+.halloween-detail-schedule > p { margin:3px 0 14px; color:#8d7f71; font-size:14px; }
+.halloween-detail-step { display:flex; align-items:center; gap:16px; border:1px solid #eee0d4; padding:14px; border-radius:10px; margin:8px 0; }
+.halloween-detail-number { border:1px solid #e4d8ce; border-radius:50%; padding:7px 12px; color:#ba7746; }
+.halloween-detail-check { border-radius:50%; background:#efe9ff; color:#7451d5; font-size:19px; padding:8px 12px; }
+.halloween-detail-activity { flex:1; }
+.halloween-detail-activity strong { display:block; font-size:14px; }
+.halloween-detail-activity small { color:#8f7c6e; }
+.halloween-detail-time { background:#f7eee5; padding:7px; border-radius:7px; color:#ac6335; font-size:12px; }
+@media(max-width:620px){.halloween-detail-profile{flex-direction:column}.halloween-detail-photo{width:100%;height:230px}.halloween-detail-info h2{font-size:22px}.halloween-detail-step{gap:8px;padding:9px}.halloween-detail-schedule{padding:10px}}
+
+
+/* Keep Halloween cobwebs absolutely motionless during scroll and hover. */
+body.halloween-mode::before, body.halloween-mode::after {animation:none !important;transition:none !important;background-attachment:scroll;will-change:auto;}
+body.halloween-mode::before {transform:none !important;}
+body.halloween-mode::after {transform:scaleX(-1) !important;}
+</style>
+<style>
+
+/* Halloween View all cards — scoped so other categories remain untouched */
+body.halloween-mode #viewAllGrid .view-all-card {
+  background: #1e1427;
+  border-color: #583847;
+  color: #f9eef6;
+  box-shadow: 0 6px 20px rgba(7, 4, 13, .20);
+}
+body.halloween-mode #viewAllGrid .view-all-card:hover {
+  border-color: #bd7147;
+  box-shadow: 0 10px 26px rgba(255, 132, 47, .12);
+}
+body.halloween-mode #viewAllGrid .view-all-name { color: #f9eef6; }
+body.halloween-mode #viewAllGrid .view-all-role,
+body.halloween-mode #viewAllGrid .view-all-link { color: #ffae75; }
+body.halloween-mode #viewAllGrid .view-all-description,
+body.halloween-mode #viewAllGrid .view-all-meta { color: #d3c1d6; }
+body.halloween-mode #viewAllGrid .view-all-image { background: #170e1b; }
+/* The site header keeps its own colors while the Halloween page below is dark. */
+body.halloween-mode .header {
+  --white:#FFFFFF;
+  --navy:#15213B;
+  --text:#334155;
+  --gray:#64748B;
+  --border:#E6EAF1;
+  --placeholder:#E8ECF3;
+  color:#15213B;
+}
+body.halloween-mode .view-all-btn { background:#FB832E; border-color:#FB832E; color:#21131B; }
+body.halloween-mode .view-all-btn:hover { background:#FFAA59; border-color:#FFAA59; color:#21131B; }
+body.halloween-mode .view-all-btn span { color:inherit; }
+/* Match the picture framing and image footprint used in normal category cards. */
+body.halloween-mode .featured-img img,
+body.halloween-mode .card-img img,
+body.halloween-mode .mini-img img,
+body.halloween-mode #viewAllGrid .view-all-image img {
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  object-position:center 28% !important;
+  display:block;
+}
+body.halloween-mode #viewAllGrid .view-all-image {
+  width:90px;
+  height:90px;
+  flex:0 0 90px;
+  border-radius:12px;
+  overflow:hidden;
+}
+@media (max-width:700px) {
+  body.halloween-mode #viewAllGrid .view-all-image { width:80px; height:80px; flex-basis:80px; }
+}
+
+</style>
+  <script>
+    // Show a placeholder only after a real load failure. The <img> stays in the
+    // DOM so a later successful load (or src change) brings the photo back.
+    (function () {
+      const fallbackRules = [
+        { selector: ".featured-img img, .card-img img, .mini-img img", className: "showcase-placeholder", text: function (img) { return (img.alt || "?").trim().charAt(0).toUpperCase(); } },
+        { selector: ".view-all-image img", className: "view-all-placeholder", text: function (img) { return (img.alt || "?").trim().charAt(0).toUpperCase(); } },
+        { selector: ".logo-icon img", className: "image-fallback", text: function () { return "C"; } }
+      ];
+
+      document.addEventListener("error", function (event) {
+        const img = event.target;
+        if (!(img instanceof HTMLImageElement)) return;
+
+        const rule = fallbackRules.find(function (item) {
+          return img.matches(item.selector);
+        });
+        if (!rule) return;
+
+        img.style.setProperty("display", "none", "important");
+
+        const next = img.nextElementSibling;
+        if (next && next.hasAttribute("data-image-fallback")) return;
+
+        const fallback = document.createElement("div");
+        fallback.className = rule.className;
+        fallback.setAttribute("data-image-fallback", "");
+        fallback.textContent = rule.text(img);
+        if (img.alt) {
+          fallback.setAttribute("role", "img");
+          fallback.setAttribute("aria-label", img.alt);
+        }
+        img.after(fallback);
+      }, true);
+
+      document.addEventListener("load", function (event) {
+        const img = event.target;
+        if (!(img instanceof HTMLImageElement)) return;
+
+        const next = img.nextElementSibling;
+        if (next && next.hasAttribute("data-image-fallback")) {
+          next.remove();
+          img.style.removeProperty("display");
+        }
+      }, true);
+    })();
+  </script>
+</head>
+<body data-mobile-page="explore">
+
+  <header class="header header-white">
+    <div class="container header-inner">
+      <a href="main.html" class="logo">
+        <span class="logo-icon">
+          <img src="https://i.ibb.co/chRY80xC/image.png" alt="">
+        </span>
+        <span class="logo-text">CopyMyLife</span>
+      </a>
+
+      <nav class="nav">
+
+        <a href="main.html" class="nav-link">Home</a>
+
+        <a href="Explore.html" class="nav-link nav-link-active">
+          Explore
+        </a>
+
+        <a href="top-routines.html" class="nav-link">
+          Top Routines
+        </a>
+
+        <div id="authArea">
+
+          <a href="login.html" class="signin-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="8" r="3.5"
+                      stroke="currentColor"
+                      stroke-width="1.6"/>
+
+              <path d="M5.5 19c.8-3.2 3.1-5 6.5-5s5.7 1.8 6.5 5"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"/>
+            </svg>
+
+            Sign in
+          </a>
+
+          <a href="signin.html" class="signup-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="8" r="3.5"
+                      stroke="currentColor"
+                      stroke-width="1.6"/>
+
+              <path d="M5.5 19c.8-3.2 3.1-5 6.5-5s5.7 1.8 6.5 5"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"/>
+            </svg>
+
+            Sign up
+          </a>
+
+        </div>
+
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="explore-hero">
+      <div class="container explore-hero-inner">
+
+        <div>
+          <span id="exploreBadge" class="badge">
+            Discover a better you
+          </span>
+
+          <h1 id="exploreTitle" class="explore-title">
+            Explore routines
+          </h1>
+
+          <p id="exploreSubtitle" class="explore-subtitle">
+            Find routines, habits, and daily systems you can adapt to your own life.
+          </p>
+
+          <label class="search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M20 20l-4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <input id="routineSearch" type="search" maxlength="100" placeholder="Search routines, people, or keywords..." aria-label="Search routines" aria-describedby="exploreSearchStatus">
+            <button type="button" id="clearSearchBtn" class="search-clear" aria-label="Clear search" hidden>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </label>
+
+          <p id="exploreSearchStatus" class="explore-search-status" role="status" aria-live="polite" hidden></p>
+
+          <!-- Every AI feature (routine assistant, similar people, summaries) lives in the profile. -->
+          <a id="aiAssistantButton" class="explore-ai-button" href="profile.html#ai-generate">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/>
+              <path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/>
+              <path d="M5 2l.6 1.4L7 4l-1.4.6L5 6l-.6-1.4L3 4l1.4-.6z"/>
+            </svg>
+            AI Assistant
+          </a>
+
+        </div>
+
+        <aside id="promoCard" class="promo">
+
+          <div id="promoIcon" class="promo-icon"></div>
+
+          <h2 id="promoTitle" class="promo-title">
+            Better habits.<br>A brighter you.
+          </h2>
+
+          <p id="promoText" class="promo-text">
+            Explore how real people structure their days —
+            and find what works for you.
+          </p>
+
+          <p id="promoNote" class="promo-note">
+            Small steps.<br>Big change.
+          </p>
+
+        </aside>
+
+        <div class="filters halloween-filters" role="group" aria-label="Routine categories">
+            <a href="#" class="chip chip-active" data-filter="all">All</a>
+
+            <a href="#" class="chip" data-filter="morning">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+              Morning
+            </a>
+
+            <a href="#" class="chip" data-filter="fitness">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M2 12h4l3-8 6 16 3-8h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Fitness
+            </a>
+
+            <a href="#" class="chip" data-filter="study">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              </svg>
+              Study
+            </a>
+
+            <a href="#" class="chip" data-filter="wellness">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              </svg>
+              Wellness
+            </a>
+
+            <a href="#" class="chip" data-filter="productivity">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              </svg>
+              Productivity
+            </a>
+
+            <a href="#" class="chip" data-filter="creators">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="9" cy="8" r="3.5" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M2.5 20c.5-3.5 3.2-5.5 6.5-5.5s6 2 6.5 5.5M16 4.8a3.5 3.5 0 0 1 0 6.4M18.5 14.8c1.7.8 2.8 2.6 3 5.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+              Creators
+            </a>
+            <a href="#" class="chip halloween-btn" data-filter="halloween"><svg class="halloween-pumpkin" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 7C6 3 2 8 3 14c1 7 6 7 9 6 3 1 8 1 9-6 1-6-3-11-9-7Z" fill="#ff8a23" stroke="#c55c15" stroke-width=".8"/><path d="M12 7c-3 0-5 4-5 8 0 4 2 6 5 5m0-13c3 0 5 4 5 8 0 4-2 6-5 5" fill="none" stroke="#c8681a" stroke-width=".8"/><path d="M12 7c-.5-3 1-5 3-5" stroke="#3da44c" stroke-width="2.7" fill="none" stroke-linecap="round"/><path d="m6.5 13 2-2 1.4 2Zm7.6 0 1.6-2 2 2Z" fill="#301724"/><path d="M7 16q5 5 10 0l-2 1-1.5-1.2-2 2-2-2-1 1Z" fill="#301724"/></svg> Halloween</a>
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div id="peopleResults" class="people-results" hidden></div>
+
+        <div id="routineResults" class="routine-results">
+
+        </div>
+
+        <div id="exploreEmpty" class="explore-empty" role="status" aria-live="polite" hidden>
+          <h2 class="explore-empty-title"></h2>
+          <p class="explore-empty-text"></p>
+          <p class="explore-empty-hint" hidden></p>
+          <button type="button" id="resetFiltersBtn" class="explore-reset-btn" hidden>Reset filters</button>
+        </div>
+
+
+        <div class="view-all-container">
+          <button id="viewAllBtn" class="view-all-btn">
+            View all
+            <span id="viewAllArrow">↓</span>
+          </button>
+        </div>
+
+        <div id="viewAllGrid" class="view-all-grid"></div>
+
+      </div> 
+    </section>
+  </main>
+  <script>
+
+    const token = localStorage.getItem("token");
+    const authArea = document.getElementById("authArea");
+
+    let savedRoutineIds = new Set();
+    let likedRoutineIds = new Set();
+    let builtInRoutines = [];
+
+    
+    
+
+
+    if (token) {
+
+      fetch("/users/me", {
+        method: "GET",
+        headers: {
+          "Authorization": "Bearer " + token
+        }
+      })
+
+              .then(response => {
+
+                if (!response.ok) {
+                  throw new Error("Invalid token");
+                }
+
+                return response.json();
+              })
+
+              .then(user => {
+
+                authArea.innerHTML = `
+                <div class="user-menu">
+
+                    <button id="userTrigger"
+                            class="user-trigger"
+                            type="button">
+
+                        <span id="userAvatar" class="user-avatar">
+                        
+                            <img id="exploreUserAvatarImage"
+                                 alt="Profile avatar">
+
+                            <span id="exploreUserAvatarFallback"></span>
+
+                        </span>
+
+                        <span id="userName"
+                              class="user-name">
+                        </span>
+
+                        <svg class="chevron"
+                             width="16"
+                             height="16"
+                             viewBox="0 0 24 24"
+                             fill="none">
+
+                            <path d="M6 9l6 6 6-6"
+                                  stroke="currentColor"
+                                  stroke-width="2.5"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"/>
+                        </svg>
+
+                    </button>
+
+
+                    <div id="userDropdown"
+                         class="user-dropdown">
+
+                        <a href="profile.html"
+                           class="dropdown-item profile-item">
+
+                            <svg width="22"
+                                 height="22"
+                                 viewBox="0 0 24 24"
+                                 fill="none">
+
+                                <circle cx="12"
+                                        cy="7"
+                                        r="4"
+                                        stroke="currentColor"
+                                        stroke-width="2"/>
+
+                                <path d="M5 21v-2c0-3.3 2.7-6 6-6h2c3.3 0 6 2.7 6 6v2"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"/>
+                            </svg>
+
+                            Profile
+                        </a>
+
+
+                        <button id="logoutBtn"
+                                class="dropdown-item logout-item">
+
+                            <svg width="22"
+                                 height="22"
+                                 viewBox="0 0 24 24"
+                                 fill="none">
+
+                                <path d="M10 5H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"/>
+
+                                <path d="M14 8l4 4-4 4"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"/>
+
+                                <path d="M9 12h9"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"/>
+                            </svg>
+
+                            Log Out
+
+                        </button>
+
+                    </div>
+
+                </div>
+            `;
+
+
+                document.getElementById("userName").textContent =
+                        user.name;
+
+                const avatarImage =
+                        document.getElementById("exploreUserAvatarImage");
+
+                const avatarFallback =
+                        document.getElementById("exploreUserAvatarFallback");
+
+
+                if (SafeDom.safeImageUrl(user.avatarUrl)) {
+
+                  avatarImage.onerror = function () {
+                    avatarImage.style.display = "none";
+                    avatarFallback.textContent = user.name.charAt(0).toUpperCase();
+                    avatarFallback.style.display = "flex";
+                  };
+
+                  avatarImage.src = SafeDom.safeImageUrl(user.avatarUrl);
+
+                  avatarImage.style.display = "block";
+                  avatarFallback.style.display = "none";
+
+                } else {
+
+                  avatarImage.style.display = "none";
+
+                  avatarFallback.textContent =
+                          user.name.charAt(0).toUpperCase();
+
+                  avatarFallback.style.display = "flex";
+                }
+
+
+                const userTrigger =
+                        document.getElementById("userTrigger");
+
+                const userDropdown =
+                        document.getElementById("userDropdown");
+
+
+                userTrigger.addEventListener("click", function () {
+
+                  userDropdown.classList.toggle("show");
+                  userTrigger.classList.toggle("open");
+
+                });
+
+
+                document.addEventListener("click", function (event) {
+
+                  if (!event.target.closest(".user-menu")) {
+
+                    userDropdown.classList.remove("show");
+                    userTrigger.classList.remove("open");
+
+                  }
+
+                });
+
+
+                document.getElementById("logoutBtn")
+                        .addEventListener("click", function () {
+
+                          CopyMyLifeSession.signOut();
+
+                        });
+
+              });
+
+    }
+    const exploreThemes = {
+
+      all: {
+
+        badge: "Discover a better you",
+        title: "Explore routines",
+        subtitle: "Find routines, habits, and daily systems you can adapt to your own life.",
+
+        promoTitle: "Better habits.<br>A brighter you.",
+        promoText: "Explore how real people structure their days — and find what works for you.",
+        promoNote: "Small steps.<br>Big change.",
+
+        accent: "#5B6BF0",
+        soft: "#EEF0FE",
+        promo: "#FCEFE6",
+        circle: "#F9DCC8",
+
+        icon: `
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M10 3l1.8 5.2L17 10l-5.2 1.8L10 17l-1.8-5.2L3 10l5.2-1.8L10 3z"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linejoin="round"/>
+          </svg>
+         `
+      },
+
+      morning: {
+        badge: "Discover a better day",
+        title: "Explore morning routines",
+        subtitle: "Find routines, habits, and daily rhythms you can adapt to your own life.",
+
+        promoTitle: "Own your morning.",
+        promoText: "Calmer days, sharper focus, and a brighter you.",
+        promoNote: "Start your day right — small mornings,<br>big change.",
+
+        accent: "#315CA8",
+        soft: "#FCEADF",
+        promo: "#FDEBDD",
+        circle: "#F8D7C1",
+
+        icon: `
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="4"
+                        stroke="currentColor"
+                        stroke-width="1.8"/>
+
+                <path d="M12 2v2M12 20v2M2 12h2M20 12h2
+                         M4.9 4.9l1.4 1.4
+                         M17.7 17.7l1.4 1.4
+                         M4.9 19.1l1.4-1.4
+                         M17.7 6.3l1.4-1.4"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"/>
+            </svg>
+        `
+
+        
+      },
+
+      fitness: {
+        badge: "Move with intention",
+        title: "Explore training routines",
+        subtitle: "Build strength, energy, and confidence with routines from athletes and coaches.",
+
+        promoTitle: "Stronger every day.",
+        promoText: "Energy grows when showing up becomes your favorite habit.",
+        promoNote: "Train with purpose —<br>progress follows consistency.",
+
+        accent: "#EA4D3D",
+        soft: "#FDE9E3",
+        promo: "#FDE9DF",
+        circle: "#F8D7C8",
+
+        icon: `
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linejoin="round"/>
+            </svg>
+        `
+      },
+
+      study: {
+        badge: "Level up your learning",
+        title: "Explore study routines",
+        subtitle: "Build focus, knowledge, and consistency with routines for learning.",
+
+        promoTitle: "Knowledge builds new<br>opportunities.",
+        promoText: "Learn consistently, stay curious, and chase the future you want.",
+        promoNote: "Study smarter — deep<br>focus beats longer hours.",
+
+        accent: "#293B88",
+        soft: "#EEEAFE",
+        promo: "#EEE8FF",
+        circle: "#DCD1FA",
+
+        icon: `
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M6 4h12v16l-6-3-6 3V4z"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linejoin="round"/>
+            </svg>
+        `
+      },
+
+      wellness: {
+        badge: "Take care of yourself",
+        title: "Explore wellness routines",
+        subtitle: "Build healthy habits that help you feel stronger, calmer, and more balanced.",
+
+        promoTitle: "A healthier mind. A happier<br>you.",
+        promoText: "Small daily habits can reset your energy and help you feel grounded.",
+        promoNote: "Feel better daily — breathe,<br>restore, begin again.",
+
+        accent: "#16744B",
+        soft: "#E4F5E8",
+        promo: "#E3F5E6",
+        circle: "#CEEED3",
+
+        icon: `
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M12 21V11"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"/>
+
+                <path d="M12 14c-4 0-6-2-6-6 4 0 6 2 6 6z"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linejoin="round"/>
+
+                <path d="M12 11c0-4 2-6 6-6 0 4-2 6-6 6z"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linejoin="round"/>
+            </svg>
+        `
+      },
+
+      productivity: {
+        badge: "Make progress with purpose",
+        title: "Explore productivity routines",
+        subtitle: "Build focus, structure, and momentum with systems that make your day count.",
+
+        promoTitle: "Make space for what<br>matters.",
+        promoText: "Clear priorities turn busy days into meaningful progress.",
+        promoNote: "Do more, stress less — organize<br>the day around impact.",
+
+        accent: "#315AB5",
+        soft: "#E5EBFC",
+        promo: "#E4EAFC",
+        circle: "#CED9F8",
+
+        icon: `
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="8"
+                        stroke="currentColor"
+                        stroke-width="1.8"/>
+
+                <circle cx="12" cy="12" r="4"
+                        stroke="currentColor"
+                        stroke-width="1.8"/>
+
+                <circle cx="12" cy="12" r="1.5"
+                        fill="currentColor"/>
+            </svg>
+        `
+      },
+
+      creators: {
+        badge: "Learn from real people",
+        title: "Explore creator’s routines",
+        subtitle: "Discover routines from creators, athletes, artists, and professionals.",
+
+        promoTitle: "Real people. Real routines.",
+        promoText: "Explore routines from creators, athletes, artists, and professionals around the world.",
+        promoNote: "Your inspiration starts with<br>someone else's honest day.",
+
+        accent: "#54227D",
+        soft: "#F2E4FA",
+        promo: "#F1E2FA",
+        circle: "#E0C7F4",
+
+        icon: `
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+
+                <circle cx="9" cy="8" r="3"
+                        stroke="currentColor"
+                        stroke-width="1.8"/>
+
+                <path d="M3 20c.5-3.2 2.8-5 6-5s5.5 1.8 6 5"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"/>
+
+                <path d="M16 5.5a3 3 0 0 1 0 5"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"/>
+
+                <path d="M17.5 15c2 .8 3.2 2.4 3.5 5"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"/>
+            </svg>
+        `
+      }
+
+    };
+
+    function applyExploreTheme(category) {
+
+      const theme = exploreThemes[category];
+
+      if (!theme) return;
+
+      document.getElementById("exploreBadge").textContent =
+              theme.badge;
+
+      document.getElementById("exploreTitle").textContent =
+              theme.title;
+
+      document.getElementById("exploreSubtitle").textContent =
+              theme.subtitle;
+
+      document.getElementById("promoTitle").innerHTML =
+              theme.promoTitle;
+
+      document.getElementById("promoText").textContent =
+              theme.promoText;
+
+      document.getElementById("promoNote").innerHTML =
+              theme.promoNote;
+
+      document.getElementById("promoIcon").innerHTML =
+              theme.icon;
+
+      document.documentElement.style.setProperty(
+              "--explore-accent",
+              theme.accent
+      );
+
+      document.documentElement.style.setProperty(
+              "--explore-soft",
+              theme.soft
+      );
+
+      document.documentElement.style.setProperty(
+              "--explore-promo",
+              theme.promo
+      );
+
+      document.documentElement.style.setProperty(
+              "--explore-circle",
+              theme.circle
+      );
+    }
+
+
+    const searchInput =
+            document.getElementById("routineSearch");
+
+    const filterButtons =
+            document.querySelectorAll(".chip");
+
+    const viewAllBtn =
+            document.getElementById("viewAllBtn");
+
+    const viewAllGrid =
+            document.getElementById("viewAllGrid");
+
+    const viewAllArrow =
+            document.getElementById("viewAllArrow");
+
+
+    let activeCategory = "all";
+
+    let isViewAllOpen = false;
+
+    let publicRoutines = [];
+    // "loading", "done" or "failed" for each routine list Explore shows.
+    const exploreLoads = { builtIn: "loading", public: "loading" };
+    const showcaseData = {
+      all: [
+        {
+          type: "featured",
+          name: "Elon Musk",
+          title: "Elon Musk's Productivity System",
+          role: "Billionaire entrepreneur",
+          description: "A structured day focused on deep work, learning, and long-term thinking.",
+          habits: 12,
+          hours: "~ 14 hours",
+          image: "https://i.ibb.co/C52sMxMH/photo-5282767902903836637-y.jpg",
+          quote: "Focus on signal over noise."
+        },
+        {
+          name: "Tim Cook",
+          role: "CEO & Business Leader",
+          description: "An early-start routine inspired by planning, focused work, movement, and a quiet beginning.",
+          habits: 8,
+          hours: "~ 3 hours",
+          image: "https://i.ibb.co.com/1fS1RMJs/photo-5325754199049970232-x-1.jpg"
+        },
+        {
+          name: "Cristiano Ronaldo",
+          role: "Athlete",
+          description: "Training, recovery, nutrition and a winning mindset.",
+          habits: 10,
+          hours: "~ 8 hours",
+          image: "https://i.ibb.co/bjDKgTKD/photo-5274141405255250419-x.jpg"
+        },
+        {
+          name: "Ali Abdaal",
+          role: "Educator & Entrepreneur",
+          description: "Focused work, planning, learning, and sustainable productivity.",
+          habits: 9,
+          hours: "~ 7 hours",
+          image: "https://i.ibb.co.com/DHxJ942m/photo-5325754199049970242-x.jpg"
+        },
+        {
+          name: "Arianna Huffington",
+          role: "Founder & Author",
+          description: "Rest, recovery, mindfulness, and intentional daily habits.",
+          habits: 8,
+          hours: "~ 3 hours",
+          image: "https://i.ibb.co.com/fVLcwGdG/photo-5325754199049970237-y.jpg"
+        },
+        {
+          name: "Marques Brownlee",
+          role: "Tech Creator & YouTuber",
+          description: "Creative production, focused work, filming, and consistent output.",
+          habits: 9,
+          hours: "~ 8 hours",
+          image: "https://i.ibb.co.com/xqL822fT/photo-5325754199049970253-y.jpg"
+        }
+      ],
+
+      morning: [
+        {
+          type: "featured",
+          name: "Tim Cook",
+          title: "Early Start Routine",
+          role: "CEO & Business Leader",
+          description: "An early-start routine inspired by planning, focused work, movement, and a quiet beginning before the day gets busy.",
+          habits: 8,
+          hours: "~ 3 hours",
+          image: "https://i.ibb.co.com/1fS1RMJs/photo-5325754199049970232-x-1.jpg",
+          quote: "Start the day with intention."
+        },
+        {
+          name: "Andrew Huberman",
+          role: "Neuroscientist & Podcaster",
+          description: "A structured start built around movement, focus, preparation, and intentional work.",
+          habits: 7,
+          hours: "~ 2.5 hours",
+          image: "https://i.ibb.co.com/BVVR2xW2/photo-5325754199049970206-x.jpg"
+        },
+        {
+          name: "Mel Robbins",
+          role: "Author & Podcaster",
+          description: "A practical morning routine for building momentum and starting important work early.",
+          habits: 6,
+          hours: "~ 2 hours",
+          image: "https://i.ibb.co.com/TXMkK4N/photo-5325754199049970234-x.jpg"
+        },
+        {
+          name: "Richard Branson",
+          role: "Entrepreneur",
+          description: "Movement, planning, and an energetic start to the day.",
+          habits: 7,
+          hours: "~ 2 hours",
+          image: "https://i.ibb.co.com/20tGmyT6/photo-5325754199049970235-x.jpg"
+        },
+        {
+          name: "James Clear",
+          role: "Author",
+          description: "Simple repeatable actions designed for consistency.",
+          habits: 6,
+          hours: "~ 1.5 hours",
+          image: "https://i.ibb.co.com/2YcdRBjT/photo-5325754199049970236-x.jpg"
+        },
+        {
+          name: "Arianna Huffington",
+          role: "Founder & Author",
+          description: "A slower morning focused on energy, balance, and intention.",
+          habits: 6,
+          hours: "~ 2 hours",
+          image: "https://i.ibb.co.com/fVLcwGdG/photo-5325754199049970237-y.jpg"
+        }
+      ],
+
+      fitness: [
+        {
+          type: "featured",
+          name: "Cristiano Ronaldo",
+          title: "Elite Performance Routine",
+          role: "Professional Footballer",
+          description: "A performance-inspired system combining training, mobility, recovery, and disciplined daily habits.",
+          habits: 12,
+          hours: "~ 5 hours",
+          image: "https://i.ibb.co/bjDKgTKD/photo-5274141405255250419-x.jpg",
+          quote: "Consistency creates performance."
+        },
+        {
+          name: "Serena Williams",
+          role: "Tennis Champion & Entrepreneur",
+          description: "Strength training, preparation, recovery, and mental focus.",
+          habits: 9,
+          hours: "~ 4 hours",
+          image: "https://i.ibb.co.com/XxL5v9b9/photo-5325754199049970238-x.jpg"
+        },
+        {
+          name: "David Goggins",
+          role: "Discipline & Mindset",
+          description: "Mental toughness, early mornings, and relentless action.",
+          habits: 8,
+          hours: "~ 6 hours",
+          image: "https://i.ibb.co/5gfVFSq0/photo-5274141405255250420-x.jpg"
+        },
+        {
+          name: "Chris Hemsworth",
+          role: "Actor & Fitness Entrepreneur",
+          description: "Strength, mobility, and recovery for an active lifestyle.",
+          habits: 8,
+          hours: "~ 3 hours",
+          image: "https://i.ibb.co.com/1YVqnPdn/photo-5325754199049970239-y.jpg"
+        },
+        {
+          name: "Eliud Kipchoge",
+          role: "Marathon Runner",
+          description: "Running, recovery, and consistent preparation.",
+          habits: 10,
+          hours: "~ 5 hours",
+          image: "https://i.ibb.co.com/SXJwLhkz/photo-5325754199049970240-x.jpg"
+        },
+        {
+          name: "Rich Roll",
+          role: "Endurance Athlete & Podcaster",
+          description: "Movement, nutrition, recovery, and sustainable wellness habits.",
+          habits: 9,
+          hours: "~ 4 hours",
+          image: "https://i.ibb.co.com/NgqGTwQF/photo-5325754199049970241-y.jpg"
+        }
+      ],
+
+      study: [
+        {
+          type: "featured",
+          name: "Ali Abdaal",
+          title: "Effective Study System",
+          role: "Educator & Entrepreneur",
+          description: "A learning system inspired by focused sessions, planning, active recall, and sustainable productivity.",
+          habits: 8,
+          hours: "~ 6 hours",
+          image: "https://i.ibb.co.com/DHxJ942m/photo-5325754199049970242-x.jpg",
+          quote: "Learn smarter, not longer."
+        },
+        {
+          name: "Cal Newport",
+          role: "Author & Computer Science Professor",
+          description: "Distraction-free study blocks and deliberate concentration on difficult work.",
+          habits: 7,
+          hours: "~ 5 hours",
+          image: "https://i.ibb.co.com/ff70fZD/photo-5325754199049970243-x.jpg"
+        },
+        {
+          name: "Barbara Oakley",
+          role: "Engineer, Author & Educator",
+          description: "Focused practice, breaks, recall, and techniques for mastering difficult concepts.",
+          habits: 8,
+          hours: "~ 4 hours",
+          image: "https://i.ibb.co.com/GvKMjJzC/photo-5325754199049970244-x.jpg"
+        },
+        {
+          name: "Thomas Frank",
+          role: "Productivity Creator",
+          description: "Planning, focused study, assignments, and review.",
+          habits: 7,
+          hours: "~ 5 hours",
+          image: "https://i.ibb.co.com/S4Gt2nmc/photo-5325754199049970245-x.jpg"
+        },
+        {
+          name: "Scott Young",
+          role: "Author & Learning Expert",
+          description: "Active practice and deliberate skill-building.",
+          habits: 8,
+          hours: "~ 5 hours",
+          image: "https://i.ibb.co.com/wrWjgxGV/photo-5325754199049970227-x.jpg"
+        },
+        {
+          name: "Sal Khan",
+          role: "Founder of Khan Academy",
+          description: "Learn concepts step by step, practice, then test understanding.",
+          habits: 7,
+          hours: "~ 4 hours",
+          image: "https://i.ibb.co.com/mrspjkj2/photo-5325754199049970246-x.jpg"
+        }
+      ],
+
+      wellness: [
+        {
+          type: "featured",
+          name: "Arianna Huffington",
+          title: "Rest & Reset Routine",
+          role: "Founder & Author",
+          description: "A balanced routine inspired by better rest, intentional breaks, stress reduction, and sustainable energy.",
+          habits: 8,
+          hours: "~ 3 hours",
+          image: "https://i.ibb.co.com/fVLcwGdG/photo-5325754199049970237-y.jpg",
+          quote: "Rest is part of progress."
+        },
+        {
+          name: "Andy Puddicombe",
+          role: "Meditation Teacher",
+          description: "Meditation and mindful pauses designed to bring more attention into everyday life.",
+          habits: 6,
+          hours: "~ 1.5 hours",
+          image: "https://i.ibb.co.com/bjzPTjs4/photo-5325754199049970247-x.jpg"
+        },
+        {
+          name: "Adriene Mishler",
+          role: "Yoga Teacher & Creator",
+          description: "Gentle movement, breathing, mindfulness, and regular self-care.",
+          habits: 7,
+          hours: "~ 2 hours",
+          image: "https://i.ibb.co.com/rfv68N4y/photo-5325754199049970248-y.jpg"
+        },
+        {
+          name: "Jay Shetty",
+          role: "Author & Podcaster",
+          description: "Reflection, gratitude, meditation, and intentional time.",
+          habits: 7,
+          hours: "~ 2 hours",
+          image: "https://i.ibb.co.com/6RvnKNQc/photo-5325754199049970249-y.jpg"
+        },
+        {
+          name: "Rich Roll",
+          role: "Endurance Athlete & Podcaster",
+          description: "Movement, nutrition, recovery, and sustainable wellness habits.",
+          habits: 8,
+          hours: "~ 4 hours",
+          image: "https://i.ibb.co.com/NgqGTwQF/photo-5325754199049970241-y.jpg"
+        },
+        {
+          name: "Wim Hof",
+          role: "Athlete & Method Creator",
+          description: "Breathing, controlled challenge, and consistent practice.",
+          habits: 6,
+          hours: "~ 1.5 hours",
+          image: "https://i.ibb.co.com/hFHZHCfW/photo-5325754199049970250-x.jpg"
+        }
+      ],
+
+      productivity: [
+        {
+          type: "featured",
+          name: "Cal Newport",
+          title: "Deep Work System",
+          role: "Author & Professor",
+          description: "A focused productivity system inspired by distraction-free work, time blocking, and protecting high-value tasks.",
+          habits: 8,
+          hours: "~ 7 hours",
+          image: "https://i.ibb.co.com/ff70fZD/photo-5325754199049970243-x.jpg",
+          quote: "Focus creates value."
+        },
+        {
+          name: "Ali Abdaal",
+          role: "Educator & Entrepreneur",
+          description: "Focused work, planning, learning, and recovery organized around sustainable productivity.",
+          habits: 9,
+          hours: "~ 7 hours",
+          image: "https://i.ibb.co.com/DHxJ942m/photo-5325754199049970242-x.jpg"
+        },
+        {
+          name: "James Clear",
+          role: "Author",
+          description: "Small repeatable systems designed to create consistent improvement.",
+          habits: 7,
+          hours: "~ 5 hours",
+          image: "https://i.ibb.co.com/2YcdRBjT/photo-5325754199049970236-x.jpg"
+        },
+        {
+          name: "David Allen",
+          role: "Productivity Author",
+          description: "Capture, clarify, organize, review, and take action.",
+          habits: 7,
+          hours: "~ 5 hours",
+          image: "https://i.ibb.co.com/1tnJWxD1/photo-5325754199049970251-x.jpg"
+        },
+        {
+          name: "Tiago Forte",
+          role: "Author & Educator",
+          description: "Capture knowledge and turn information into useful output.",
+          habits: 7,
+          hours: "~ 6 hours",
+          image: "https://i.ibb.co.com/fY5gtdVY/photo-5325754199049970233-x.jpg"
+        },
+        {
+          name: "Thomas Frank",
+          role: "Productivity Creator",
+          description: "Daily planning, focused sessions, and realistic priorities.",
+          habits: 8,
+          hours: "~ 6 hours",
+          image: "https://i.ibb.co.com/S4Gt2nmc/photo-5325754199049970245-x.jpg"
+        }
+      ],
+
+      creators: [
+        {
+          type: "featured",
+          name: "Marques Brownlee",
+          title: "Creator Production System",
+          role: "Tech Creator & YouTuber",
+          description: "A structured day focused on deep work, filming, editing, and long-term creative output.",
+          habits: 9,
+          hours: "~ 8 hours",
+          image: "https://i.ibb.co.com/xqL822fT/photo-5325754199049970253-y.jpg",
+          quote: "Focus on signal over noise."
+        },
+        {
+          name: "Casey Neistat",
+          role: "Filmmaker & Creator",
+          description: "A high-energy workflow built around ideas, filming, movement, and visual storytelling.",
+          habits: 8,
+          hours: "~ 8 hours",
+          image: "https://i.ibb.co.com/sJmhY89c/photo-5325754199049970252-x.jpg"
+        },
+        {
+          name: "Emma Chamberlain",
+          role: "Creator & Entrepreneur",
+          description: "A flexible routine balancing content creation, personal time, business work, and inspiration.",
+          habits: 7,
+          hours: "~ 6 hours",
+          image: "https://i.ibb.co.com/8J5n14j/photo-5325754199049970254-y.jpg"
+        },
+        {
+          name: "Matt D'Avella",
+          role: "Filmmaker & Creator",
+          description: "Focused creative work and a slower approach to consistent output.",
+          habits: 8,
+          hours: "~ 7 hours",
+          image: "https://i.ibb.co.com/21CW32rk/photo-5325754199049970255-y.jpg"
+        },
+        {
+          name: "Peter McKinnon",
+          role: "Photographer & Filmmaker",
+          description: "Photography, filming, editing, and experimentation.",
+          habits: 9,
+          hours: "~ 8 hours",
+          image: "https://i.ibb.co.com/bjdf9NPX/photo-5325754199049970256-y.jpg"
+        },
+        {
+          name: "Ali Abdaal",
+          role: "Creator & Educator",
+          description: "Research, writing, filming, and building useful educational content.",
+          habits: 8,
+          hours: "~ 7 hours",
+          image: "https://i.ibb.co.com/DHxJ942m/photo-5325754199049970242-x.jpg"
+        }
+      ]
+    };
+
+    function routineImage(routine) {
+
+        if (routine.image) {
+          return `
+        <img src="${routine.image}" alt="${routine.name}">
+      `;
+        }
+
+        return `
+      <div class="showcase-placeholder">
+        ${routine.name.charAt(0)}
+      </div>
+    `;
+    }
+
+    function renderRating(rating, count) {
+
+        const value = Math.max(0, Math.min(5, Number(rating) || 0));
+
+        const percent = (value / 5) * 100;
+
+        return `
+      <div class="routine-rating-display">
+
+        <span
+            class="routine-rating-stars"
+            style="--rating-width: ${percent}%;">
+        </span>
+
+        <span class="routine-rating-value">
+          ${value.toFixed(1)}
+        </span>
+
+        <span class="routine-rating-count">
+          (${count || 0})
+        </span>
+
+      </div>
+    `;
+    }
+
+
+    function renderStars(averageRating) {
+      const value = Number(averageRating || 0);
+      let starsHtml = "";
+
+      for (let i = 1; i <= 5; i++) {
+        if (value >= i) {
+          starsHtml += `<span class="star filled">★</span>`;
+        } else if (value >= i - 0.5) {
+          starsHtml += `<span class="star half">★</span>`;
+        } else {
+          starsHtml += `<span class="star empty">★</span>`;
+        }
+      }
+
+      return starsHtml;
+    }
+
+    function renderRatingDisplay(routine) {
+      if (!routine) return "";
+
+      const averageRating = Number(routine.averageRating || 0).toFixed(1);
+      const ratingCount = Number(routine.ratingCount || 0);
+
+      return `
+    <div class="routine-rating-display">
+      <div class="rating-stars">
+        ${renderStars(Number(routine.averageRating || 0))}
+      </div>
+      <span class="rating-value">${averageRating}</span>
+      <span class="rating-count">(${ratingCount})</span>
+    </div>
+  `;
+    }
+
+    
+
+    function renderShowcase(category) {
+
+      const routines = showcaseData[category];
+
+      if (!routines) return;
+
+      const featured = routines[0];
+      const featuredDbRoutine = findBuiltInRoutine(featured.name);
+      
+      const cardOne = routines[1];
+      const cardTwo = routines[2];
+
+      const miniOne = routines[3];
+      const miniTwo = routines[4];
+      const miniThree = routines[5];
+
+      const routineResults =
+              document.getElementById("routineResults");
+
+      routineResults.classList.remove("filtered-mode");
+
+      routineResults.innerHTML = `
+
+    <div class="featured-row">
+
+      <article class="featured">
+
+        <div class="featured-body">
+
+          <span class="pill">
+            ☆ Featured routine
+          </span>
+
+          <h2 class="featured-title">
+            ${featured.title}
+          </h2>
+
+          <p class="featured-name">
+            ${featured.name}
+          </p>
+
+          <p class="featured-role">
+            ${featured.role}
+          </p>
+
+          <p class="featured-text">
+            ${featured.description}
+          </p>
+
+          <div class="meta">
+            <span>✓ ${featured.habits} habits</span>
+            <span>◷ ${featured.hours}</span>
+          </div>
+
+        ${featuredDbRoutine
+              ? renderRatingDisplay(featuredDbRoutine)
+              : ""}
+
+          <div class="featured-actions-row">
+            ${featuredDbRoutine ? renderSaveButton(featuredDbRoutine, "compact-save-btn") : ""}
+            ${featuredDbRoutine ? renderLikeButton(featuredDbRoutine, "compact-like-btn") : ""}
+          </div>
+
+        <a
+          href="${featuredDbRoutine
+                      ? `routine.html?id=${featuredDbRoutine.id}`
+                      : "#"}"
+          class="btn btn-dark featured-btn featured-btn-full">
+          View routine →
+        </a>
+
+        </div>
+
+
+        <div class="featured-img">
+
+          ${routineImage(featured)}
+
+          <p class="featured-quote">
+            "${featured.quote}"
+          </p>
+
+        </div>
+
+      </article>
+
+
+      ${createLargeCard(cardOne)}
+
+      ${createLargeCard(cardTwo)}
+
+    </div>
+
+
+    <div class="mini-row">
+
+      ${createMiniCard(miniOne)}
+
+      ${createMiniCard(miniTwo)}
+
+      ${createMiniCard(miniThree)}
+
+    </div>
+
+  `;
+    }
+
+    function createLargeCard(routine) {
+
+          const dbRoutine = findBuiltInRoutine(routine.name);
+
+          return `
+
+        <article class="card">
+
+          <div class="card-img card-img-wide">
+            ${routineImage(routine)}
+          </div>
+
+          <h3 class="card-name">
+            ${routine.name}
+          </h3>
+
+          <p class="card-tag">
+            ${routine.role}
+          </p>
+
+          <p class="card-desc">
+            ${routine.description}
+          </p>
+
+          <div class="meta card-meta">
+            <span>✓ ${routine.habits} habits</span>
+            <span>◷ ${routine.hours}</span>
+          </div>
+
+          ${dbRoutine ? renderRatingDisplay(dbRoutine) : ""}
+
+
+          <div class="card-actions-row">
+            ${dbRoutine ? renderSaveButton(dbRoutine, "compact-save-btn") : ""}
+            ${dbRoutine ? renderLikeButton(dbRoutine, "compact-like-btn") : ""}
+          </div>
+
+          <a
+            href="${dbRoutine ? `routine.html?id=${dbRoutine.id}` : "#"}"
+            class="card-btn card-btn-full">
+            View routine →
+          </a>
+
+        </article>
+      `;
+    }
+
+    function createMiniCard(routine) {
+
+      const dbRoutine = findBuiltInRoutine(routine.name);
+
+      return `
+
+        <article class="mini-card">
+
+          <div class="mini-img">
+            ${routineImage(routine)}
+          </div>
+
+          <div class="mini-body">
+
+            <h3 class="mini-name">
+              ${routine.name}
+            </h3>
+
+            <p class="mini-role">
+              ${routine.role}
+            </p>
+
+            <p class="mini-text">
+              ${routine.description}
+            </p>
+
+            <div class="meta mini-meta">
+
+              <span>
+                ✓ ${routine.habits} habits
+              </span>
+
+              <span>
+                ◷ ${routine.hours}
+              </span>
+
+            </div>
+
+            ${dbRoutine ? renderRatingDisplay(dbRoutine) : ""}
+
+            <div class="mini-actions-row">
+              ${dbRoutine ? renderSaveButton(dbRoutine, "mini-save-btn") : ""}
+              ${dbRoutine ? renderLikeButton(dbRoutine, "mini-like-btn") : ""}
+            </div>
+
+            <a
+              href="${dbRoutine ? `routine.html?id=${dbRoutine.id}` : "#"}"
+              class="link-small mini-view-link">
+              View routine →
+            </a>
+
+          </div>
+
+        </article>
+      `;
+    }
+
+    const staticExtraRoutines = [
+      {
+        name: "David Goggins",
+        role: "Discipline & Mindset",
+        description: "Mental toughness, early mornings, and relentless action.",
+        habits: 8,
+        hours: "~ 6 hours",
+        categories: ["morning", "fitness", "wellness"],
+        image: "https://i.ibb.co/5gfVFSq0/photo-5274141405255250420-x.jpg"
+      },
+      {
+        name: "Taylor Swift",
+        role: "Singer-Songwriter & Producer",
+        description: "Creative work, songwriting, rehearsals, fitness, reading, and structured preparation.",
+        habits: 9,
+        hours: "~ 8 hours",
+        categories: ["creators", "wellness"],
+        image: "https://i.ibb.co/Z6zTmhkm/taylor-swift.jpg\n"
+      },
+      {
+        name: "Michael Jordan",
+        role: "Athlete",
+        description: "Discipline, practice, and the pursuit of greatness.",
+        habits: 11,
+        hours: "~ 10 hours",
+        categories: ["fitness"],
+        image: "https://i.ibb.co/kV9m3b5t/photo-5262830132139860025-y.jpg"
+      },
+      {
+        name: "Bill Gates",
+        role: "Entrepreneur & Philanthropist",
+        description: "Reading, focused work, learning, planning, exercise, and reflection.",
+        habits: 10,
+        hours: "~ 10 hours",
+        categories: ["study", "productivity"],
+        image: "https://i.ibb.co/Yrpgvyk/photo-5274141405255250416-x.jpg"
+      },
+      {
+        name: "Andrew Huberman",
+        role: "Neuroscientist & Podcaster",
+        description: "Movement, focus, preparation, and intentional work.",
+        habits: 7,
+        hours: "~ 2.5 hours",
+        categories: ["morning", "wellness"],
+        image: "https://i.ibb.co.com/BVVR2xW2/photo-5325754199049970206-x.jpg"
+      },
+      {
+        name: "Mel Robbins",
+        role: "Author & Podcaster",
+        description: "A practical morning routine for building momentum and starting important work early.",
+        habits: 6,
+        hours: "~ 2 hours",
+        categories: ["morning"],
+        image: "https://i.ibb.co.com/TXMkK4N/photo-5325754199049970234-x.jpg"
+      },
+      {
+        name: "Richard Branson",
+        role: "Entrepreneur",
+        description: "Movement, planning, and an energetic start to the day.",
+        habits: 7,
+        hours: "~ 2 hours",
+        categories: ["morning", "productivity"],
+        image: "https://i.ibb.co.com/20tGmyT6/photo-5325754199049970235-x.jpg"
+      },
+      {
+        name: "James Clear",
+        role: "Author",
+        description: "Simple repeatable actions designed for consistency.",
+        habits: 6,
+        hours: "~ 1.5 hours",
+        categories: ["morning", "productivity"],
+        image: "https://i.ibb.co.com/2YcdRBjT/photo-5325754199049970236-x.jpg"
+      },
+      {
+        name: "Serena Williams",
+        role: "Tennis Champion & Entrepreneur",
+        description: "Strength training, preparation, recovery, and mental focus.",
+        habits: 9,
+        hours: "~ 4 hours",
+        categories: ["fitness"],
+        image: "https://i.ibb.co.com/XxL5v9b9/photo-5325754199049970238-x.jpg"
+      },
+      {
+        name: "Chris Hemsworth",
+        role: "Actor & Fitness Entrepreneur",
+        description: "Strength, mobility, and recovery for an active lifestyle.",
+        habits: 8,
+        hours: "~ 3 hours",
+        categories: ["fitness"],
+        image: "https://i.ibb.co.com/1YVqnPdn/photo-5325754199049970239-y.jpg"
+      },
+      {
+        name: "Eliud Kipchoge",
+        role: "Marathon Runner",
+        description: "Running, recovery, and consistent preparation.",
+        habits: 10,
+        hours: "~ 5 hours",
+        categories: ["fitness"],
+        image: "https://i.ibb.co.com/SXJwLhkz/photo-5325754199049970240-x.jpg"
+      },
+      {
+        name: "Rich Roll",
+        role: "Endurance Athlete & Podcaster",
+        description: "Movement, nutrition, recovery, and sustainable wellness habits.",
+        habits: 9,
+        hours: "~ 4 hours",
+        categories: ["fitness", "wellness"],
+        image: "https://i.ibb.co.com/NgqGTwQF/photo-5325754199049970241-y.jpg"
+      },
+      {
+        name: "Cal Newport",
+        role: "Author & Computer Science Professor",
+        description: "Distraction-free study blocks and deliberate concentration on difficult work.",
+        habits: 7,
+        hours: "~ 5 hours",
+        categories: ["study", "productivity"],
+        image: "https://i.ibb.co.com/ff70fZD/photo-5325754199049970243-x.jpg"
+      },
+      {
+        name: "Barbara Oakley",
+        role: "Engineer, Author & Educator",
+        description: "Focused practice, breaks, recall, and techniques for mastering difficult concepts.",
+        habits: 8,
+        hours: "~ 4 hours",
+        categories: ["study"],
+        image: "https://i.ibb.co.com/GvKMjJzC/photo-5325754199049970244-x.jpg"
+      },
+      {
+        name: "Thomas Frank",
+        role: "Productivity Creator",
+        description: "Planning, focused study, assignments, and review.",
+        habits: 7,
+        hours: "~ 5 hours",
+        categories: ["study", "productivity"],
+        image: "https://i.ibb.co.com/S4Gt2nmc/photo-5325754199049970245-x.jpg"
+      },
+      {
+        name: "Scott Young",
+        role: "Author & Learning Expert",
+        description: "Active practice and deliberate skill-building.",
+        habits: 8,
+        hours: "~ 5 hours",
+        categories: ["study"],
+        image: "https://i.ibb.co.com/wrWjgxGV/photo-5325754199049970227-x.jpg"
+      },
+      {
+        name: "Sal Khan",
+        role: "Founder of Khan Academy",
+        description: "Learn concepts step by step, practice, then test understanding.",
+        habits: 7,
+        hours: "~ 4 hours",
+        categories: ["study"],
+        image: "https://i.ibb.co.com/mrspjkj2/photo-5325754199049970246-x.jpg"
+      },
+      {
+        name: "Andy Puddicombe",
+        role: "Meditation Teacher",
+        description: "Meditation and mindful pauses designed to bring more attention into everyday life.",
+        habits: 6,
+        hours: "~ 1.5 hours",
+        categories: ["wellness"],
+        image: "https://i.ibb.co.com/bjzPTjs4/photo-5325754199049970247-x.jpg"
+      },
+      {
+        name: "Adriene Mishler",
+        role: "Yoga Teacher & Creator",
+        description: "Gentle movement, breathing, mindfulness, and regular self-care.",
+        habits: 7,
+        hours: "~ 2 hours",
+        categories: ["wellness"],
+        image: "https://i.ibb.co.com/rfv68N4y/photo-5325754199049970248-y.jpg"
+      },
+      {
+        name: "Jay Shetty",
+        role: "Author & Podcaster",
+        description: "Reflection, gratitude, meditation, and intentional time.",
+        habits: 7,
+        hours: "~ 2 hours",
+        categories: ["wellness"],
+        image: "https://i.ibb.co.com/6RvnKNQc/photo-5325754199049970249-y.jpg"
+      },
+      {
+        name: "Wim Hof",
+        role: "Athlete & Method Creator",
+        description: "Breathing, controlled challenge, and consistent practice.",
+        habits: 6,
+        hours: "~ 1.5 hours",
+        categories: ["wellness", "fitness"],
+        image: "https://i.ibb.co.com/hFHZHCfW/photo-5325754199049970250-x.jpg"
+      },
+      {
+        name: "David Allen",
+        role: "Productivity Author",
+        description: "Capture, clarify, organize, review, and take action.",
+        habits: 7,
+        hours: "~ 5 hours",
+        categories: ["productivity"],
+        image: "https://i.ibb.co.com/1tnJWxD1/photo-5325754199049970251-x.jpg"
+      },
+      {
+        name: "Tiago Forte",
+        role: "Author & Educator",
+        description: "Capture knowledge and turn information into useful output.",
+        habits: 7,
+        hours: "~ 6 hours",
+        categories: ["productivity"],
+        image: "https://i.ibb.co.com/fY5gtdVY/photo-5325754199049970233-x.jpg"
+      },
+      {
+        name: "Casey Neistat",
+        role: "Filmmaker & Creator",
+        description: "Ideas, filming, movement, storytelling, and visual creation.",
+        habits: 8,
+        hours: "~ 8 hours",
+        categories: ["creators"],
+        image: "https://i.ibb.co.com/sJmhY89c/photo-5325754199049970252-x.jpg"
+      },
+      {
+        name: "Emma Chamberlain",
+        role: "Creator & Entrepreneur",
+        description: "Content creation, personal time, business work, and inspiration.",
+        habits: 7,
+        hours: "~ 6 hours",
+        categories: ["creators"],
+        image: "https://i.ibb.co.com/8J5n14j/photo-5325754199049970254-y.jpg"
+      },
+      {
+        name: "Matt D'Avella",
+        role: "Filmmaker & Creator",
+        description: "Focused creative work and a slower approach to consistent output.",
+        habits: 8,
+        hours: "~ 7 hours",
+        categories: ["creators"],
+        image: "https://i.ibb.co.com/21CW32rk/photo-5325754199049970255-y.jpg"
+      },
+      {
+        name: "Peter McKinnon",
+        role: "Photographer & Filmmaker",
+        description: "Photography, filming, editing, and experimentation.",
+        habits: 9,
+        hours: "~ 8 hours",
+        categories: ["creators"],
+        image: "https://i.ibb.co.com/bjdf9NPX/photo-5325754199049970256-y.jpg"
+      }
+    ];
+
+    filterButtons.forEach(button => {
+
+      button.addEventListener("click", function (event) {
+
+        event.preventDefault();
+
+        // US-25: also the chips added for new categories.
+        document.querySelectorAll(".chip").forEach(btn => {
+          btn.classList.remove("chip-active");
+        });
+
+        button.classList.add("chip-active");
+
+        activeCategory =
+                button.dataset.filter;
+
+        applyExploreTheme(activeCategory);
+        renderShowcase(activeCategory);
+
+
+        isViewAllOpen = false;
+
+        updateViewAllButton();
+
+        renderViewAll();
+        
+      });
+
+    });
+
+    searchInput.addEventListener(
+            "input",
+            function () {
+
+              clearSearchBtn.hidden = searchInput.value === "";
+
+              scheduleSearch();
+
+              applyFilters();
+
+              if (isViewAllOpen) {
+                renderViewAll();
+              }
+
+            }
+    );
+
+    const clearSearchBtn =
+            document.getElementById("clearSearchBtn");
+
+    clearSearchBtn.addEventListener("click", function () {
+      searchInput.value = "";
+      searchInput.dispatchEvent(new Event("input", { bubbles: true }));
+      searchInput.focus();
+    });
+
+    // US-05: Reset filters brings back every routine: no search text and the All category.
+    document.getElementById("resetFiltersBtn").addEventListener("click", function () {
+      searchInput.value = "";
+      clearSearchBtn.hidden = true;
+      scheduleSearch();
+      document.querySelector('.chip[data-filter="all"]').click();
+      searchInput.focus();
+    });
+
+    // Case, the spaces around and between words and the kind of apostrophe do not matter.
+    function normalizeSearchText(value) {
+      return String(value || "")
+              .normalize("NFKC")
+              .toLowerCase()
+              .replaceAll("’", "'")
+              .replace(/\s+/g, " ")
+              .trim();
+    }
+
+    // US-05: the ids the server found for the text in the field (by title, description,
+    // category, habit title or type, and the author's name, username, profession and goals);
+    // null while nothing is typed, the answer is on its way, or the search failed.
+    let searchFound = null;
+    let searchState = "idle";
+    let searchRound = 0;
+    let searchTimer = null;
+    let peopleFound = [];
+    let peopleState = "idle";
+
+    function scheduleSearch() {
+
+      clearTimeout(searchTimer);
+
+      const query = normalizeSearchText(searchInput.value);
+      const round = ++searchRound;
+
+      searchFound = null;
+      peopleFound = [];
+
+      if (!query) {
+        searchState = "idle";
+        peopleState = "idle";
+        renderPeople();
+        return;
+      }
+
+      searchState = "loading";
+      peopleState = "loading";
+      renderPeople();
+
+      searchTimer = setTimeout(() => runSearch(query, round), 200);
+    }
+
+    async function runSearch(query, round) {
+
+      const headers = token ? { "Authorization": "Bearer " + token } : {};
+      const answer = path => fetch(path, { headers }).then(response => {
+        if (!response.ok) {
+          throw new Error("Search failed: " + response.status);
+        }
+        return response.json();
+      });
+
+      const [routines, people] = await Promise.allSettled([
+        answer("/routines/search?q=" + encodeURIComponent(query)),
+        answer("/users/search?query=" + encodeURIComponent(query))
+      ]);
+
+      // A newer search, or a cleared field, replaced this one while it was on its way.
+      if (round !== searchRound) {
+        return;
+      }
+
+      if (routines.status === "fulfilled") {
+        searchFound = new Set(routines.value.map(Number));
+        searchState = "done";
+      } else {
+        console.error("SEARCH ERROR:", routines.reason);
+        searchState = "failed";
+      }
+
+      peopleFound = people.status === "fulfilled" ? people.value : [];
+      peopleState = people.status === "fulfilled" ? "done" : "failed";
+
+      renderPeople();
+      applyFilters();
+
+      if (isViewAllOpen) {
+        renderViewAll();
+      }
+    }
+
+    function serverFound(routine) {
+      return Boolean(routine) && searchFound !== null && searchFound.has(Number(routine.id));
+    }
+
+    // A routine from the page's own list: by what its card says, or the built-in routine behind it.
+    function staticRoutineMatches(routine, query) {
+
+      if (!query) return true;
+      if (!routine) return false;
+
+      const dbRoutine = findBuiltInRoutine(routine.name);
+      const text = normalizeSearchText([
+        routine.name,
+        routine.title,
+        routine.role,
+        routine.description,
+        ...(routine.categories || []),
+        ...(routine.schedule || []).map(step => step.activity),
+        dbRoutine?.title,
+        dbRoutine?.description,
+        dbRoutine?.category
+      ].join(" "));
+
+      return text.includes(query) || serverFound(dbRoutine);
+    }
+
+    function publicRoutineMatches(routine, query) {
+
+      if (!query) return true;
+
+      const text = normalizeSearchText([
+        routine.title,
+        routine.description,
+        routine.category,
+        routine.authorName,
+        routine.authorUsername
+      ].join(" "));
+
+      return text.includes(query) || serverFound(routine);
+    }
+
+    // People appear above the routines, for visitors too: only public profiles are found.
+    function renderPeople() {
+
+      const box = document.getElementById("peopleResults");
+      let html = "";
+
+      if (searchInput.value.trim()) {
+        if (peopleState === "failed") {
+          html = `<p class="people-note">People could not be searched right now. Please try again.</p>`;
+        } else if (peopleState === "done" && peopleFound.length) {
+          html = `
+        <h2 class="people-title">People</h2>
+        <div class="people-list">
+          ${peopleFound.slice(0, 8).map(renderPerson).join("")}
+        </div>
+      `;
+        }
+      }
+
+      box.innerHTML = html;
+      box.hidden = html === "";
+    }
+
+    function renderPerson(person) {
+
+      const name = escapeHtml(person.name || "User");
+      const details = [person.username ? "@" + person.username : "", person.profession || ""]
+              .filter(Boolean)
+              .map(escapeHtml)
+              .join(" · ");
+      const avatar = SafeDom.imageSrc(person.avatarUrl)
+              ? `<img class="person-avatar" src="${SafeDom.imageSrc(person.avatarUrl)}" alt="">`
+              : `<span class="person-avatar person-initial" aria-hidden="true">${escapeHtml((person.name || "U").charAt(0).toUpperCase())}</span>`;
+
+      return `
+    <a class="person-result" href="user-profile.html?id=${Number(person.id)}">
+      ${avatar}
+      <span class="person-text">
+        <span class="person-name">${name}</span>
+        <span class="person-detail">${details}</span>
+      </span>
+    </a>
+  `;
+    }
+
+    function applyFilters() {
+
+      const query = normalizeSearchText(searchInput.value);
+
+      const routineResults = document.getElementById("routineResults");
+
+      const routineCards = routineResults.querySelectorAll(".featured, .card, .mini-card");
+      // The cards follow showcaseData: the featured one, two large ones, then three small ones.
+      const showcase = showcaseData[activeCategory] || [];
+
+      routineCards.forEach((card, index) => {
+        card.style.display = staticRoutineMatches(showcase[index], query) ? "" : "none";
+      });
+
+      updateEmptyState();
+    }
+
+    viewAllBtn.addEventListener(
+            "click",
+            function () {
+
+              isViewAllOpen =
+                      !isViewAllOpen;
+
+              updateViewAllButton();
+
+              renderViewAll();
+
+            }
+    );
+
+
+    function updateViewAllButton() {
+
+      if (isViewAllOpen) {
+
+        viewAllBtn.innerHTML = `
+        Show less
+        <span>↑</span>
+    `;
+
+      } else {
+
+        viewAllBtn.innerHTML = `
+        View all
+        <span>↓</span>
+    `;
+
+      }
+
+    }
+
+    // The routines behind View all that match the chosen filter and the search.
+    function viewAllMatches() {
+
+      const query = normalizeSearchText(searchInput.value);
+
+
+      // Names already on the page, featured or listed, so that nobody is listed twice.
+      const shownNames = new Set(
+              showcaseData[activeCategory]
+                      .map(routine =>
+                              routine.name
+                                      .trim()
+                                      .toLowerCase()
+                      )
+      );
+
+      const filteredStatic = staticExtraRoutines.filter(routine => {
+
+        const name =
+                routine.name
+                        .trim()
+                        .toLowerCase();
+
+        const matchesCategory =
+                activeCategory === "all" ||
+                routine.categories.includes(activeCategory);
+
+
+        const matchesSearch =
+                staticRoutineMatches(routine, query);
+
+        const listed =
+                matchesCategory &&
+                matchesSearch &&
+                !shownNames.has(name);
+
+        if (listed) {
+          shownNames.add(name);
+        }
+
+        return listed;
+
+      });
+
+
+      const shownIds = new Set();
+
+      const filteredPublic = publicRoutines.filter(routine => {
+
+        const category =
+                (routine.category || "")
+                        .toLowerCase();
+
+
+        const matchesCategory =
+                activeCategory === "all" ||
+                category === activeCategory;
+
+
+        const matchesSearch =
+                publicRoutineMatches(routine, query);
+
+        const listed =
+                matchesCategory &&
+                matchesSearch &&
+                !shownIds.has(Number(routine.id));
+
+        if (listed) {
+          shownIds.add(Number(routine.id));
+        }
+
+        return listed;
+
+      });
+
+      return { filteredStatic, filteredPublic };
+    }
+
+    function renderViewAll() {
+
+      if (!isViewAllOpen) {
+
+        viewAllGrid.classList.remove("open");
+        viewAllGrid.innerHTML = "";
+
+        return;
+      }
+
+      const { filteredStatic, filteredPublic } = viewAllMatches();
+
+      viewAllGrid.innerHTML = "";
+
+
+      filteredStatic.forEach(routine => {
+
+        viewAllGrid.appendChild(
+                createStaticViewAllCard(routine)
+        );
+
+      });
+
+
+      filteredPublic.forEach(routine => {
+
+        viewAllGrid.appendChild(
+                createPublicViewAllCard(routine)
+        );
+
+      });
+
+
+      if (
+              filteredStatic.length === 0 &&
+              filteredPublic.length === 0
+      ) {
+
+        viewAllGrid.innerHTML = `
+      <div class="view-all-empty">
+        No routines found.
+      </div>
+    `;
+
+      }
+
+
+      viewAllGrid.classList.add("open");
+    }
+
+
+
+
+    function createStaticViewAllCard(routine) {
+
+      const card = document.createElement("article");
+
+      card.className = "view-all-card";
+      card.dataset.category = routine.categories.join(" ");
+
+      const dbRoutine = findBuiltInRoutine(routine.name);
+
+      const firstLetter = routine.name.charAt(0).toUpperCase();
+
+      const imageHtml = routine.image
+                  ? `
+                <img
+                    src="${routine.image}"
+                    alt="${routine.name}">
+              `
+                  : `
+                <div class="view-all-placeholder">
+                    ${firstLetter}
+                </div>
+              `;
+
+          card.innerHTML = `
+
+          <div class="view-all-image">
+              ${imageHtml}
+          </div>
+
+          <div class="view-all-content">
+
+              <h3 class="view-all-name">
+                  ${routine.name}
+              </h3>
+
+              <p class="view-all-role">
+                  ${routine.role}
+              </p>
+
+              <p class="view-all-description">
+                  ${routine.description}
+              </p>
+
+             ${dbRoutine
+                  ? renderRating(
+                          dbRoutine.averageRating,
+                          dbRoutine.ratingCount
+                  )
+                  : ""}
+
+              <div class="view-all-meta">
+
+                  <span>
+                      ✓ ${routine.habits} habits
+                  </span>
+
+                  <span>
+                      ◷ ${routine.hours}
+                  </span>
+
+                  ${dbRoutine ? renderSaveButton(dbRoutine) : ""}
+                  ${dbRoutine ? renderLikeButton(dbRoutine) : ""}
+
+                  <a
+                      href="${dbRoutine ? `routine.html?id=${dbRoutine.id}` : "#"}"
+                      class="view-all-link">
+                    View routine →
+                  </a>
+
+              </div>
+
+          </div>
+      `;
+          
+      return card;
+    }
+
+    function createPublicViewAllCard(routine) {
+
+      const card = document.createElement("article");
+
+
+      card.className = "view-all-card public-routine-card";
+      card.dataset.category = (routine.category || "").toLowerCase();
+
+      const title = escapeHtml(routine.title || "Routine");
+      const description = escapeHtml(routine.description || "");
+      const category = escapeHtml(routine.category || "");
+      const firstLetter = title.charAt(0).toUpperCase();
+      const imageHtml = SafeDom.imageSrc(routine.imageUrl)
+
+                      ? `
+                    <img
+                        src="${SafeDom.imageSrc(routine.imageUrl)}"
+                        alt="${title}">
+                  `
+
+                      : `
+                    <div class="view-all-placeholder">
+                        ${firstLetter}
+                    </div>
+                  `;
+
+
+      card.innerHTML = `
+
+      <div class="view-all-image">
+          ${imageHtml}
+      </div>
+
+
+      <div class="view-all-content">
+
+          <span class="community-routine-badge">
+              ${category}
+          </span>
+
+
+          <h3 class="view-all-name">
+              ${title}
+          </h3>
+
+
+          <p class="view-all-description">
+              ${description}
+          </p>
+
+          ${renderRating(
+              routine.averageRating,
+              routine.ratingCount
+          )}
+
+          <div class="view-all-meta">
+
+              <span>
+                  ◷ ${routine.durationMinutes} min
+              </span>
+
+              ${renderSaveButton(routine)}
+              ${renderLikeButton(routine)}
+
+              <a
+                  href="routine.html?id=${routine.id}"
+                  class="view-all-link">
+                  View routine →
+              </a>
+          
+          </div>
+
+      </div>
+  `;
+
+
+      return card;
+
+    }
+
+    function renderSaveButton(routine, extraClass = "") {
+
+      const routineId = Number(routine.id);
+      const saved = savedRoutineIds.has(routineId);
+      const count = Number(routine.saveCount || 0);
+
+      return `
+    <button
+      type="button"
+      class="save-routine-btn ${extraClass} ${saved ? "is-saved" : ""}"
+      data-routine-id="${routineId}">
+      <svg
+        class="save-routine-icon"
+        width="15"
+        height="15"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linejoin="round">
+        <path d="M6 3h12v18l-6-4-6 4z"/>
+      </svg>
+      <span class="save-routine-label">${saved ? "Saved" : "Save"}</span>
+      <span class="save-routine-count">${count}</span>
+    </button>
+  `;
+    }
+
+    function renderLikeButton(routine, extraClass = "") {
+
+      const routineId = Number(routine.id);
+      const liked = likedRoutineIds.has(routineId);
+
+      return `
+    <button
+      type="button"
+      class="like-routine-btn ${extraClass} ${liked ? "is-liked" : ""}"
+      data-routine-id="${routineId}"
+      aria-label="${liked ? "Unlike routine" : "Like routine"}">
+    </button>
+  `;
+    }
+
+    function updateRoutineCount(routineId, field, delta) {
+
+      const id = Number(routineId);
+
+      [builtInRoutines, publicRoutines]
+              .forEach(list => {
+
+                const routine =
+                        list.find(
+                                item => Number(item.id) === id
+                        );
+
+                if (!routine) return;
+
+                routine[field] =
+                        Math.max(
+                                0,
+                                Number(routine[field] || 0) + delta
+                        );
+              });
+    }
+
+    function refreshRoutineCards() {
+
+      renderShowcase(activeCategory);
+
+      if (isViewAllOpen) {
+        renderViewAll();
+      }
+    }
+
+    async function saveRoutine(routineId, button) {
+
+      if (!token) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      const id = Number(routineId);
+      const wasSaved = savedRoutineIds.has(id);
+
+      if (button) {
+        button.disabled = true;
+      }
+
+      try {
+
+        const response =
+                await fetch(
+                        "/saved-routines/" + id,
+                        {
+                          method: wasSaved
+                                  ? "DELETE"
+                                  : "POST",
+                          headers: {
+                            "Authorization":
+                                    "Bearer " + token
+                          }
+                        }
+                );
+
+        if (!response.ok) {
+          throw new Error("Failed to toggle saved routine");
+        }
+
+        if (wasSaved) {
+
+          savedRoutineIds.delete(id);
+
+          updateRoutineCount(
+                  id,
+                  "saveCount",
+                  -1
+          );
+
+        } else {
+
+          savedRoutineIds.add(id);
+
+          updateRoutineCount(
+                  id,
+                  "saveCount",
+                  1
+          );
+        }
+
+        refreshRoutineCards();
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+                "Failed to update saved routine"
+        );
+
+      } finally {
+
+        if (
+                button &&
+                document.body.contains(button)
+        ) {
+          button.disabled = false;
+        }
+      }
+    }
+
+    async function likeRoutine(routineId, button) {
+
+      if (!token) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      const id = Number(routineId);
+      const wasLiked = likedRoutineIds.has(id);
+
+      if (button) {
+        button.disabled = true;
+      }
+
+      try {
+
+        const response =
+                await fetch(
+                        "/liked-routines/" + id,
+                        {
+                          method: wasLiked
+                                  ? "DELETE"
+                                  : "POST",
+                          headers: {
+                            "Authorization":
+                                    "Bearer " + token
+                          }
+                        }
+                );
+
+        if (!response.ok) {
+          throw new Error("Failed to toggle liked routine");
+        }
+
+        if (wasLiked) {
+
+          likedRoutineIds.delete(id);
+
+          updateRoutineCount(
+                  id,
+                  "likeCount",
+                  -1
+          );
+
+        } else {
+
+          likedRoutineIds.add(id);
+
+          updateRoutineCount(
+                  id,
+                  "likeCount",
+                  1
+          );
+        }
+
+        refreshRoutineCards();
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+                "Failed to update liked routine"
+        );
+
+      } finally {
+
+        if (
+                button &&
+                document.body.contains(button)
+        ) {
+          button.disabled = false;
+        }
+      }
+    }
+
+    document.addEventListener(
+            "click",
+            function (event) {
+
+              const saveButton =
+                      event.target.closest(
+                              ".save-routine-btn"
+                      );
+
+              if (saveButton) {
+
+                event.preventDefault();
+
+                saveRoutine(
+                        Number(
+                                saveButton.dataset.routineId
+                        ),
+                        saveButton
+                );
+
+                return;
+              }
+
+              const likeButton =
+                      event.target.closest(
+                              ".like-routine-btn"
+                      );
+
+              if (likeButton) {
+
+                event.preventDefault();
+
+                likeRoutine(
+                        Number(
+                                likeButton.dataset.routineId
+                        ),
+                        likeButton
+                );
+              }
+            }
+    );
+
+    async function loadLikedRoutines() {
+
+      if (!token) return;
+
+      try {
+
+        const response = await fetch("/liked-routines", {
+          method: "GET",
+          headers: {
+            "Authorization": "Bearer " + token
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to load liked routines");
+        }
+
+        const routines = await response.json();
+
+        likedRoutineIds = new Set(
+                routines.map(routine => routine.id)
+        );
+
+        renderShowcase(activeCategory);
+
+        if (isViewAllOpen) {
+          renderViewAll();
+        }
+
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    async function loadSavedRoutines() {
+
+      if (!token) return;
+
+      try {
+
+        const response = await fetch("/saved-routines", {
+          method: "GET",
+          headers: {
+            "Authorization": "Bearer " + token
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to load saved routines");
+        }
+
+        const routines = await response.json();
+
+        savedRoutineIds = new Set(routines.map(routine => routine.id));
+
+        renderShowcase(activeCategory);
+        
+        if (isViewAllOpen) {
+          renderViewAll();
+        }
+
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    async function loadBuiltInRoutines() {
+
+      try {
+
+        const response = await fetch("/routines/built-in", {
+          method: "GET",
+          headers: token
+                  ? { "Authorization": "Bearer " + token }
+                  : {}
+        });
+
+        if (!response.ok) {
+          throw new Error(
+                  "Failed to load built-in routines: " + response.status
+          );
+        }
+
+        builtInRoutines = await response.json();
+        exploreLoads.builtIn = "done";
+
+        console.log("BUILT-IN ROUTINES:", builtInRoutines);
+
+        renderShowcase(activeCategory);
+
+        if (isViewAllOpen) {
+          renderViewAll();
+        }
+
+      } catch (error) {
+        exploreLoads.builtIn = "failed";
+        console.error("BUILT-IN ERROR:", error);
+      }
+
+      updateEmptyState();
+    }
+
+    function normalizeRoutineText(value) {
+      return String(value || "")
+              .toLowerCase()
+              .replaceAll("’", "'")
+              .trim();
+    }
+
+
+    function findBuiltInRoutine(name) {
+
+      // Halloween routines are titled after the routine, not the character, and are
+      // matched exactly so that no other routine's likes or saves are shown on them.
+      const character = halloweenCharacters.find(item => item.name === name);
+
+      if (character) {
+        return builtInRoutines.find(routine =>
+                normalizeRoutineText(routine.category) === "halloween" &&
+                normalizeRoutineText(routine.title) === normalizeRoutineText(character.title)
+        );
+      }
+
+      const specialTitles = {
+        "Elon Musk": "Elon Musk's Productivity System",
+        "Tim Cook": "Tim Cook Morning Routine",
+        "Cristiano Ronaldo": "Cristiano Ronaldo Training Routine"
+      };
+
+      const specialTitle = specialTitles[name];
+
+      if (specialTitle) {
+
+        const exactRoutine = builtInRoutines.find(
+                routine =>
+                        normalizeRoutineText(routine.title) ===
+                        normalizeRoutineText(specialTitle)
+        );
+
+        if (exactRoutine) {
+          return exactRoutine;
+        }
+      }
+
+
+      const normalizedName =
+              normalizeRoutineText(name);
+
+      return builtInRoutines.find(routine =>
+
+              normalizeRoutineText(routine.title)
+                      .includes(normalizedName)
+
+      );
+    }
+
+    async function loadPublicRoutines() {
+
+      try {
+
+        const response =
+                await fetch(
+                        "/routines/public"
+                );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+                  "Failed to load public routines"
+          );
+
+        }
+
+
+        publicRoutines =
+                await response.json();
+        exploreLoads.public = "done";
+
+
+        console.log(
+                "PUBLIC ROUTINES:",
+                publicRoutines
+        );
+
+
+        if (isViewAllOpen) {
+          renderViewAll();
+        }
+
+
+      } catch (error) {
+
+        exploreLoads.public = "failed";
+
+        console.error(
+                "PUBLIC ROUTINES ERROR:",
+                error
+        );
+
+      }
+
+      updateEmptyState();
+
+    }
+
+    function escapeHtml(value) {
+
+      return String(value)
+              .replaceAll("&", "&amp;")
+              .replaceAll("<", "&lt;")
+              .replaceAll(">", "&gt;")
+              .replaceAll('"', "&quot;")
+              .replaceAll("'", "&#039;");
+
+    }
+
+
+    /* Additional Halloween data and display logic; original functions remain intact. */
+    const halloweenCharacters = [{"name":"Billy","role":"@billy.the.puppet","title":"The Puzzle Master's Schedule","description":"An imaginative day of puzzles, creative challenges, and problem-solving inspired by the iconic puppet.","habits":7,"hours":"~ 3h 40min","image":"img/halloween/01-billy.jpg","quote":"Halloween edition","bio":"I want to play a game. Every choice matters.","schedule":[{"time":"07:00","activity":"Wake up and plan the day"},{"time":"08:00","activity":"Solve challenging puzzles"},{"time":"10:00","activity":"Design a new escape room"},{"time":"12:00","activity":"Take a lunch break"},{"time":"14:00","activity":"Test mechanical puzzles"},{"time":"17:00","activity":"Practice logical thinking"},{"time":"21:00","activity":"Review today's challenges"}],"categories":["halloween"]},{"name":"Ghostface","role":"@ghostface.official","title":"Behind the Mask","description":"A movie-lover’s routine filled with horror classics, voice acting, and mystery-themed entertainment.","habits":7,"hours":"~ 3h 40min","image":"img/halloween/02-ghostface.jpg","quote":"Halloween edition","bio":"What's your favorite scary movie?","schedule":[{"time":"08:00","activity":"Wake up and check messages"},{"time":"09:00","activity":"Watch horror movie trailers"},{"time":"11:00","activity":"Explore famous movie mysteries"},{"time":"13:00","activity":"Have lunch"},{"time":"15:00","activity":"Practice voice acting"},{"time":"18:00","activity":"Organize a horror movie marathon"},{"time":"22:00","activity":"Watch a classic slasher movie"}],"categories":["halloween"]},{"name":"Michael Myers","role":"@michael.myers","title":"The Silent Routine","description":"A quiet, minimalist day focused on walking, organization, and reflection.","habits":7,"hours":"~ 3h 40min","image":"img/halloween/03-michael-myers.jpg","quote":"Halloween edition","bio":"Silence speaks louder than words.","schedule":[{"time":"06:30","activity":"Wake up in complete silence"},{"time":"07:00","activity":"Take a morning walk"},{"time":"09:00","activity":"Clean and organize the house"},{"time":"12:00","activity":"Have a quiet lunch"},{"time":"15:00","activity":"Explore the neighborhood"},{"time":"19:00","activity":"Watch the sunset"},{"time":"22:00","activity":"Prepare for another quiet day"}],"categories":["halloween"]},{"name":"Chucky","role":"@chucky.goodguy","title":"Not Your Average Doll","description":"A playful day of costumes, creative projects, and friendly games.","habits":7,"hours":"~ 3h 40min","image":"img/halloween/04-chucky.jpg","quote":"Halloween edition","bio":"Don't judge a doll by its size.","schedule":[{"time":"08:00","activity":"Wake up and fix my hair"},{"time":"09:00","activity":"Choose today's outfit"},{"time":"11:00","activity":"Play board games"},{"time":"13:00","activity":"Take a snack break"},{"time":"15:00","activity":"Explore the toy collection"},{"time":"18:00","activity":"Challenge friends to games"},{"time":"21:00","activity":"Watch a comedy horror movie"}],"categories":["halloween"]},{"name":"Pennywise","role":"@pennywise.dancing","title":"A Clown's Daily Life","description":"A theatrical routine of makeup, balloon art, and Halloween decorations.","habits":7,"hours":"~ 3h 40min","image":"img/halloween/05-pennywise.jpg","quote":"Halloween edition","bio":"We all float down here.","schedule":[{"time":"08:00","activity":"Wake up and prepare my costume"},{"time":"09:00","activity":"Apply clown makeup"},{"time":"11:00","activity":"Practice balloon tricks"},{"time":"13:00","activity":"Take a lunch break"},{"time":"15:00","activity":"Rehearse circus performances"},{"time":"18:00","activity":"Create spooky decorations"},{"time":"21:00","activity":"Watch classic circus performances"}],"categories":["halloween"]},{"name":"Beetlejuice","role":"@beetlejuice.bio","title":"Chaos Is My Lifestyle","description":"A quirky and creative day packed with costume styling, magic tricks, and party planning.","habits":7,"hours":"~ 3h 40min","image":"img/halloween/06-beetlejuice.jpg","quote":"Halloween edition","bio":"It's showtime!","schedule":[{"time":"10:00","activity":"Wake up with messy hair"},{"time":"11:00","activity":"Put on my striped suit"},{"time":"12:00","activity":"Practice supernatural magic tricks"},{"time":"14:00","activity":"Have a strange lunch"},{"time":"16:00","activity":"Decorate my haunted house"},{"time":"19:00","activity":"Practice dramatic entrances"},{"time":"23:00","activity":"Host a ghostly party"}],"categories":["halloween"]},{"name":"Freddy Krueger","role":"@freddy.dreammaster","title":"Master of Dreams","description":"A dream-inspired day of psychology, surreal storytelling, and film.","habits":7,"hours":"~ 3h 40min","image":"img/halloween/07-freddy-krueger.jpg","quote":"Halloween edition","bio":"Sweet dreams are overrated.","schedule":[{"time":"09:00","activity":"Wake up and write down my dreams"},{"time":"10:00","activity":"Read about dream psychology"},{"time":"12:00","activity":"Have breakfast"},{"time":"14:00","activity":"Design surreal dream worlds"},{"time":"16:00","activity":"Watch psychological thrillers"},{"time":"20:00","activity":"Practice creative storytelling"},{"time":"23:00","activity":"Prepare for dream exploration"}],"categories":["halloween"]},{"name":"Art the Clown","role":"@art.the.clown","title":"The Silent Performer's Day","description":"A silent performance day of makeup, expressions, and mime.","habits":7,"hours":"~ 3h 40min","image":"img/halloween/08-art-the-clown.jpg","quote":"Halloween edition","bio":"Actions speak louder than words.","schedule":[{"time":"08:00","activity":"Wake up without saying a word"},{"time":"09:00","activity":"Apply black and white makeup"},{"time":"10:00","activity":"Practice facial expressions"},{"time":"12:00","activity":"Have lunch"},{"time":"14:00","activity":"Rehearse silent comedy"},{"time":"17:00","activity":"Prepare my clown costume"},{"time":"21:00","activity":"Perform a spooky mime show"}],"categories":["halloween"]},{"name":"Count Dracula","role":"@count.dracula","title":"The Vampire Lifestyle","description":"An elegant nighttime routine of reading, stargazing, and quiet walks.","habits":7,"hours":"~ 3h 40min","image":"img/halloween/09-dracula.jpg","quote":"Halloween edition","bio":"The night is where I truly belong.","schedule":[{"time":"16:00","activity":"Wake up in my castle"},{"time":"17:00","activity":"Get dressed in formal clothing"},{"time":"18:00","activity":"Read classic literature"},{"time":"20:00","activity":"Enjoy an elegant dinner"},{"time":"22:00","activity":"Walk through the castle gardens"},{"time":"00:00","activity":"Explore the night sky"},{"time":"05:00","activity":"Return to my room before sunrise"}],"categories":["halloween"]},{"name":"Jason Voorhees","role":"@jason.crystallake","title":"A Day at Crystal Lake","description":"A nature-focused routine of camping, woodland walks, and lake views.","habits":7,"hours":"~ 3h 40min","image":"img/halloween/10-jason-voorhees.jpg","quote":"Halloween edition","bio":"Crystal Lake is my home.","schedule":[{"time":"06:00","activity":"Wake up in the forest cabin"},{"time":"07:00","activity":"Take a peaceful forest walk"},{"time":"09:00","activity":"Check the campsite"},{"time":"11:00","activity":"Maintain camping equipment"},{"time":"13:00","activity":"Have lunch by the lake"},{"time":"16:00","activity":"Explore forest trails"},{"time":"21:00","activity":"Watch the lake under the moonlight"}],"categories":["halloween"]}];
+    showcaseData.halloween = halloweenCharacters.slice(0,6);
+    staticExtraRoutines.push(...halloweenCharacters.slice(6));
+    exploreThemes.halloween = {
+      badge: 'Discover a spookier you', title: 'Halloween Explore Routines',
+      subtitle: 'Discover spooky routines, haunting habits, and eerie daily rituals to make your Halloween unforgettable.',
+      promoTitle: 'Spookier habits.<br>A stronger you.',
+      promoText: 'Explore how iconic characters structure their days — and find what works for you.',
+      promoNote: 'Small steps.<br>A different kind of change.',
+      accent: '#ff852e', soft: '#42222c', promo: '#241525', circle: '#4b292e',
+      icon: `<svg class="halloween-pumpkin" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 7C6 3 2 8 3 14c1 7 6 7 9 6 3 1 8 1 9-6 1-6-3-11-9-7Z" fill="#ff8a23" stroke="#c55c15" stroke-width=".8"/><path d="M12 7c-3 0-5 4-5 8 0 4 2 6 5 5m0-13c3 0 5 4 5 8 0 4-2 6-5 5" fill="none" stroke="#c8681a" stroke-width=".8"/><path d="M12 7c-.5-3 1-5 3-5" stroke="#3da44c" stroke-width="2.7" fill="none" stroke-linecap="round"/><path d="m6.5 13 2-2 1.4 2Zm7.6 0 1.6-2 2 2Z" fill="#301724"/><path d="M7 16q5 5 10 0l-2 1-1.5-1.2-2 2-2-2-1 1Z" fill="#301724"/></svg>`
+    };
+    // Routine IDs differ between databases, so they are always looked up by title.
+    function halloweenRoutineHref(character) {
+      const routine = findBuiltInRoutine(character.name);
+
+      return routine
+              ? 'routine.html?id=' + routine.id
+              : 'halloween-routine.html?character=' + halloweenCharacters.indexOf(character);
+    }
+
+    const halloweenOriginalRenderShowcase = renderShowcase;
+    renderShowcase = function (category) {
+      halloweenOriginalRenderShowcase(category);
+      if (category === 'halloween') {
+        const results = document.getElementById('routineResults');
+        const cards = results.querySelectorAll('.featured, .card, .mini-card');
+        cards.forEach((card, index) => {
+          const character = halloweenCharacters[index];
+          if (!character) return;
+          const link = card.querySelector('a[href="#"]');
+          if (link) link.href = halloweenRoutineHref(character);
+        });
+      }
+    };
+    const halloweenOriginalRenderViewAll = renderViewAll;
+    renderViewAll = function () {
+      halloweenOriginalRenderViewAll();
+      if (activeCategory !== 'halloween') return;
+      document.querySelectorAll('#viewAllGrid .view-all-card').forEach(card => {
+        const person = halloweenCharacters.find(c => c.name === card.querySelector('.view-all-name')?.textContent.trim());
+        if (!person) return;
+        const link = card.querySelector('a[href="#"]');
+        if (link) link.href = halloweenRoutineHref(person);
+      });
+    };
+
+    // US-04: Explore says why nothing is listed instead of leaving the page blank.
+    function updateEmptyState() {
+
+      const empty = document.getElementById("exploreEmpty");
+      const results = document.getElementById("routineResults");
+      const settled = exploreLoads.builtIn !== "loading" && exploreLoads.public !== "loading";
+      // Without a single routine from the server the featured cards would open nothing.
+      const nothingToList = settled && builtInRoutines.length === 0 && publicRoutines.length === 0;
+      // US-05: while routines or a search answer are on their way, nothing is said to be missing;
+      // the status line says what is happening instead.
+      const waiting = !settled || (searchInput.value.trim() !== "" && searchState === "loading");
+      let message = null;
+
+      if (nothingToList) {
+        message = exploreLoads.builtIn === "failed" || exploreLoads.public === "failed"
+                ? ["Routines could not be loaded", "Please refresh the page to try again."]
+                : ["No routines yet", "There are no public routines to explore right now. Please check back later."];
+      } else if (!waiting) {
+        const shown = [...results.querySelectorAll(".featured, .card, .mini-card")]
+                .filter(card => card.style.display !== "none").length;
+        const { filteredStatic, filteredPublic } = viewAllMatches();
+        const more = filteredStatic.length + filteredPublic.length;
+
+        if (shown === 0 && more === 0) {
+          message = ["No routines found", "Try another search or filter.",
+            "Check the spelling or try a shorter word. You can search by routine, person, profession, "
+            + "category, goal or habit, or reset the filters to see every routine again."];
+        } else if (shown === 0 && !isViewAllOpen) {
+          message = ["No featured routines match", "Open View all to see more results."];
+        }
+      }
+
+      results.hidden = nothingToList;
+      viewAllBtn.parentElement.hidden = nothingToList;
+      viewAllGrid.hidden = nothingToList;
+
+      // One message is enough; View all does not repeat it underneath, nor say it while waiting.
+      viewAllGrid.querySelectorAll(".view-all-empty").forEach(note => {
+        note.hidden = message !== null || waiting;
+      });
+
+      empty.hidden = message === null;
+      if (message) {
+        empty.querySelector(".explore-empty-title").textContent = message[0];
+        empty.querySelector(".explore-empty-text").textContent = message[1];
+      }
+
+      // US-05: when nothing matches, say what to try and offer Reset filters.
+      const hint = empty.querySelector(".explore-empty-hint");
+      hint.textContent = message?.[2] || "";
+      hint.hidden = hint.textContent === "";
+      document.getElementById("resetFiltersBtn").hidden = hint.hidden;
+
+      updateSearchStatus();
+    }
+
+    function updateSearchStatus() {
+
+      const status = document.getElementById("exploreSearchStatus");
+      const typed = searchInput.value.trim() !== "";
+      let message = "";
+
+      if (exploreLoads.builtIn === "loading" || exploreLoads.public === "loading") {
+        message = "Loading routines…";
+      } else if (typed && searchState === "loading") {
+        message = "Searching…";
+      } else if (typed && searchState === "failed") {
+        message = "The search could not reach the server, so only what is shown on this page was searched. Please try again.";
+      }
+
+      status.textContent = message;
+      status.hidden = message === "";
+    }
+
+    const emptyStateOriginalRenderShowcase = renderShowcase;
+    renderShowcase = function (category) {
+      emptyStateOriginalRenderShowcase(category);
+      // A new filter keeps the search that is already typed.
+      applyFilters();
+    };
+    const emptyStateOriginalRenderViewAll = renderViewAll;
+    renderViewAll = function () {
+      emptyStateOriginalRenderViewAll();
+      updateEmptyState();
+    };
+
+    document.body.classList.add('halloween-transition-ready');
+    document.querySelectorAll('.chip').forEach(chip => chip.addEventListener('click', () => {
+      document.body.classList.toggle('halloween-mode', chip.dataset.filter === 'halloween');
+    }));
+
+    updateViewAllButton();
+
+    // Reopen the seasonal filter when returning from a character detail page.
+    const returningToHalloween = new URLSearchParams(window.location.search).get('category') === 'halloween';
+    if (returningToHalloween) {
+      const halloweenChip = document.querySelector('.chip[data-filter="halloween"]');
+      if (halloweenChip) {
+        document.querySelectorAll('.chip').forEach(chip => chip.classList.remove('chip-active'));
+        halloweenChip.classList.add('chip-active');
+        activeCategory = 'halloween';
+        document.body.classList.add('halloween-mode');
+      }
+    }
+
+    applyExploreTheme(returningToHalloween ? "halloween" : "all");
+
+    // US-25: the chips follow the categories administrators manage. The six written into the
+    // page keep their own showcase while they are on the list; one taken off it goes, and a new
+    // one lists its community routines under View all. All and Halloween always stay.
+    async function loadCategoryChips() {
+      let categories;
+
+      try {
+        const response = await fetch("/categories");
+        categories = response.ok ? await response.json() : null;
+      } catch (error) {
+        categories = null;
+      }
+
+      // Without the list the page stays as it was written.
+      if (!Array.isArray(categories) || !categories.length) return;
+
+      const keys = categories.map(category => category.name.trim().toLowerCase());
+      const halloweenChip = document.querySelector('.chip[data-filter="halloween"]');
+
+      document.querySelectorAll(".filters .chip").forEach(chip => {
+        const key = chip.dataset.filter;
+        if (key !== "all" && key !== "halloween" && !keys.includes(key)) {
+          chip.hidden = true;
+        }
+      });
+
+      categories.forEach((category, index) => {
+        const key = keys[index];
+
+        if (document.querySelector('.filters .chip[data-filter="' + CSS.escape(key) + '"]')) return;
+
+        const chip = document.createElement("a");
+        chip.href = "#";
+        chip.className = "chip";
+        chip.dataset.filter = key;
+        chip.textContent = category.name;
+        chip.addEventListener("click", selectAddedCategory);
+        halloweenChip.before(chip);
+
+        exploreThemes[key] = {
+          ...exploreThemes.all,
+          badge: "Category",
+          title: category.name + " routines",
+          subtitle: "Community routines filed under " + category.name + "."
+        };
+        showcaseData[key] = [];
+      });
+    }
+
+    // A category added by an administrator has no showcase of its own: its routines are under View all.
+    function selectAddedCategory(event) {
+      event.preventDefault();
+
+      document.querySelectorAll(".chip").forEach(chip => chip.classList.remove("chip-active"));
+      event.currentTarget.classList.add("chip-active");
+      document.body.classList.remove("halloween-mode");
+
+      activeCategory = event.currentTarget.dataset.filter;
+      applyExploreTheme(activeCategory);
+      document.getElementById("routineResults").replaceChildren();
+
+      isViewAllOpen = true;
+      updateViewAllButton();
+      renderViewAll();
+    }
+
+    loadCategoryChips();
+
+    renderShowcase(returningToHalloween ? "halloween" : "all");
+
+    loadPublicRoutines();
+
+    loadSavedRoutines();
+
+    loadLikedRoutines();
+
+    loadBuiltInRoutines();
+
+
+  </script>
+  <script src="site-rating.js"></script>
+<script defer src="mobile.js"></script>
+<script src="theme.js"></script>
+</body>
+</html>
+
