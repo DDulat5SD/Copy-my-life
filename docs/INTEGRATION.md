@@ -70,3 +70,19 @@ The team's earlier static pages are still in the repository root and in `static/
 root or `static/` folders, so these files have no effect on the running application. They can be
 confused with the real frontend, though. The team should agree in a separate pull request whether to
 move them to a `legacy/` folder (keeping their history) or remove them.
+
+## Repository cleanup audit (Week 12)
+
+Checked on `main` before the Week 12 documentation update. Nothing was deleted.
+
+| Check | Result |
+|---|---|
+| Build output, caches, logs, backups, IDE files tracked in Git | None (`target/`, `__pycache__/`, `*.class`, `*.jar`, `*.log`, `*.bak`, `.idea/` and the AI model are all git-ignored) |
+| Secrets (database URLs with passwords, cloud or GitHub tokens, private keys) | None found in tracked files |
+| Frontend files in `src/main/resources/static/` that nothing references | None: every page, script, stylesheet and image is referenced by name |
+| Legacy pages referenced by the application | None: only this document mentions them (`Explore_Style.css` also exists in the served frontend under the same name) |
+| Exact duplicates among the legacy pages | `forgot-password.html` and `forgot-password.css` in the root are byte-identical to the copies in `static/` |
+| Root `main.*` and `profile.*` versus `static/main.*` and `static/profile.*` | Different versions of the same prototypes |
+
+The legacy pages are the team's earlier deliverables, so they stay until the team decides; the two
+byte-identical `forgot-password` files are the safest first removal if the team chooses to clean up.

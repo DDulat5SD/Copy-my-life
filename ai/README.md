@@ -65,9 +65,9 @@ characters. Only clients on 127.0.0.1 are served unless `CML_AI_ALLOW_REMOTE=1`;
 ```
 python -m venv .venv
 .venv\Scripts\python -m pip install -r requirements-dev.txt
-set CML_AI_MODEL_DIR=C:\Users\ASUS\IdeaProjects\CopyMyLife-AI\models\multilingual-minilm
+.venv\Scripts\python download_model.py models\multilingual-minilm   # the default model folder
 .venv\Scripts\python app.py                 # http://127.0.0.1:8001
-.venv\Scripts\python -m pytest tests        # 54 tests, real model
+.venv\Scripts\python -m pytest tests        # uses the real model
 .venv\Scripts\python test_similarity.py     # prints real similarities and a ranking
 ```
 

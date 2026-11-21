@@ -242,44 +242,95 @@ As an administrator, I want to create, edit, hide, and remove public profiles, c
 
 ### Current status
 - **Completed for Milestone 1:** SRS, ERD, traceability table, GitHub setup, and initial UI/UX prototype.
-- **Implementation status:** backend development has started and several core features are already implemented.
-- **Next phases:** continue implementation, testing, integration, and preparation for later milestones.
+- **Implementation status (Week 12):** all 27 user stories are implemented and covered by automated tests; see [7. Implementation Status](#7-implementation-status).
+- **Deployment:** the application runs on Railway in separate production and staging environments.
+- **Known gaps:** video posts (NFR-03) and the formal measurement of the performance and usability targets; see [Release scope](#release-scope).
 
 ---
 
 ## 6. Prioritization (MoSCoW)
 
-| Story | Title | Epic | Estimate (/10) | Priority |
-|-------|-------|------|:--------------:|----------|
-| US-01 | Create Account | Account & Profile | 4 | **Must** |
-| US-02 | Sign In and Sign Out | Account & Profile | 4 | **Must** |
-| US-03 | Personal Profile | Account & Profile | 4 | **Must** |
-| US-04 | Explore Public Routines | Discovery | 4 | **Must** |
-| US-06 | Routine Details and Timeline | Discovery | 5 | **Must** |
-| US-08 | Create Personal Routine | Content Sharing | 6 | **Must** |
-| US-09 | Manage Habits and Activities | Content Sharing | 5 | **Must** |
-| US-13 | Follow a Creator | Social Interaction | 4 | **Must** |
-| US-17 | Copy Full Routine | Copying Routines | 7 | **Must** |
-| US-20 | Daily Habit Tracking | Tracking & Progress | 6 | **Must** |
-| US-23 | Privacy Settings | Privacy & Moderation | 5 | **Must** |
-| US-27 | Weekly Routine Calendar | Account & Profile | 6 | **Must** |
-| US-15 | Like and Comment | Social Interaction | 5 | **Must** |
-| US-05 | Search and Filter | Discovery | 5 | Should |
-| US-18 | Copy a Single Habit | Copying Routines | 5 | Should |
-| US-19 | Adapt a Copied Routine | Copying Routines | 7 | Should |
-| US-21 | Progress and Streaks | Tracking & Progress | 6 | Should |
-| US-25 | Admin Content Management | Privacy & Moderation | 6 | Should |
-| US-26 | AI-Powered Lifestyle Matching | Discovery | 5 | Should |
-| US-28 | Community-Based Routine Categorization | Social Interaction | 6 | Should |
-| US-29 | Friend System | Social Interaction | 6 | Should |
-| US-30 | Routine Leaderboard | Discovery | 4 | Should |
-| US-16 | Save Routines | Social Interaction | 3 | Could |
-| US-12 | Creator Statistics | Content Sharing | 4 | Could |
-| US-22 | Routine Reminders | Tracking & Progress | 6 | Could |
-| US-24 | Report Content | Privacy & Moderation | 3 | Could |
-| US-07 | Progress Status | Tracking & Progress | 5 | Could |
+| Story | Title | Epic | Estimate (/10) | Priority | Status |
+|-------|-------|------|:--------------:|----------|--------|
+| US-01 | Create Account | Account & Profile | 4 | **Must** | Done |
+| US-02 | Sign In and Sign Out | Account & Profile | 4 | **Must** | Done |
+| US-03 | Personal Profile | Account & Profile | 4 | **Must** | Done |
+| US-04 | Explore Public Routines | Discovery | 4 | **Must** | Done |
+| US-06 | Routine Details and Timeline | Discovery | 5 | **Must** | Done |
+| US-08 | Create Personal Routine | Content Sharing | 6 | **Must** | Done |
+| US-09 | Manage Habits and Activities | Content Sharing | 5 | **Must** | Done |
+| US-13 | Follow a Creator | Social Interaction | 4 | **Must** | Done |
+| US-17 | Copy Full Routine | Copying Routines | 7 | **Must** | Done |
+| US-20 | Daily Habit Tracking | Tracking & Progress | 6 | **Must** | Done |
+| US-23 | Privacy Settings | Privacy & Moderation | 5 | **Must** | Done |
+| US-27 | Weekly Routine Calendar | Account & Profile | 6 | **Must** | Done |
+| US-15 | Like and Comment | Social Interaction | 5 | **Must** | Done |
+| US-05 | Search and Filter | Discovery | 5 | Should | Done |
+| US-18 | Copy a Single Habit | Copying Routines | 5 | Should | Done |
+| US-19 | Adapt a Copied Routine | Copying Routines | 7 | Should | Done |
+| US-21 | Progress and Streaks | Tracking & Progress | 6 | Should | Done |
+| US-25 | Admin Content Management | Privacy & Moderation | 6 | Should | Done |
+| US-26 | AI-Powered Lifestyle Matching | Discovery | 5 | Should | Done |
+| US-28 | Community-Based Routine Categorization | Social Interaction | 6 | Should | Done |
+| US-29 | Friend System | Social Interaction | 6 | Should | Done |
+| US-30 | Routine Leaderboard | Discovery | 4 | Should | Done |
+| US-16 | Save Routines | Social Interaction | 3 | Could | Done |
+| US-12 | Creator Statistics | Content Sharing | 4 | Could | Done |
+| US-22 | Routine Reminders | Tracking & Progress | 6 | Could | Done |
+| US-24 | Report Content | Privacy & Moderation | 3 | Could | Done |
+| US-07 | Progress Status | Tracking & Progress | 5 | Could | Done |
 
 
 **Won't have (this version):** direct messaging, live streaming, paid content or subscriptions, advertising, native iOS/Android apps.
 
 **Summary:** 13 Must · 9 Should · 5 Could · 5 Won't features.
+
+---
+
+## 7. Implementation Status
+
+Status as of Week 12, checked against the code in this repository and its automated tests.
+**Done** means every acceptance criterion above is implemented and exercised by the named tests.
+All of them run in GitHub Actions (`.github/workflows/ci.yml`) against a real PostgreSQL database,
+with a check that fails the run if any test class is skipped. Test classes are under
+`src/test/java/com/copymylife/copymylife/`; browser checks are in `src/test/e2e/`.
+
+| Story | Status | Evidence |
+|-------|--------|----------|
+| US-01 Create Account | Done | `POST /auth/register`. `AccountIdentityRegressionTest`: new account with server-assigned id, duplicate e-mail rejected and the original untouched, invalid data refused. `UiPolishRegressionTest`: the sign-up form explains each mistake under its field. |
+| US-02 Sign In and Sign Out | Done | `POST /auth/login` and `/auth/logout` (the token is revoked). `AuthProfilePrivacyRegressionTest`, `JwtTokenIntegrityRegressionTest`. |
+| US-03 Personal Profile | Done | Name, username, profession, bio, interests, goals and photo (`ProfileUpdateRequest`). `AuthProfilePrivacyRegressionTest`: the whole profile is saved and survives a refresh, the browser edits with Save, Cancel and refresh, photo upload, unsafe photos refused. |
+| US-27 Weekly Routine Calendar | Done | Calendar events with repeats and single-occurrence changes. `WeeklyCalendarRegressionTest`. |
+| US-04 Explore Public Routines | Done | `ExplorePublicRoutinesRegressionTest`: only public routines are listed; the empty case. `explore-empty-check.mjs`. |
+| US-05 Search and Filter | Done | `SearchAndFilterRegressionTest`: search by keyword, the author's profession and goal, and the habits in a routine; no-results message and reset. |
+| US-06 Routine Details and Timeline | Done | `GuestRoutineViewRegressionTest`: a visitor sees the timeline; an empty routine shows an empty state. |
+| US-26 AI-Powered Lifestyle Matching | Done | Python AI service (`ai/`, `POST /match`). `LifestyleMatchingRegressionTest`: changed interests or routines change the recommendations; `LifestyleMatchingAiIntegrationTest` runs against the real Python service. Needs the AI service to be running. |
+| US-30 Routine Leaderboard | Done | Top Routines overall, by category and by time of day. `RoutineLeaderboardRegressionTest`. |
+| US-08 Create Personal Routine | Done | `RoutineScheduleRegressionTest`: a routine is created with every field and survives a refresh; invalid routines are refused with a reason. |
+| US-09 Manage Habits and Activities | Done | `ManageActivitiesRegressionTest`, `HabitManagementRegressionTest`: edit, reorder, pause and delete; changes survive a refresh. |
+| US-12 Creator Statistics | Done | Follower count and copies per public routine, zero values without errors. `CreatorStatisticsRegressionTest`; `docs/us-12-creator-statistics.md`. |
+| US-13 Follow a Creator | Done | `UserFollowRegressionTest`, `FollowingListRegressionTest`: follow and unfollow update the list and the follower count. |
+| US-15 Like and Comment | Done | Likes and comments on routines and posts. `LikeAndCommentRegressionTest`: a like adds one, pressing Like again removes it (the browser check `like-comment-check.mjs` unlikes both a post and a routine), comments are stored with the author's name, a visitor is asked to sign in. |
+| US-16 Save Routines | Done | Saved routines and saved posts. `SavedPostsRegressionTest`: a saved post made private is no longer accessible. Saved routines are filtered through the same access rule (`SavedRoutineService` uses `RoutineAccessService.canViewRoutine`). `docs/us-16-saved-posts.md`. |
+| US-28 Community-Based Routine Categorization | Done | `CommunityCategoryVotingRegressionTest`: the first vote opens a seven-day period, the category with the most votes is assigned when it ends, one vote per user. |
+| US-29 Friend System | Done | `FriendSystemRegressionTest`: send, accept (both lists), decline (request removed), remove a friend for both. |
+| US-17 Copy Full Routine | Done | `RoutineCopyRegressionTest`: a public routine is copied with its habits as the copier's own records; a private or deleted routine cannot be copied. |
+| US-18 Copy a Single Habit | Done | `CopySingleHabitRegressionTest`: only that activity is copied into the chosen routine; Cancel adds nothing. |
+| US-19 Adapt a Copied Routine | Done | `AdaptCopiedRoutineRegressionTest`: adjusted values are saved in the copy, the source never changes, invalid times and durations are refused. |
+| US-07 Progress Status | Done | Status levels from completed habits. `ProgressStatusServiceTest`, `ProgressAndStreaksRegressionTest`; `docs/us-07-progress-status.md`. |
+| US-20 Daily Habit Tracking | Done | `TodaysRoutineRunRegressionTest`: Completed, Skipped and Postponed are stored and survive a reload. `DailyHabitTrackingRegressionTest`. |
+| US-21 Progress and Streaks | Done | `ProgressAndStreaksRegressionTest`, `ProgressHistoryTest`: completion percentage, per-habit and overall streaks, empty state. |
+| US-22 Routine Reminders | Done | In-app reminders before timed activities and calendar routines (`reminders.js`, `POST /reminders/due`); none while reminders are off. `RoutineRemindersRegressionTest`, `ReminderScheduleTest`; `docs/us-22-routine-reminders.md`. Shown only while a signed-in page is open; no e-mail or push. |
+| US-23 Privacy Settings | Done | `PrivacySettingsRegressionTest`: a routine made private can no longer be viewed or copied by others but still by its owner; only the owner can change visibility. Also to-do lists and posts. |
+| US-24 Report Content | Done | Reports on users, comments, routines, posts and post comments; a second report says it was already reported. `ReportContentRegressionTest`; `docs/us-24-report-content.md`. |
+| US-25 Admin Content Management | Done | Administrator area (`/admin-api/**`, role `ADMIN`) for profiles, routines, posts, categories and reports. `AdminContentManagementRegressionTest`. |
+
+### Release scope
+
+- **User stories:** 27 of 27 Done: 13 of 13 Must, 9 of 9 Should, 5 of 5 Could. **No Must-have
+  requirement is unfinished.** Nothing is Partial or Deferred.
+- **Outside the user stories:**
+  - *Video posts* (mentioned in 1.2 and NFR-03) are not supported: posts take images up to 5 MB.
+  - *NFR-01, NFR-02, NFR-06* (load times, search time, first-routine time) have not been measured formally.
+  - *E-mail* is used only for password reset.
+- **Won't have:** unchanged (direct messaging, live streaming, paid content, advertising, native apps).
