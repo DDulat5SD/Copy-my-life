@@ -68,10 +68,10 @@ word "password" in the generic error message.
 | Item | Severity | Release decision |
 |---|---|---|
 | Staging database lacks the case-insensitive unique e-mail index `users_email_lower_uq` (production has it); simultaneous duplicate sign-ups could succeed on staging | Minor (staging only) | Not a release blocker. Apply `CREATE UNIQUE INDEX IF NOT EXISTS users_email_lower_uq ON users (lower(email));` on staging after approval |
-| The first release from this repository removes the ten Halloween cover images that production serves today (`/img/halloween/01-billy.jpg` is 200 on production, 404 on staging) | Minor (cosmetic; letter placeholders appear) | **Decision required before tagging**: accept the placeholders, or add licensed images first |
+| The first release from this repository removes the ten Halloween cover images that production serves today (`/img/halloween/01-billy.jpg` is 200 on production, 404 on staging) | Minor (cosmetic; letter placeholders appear) | **Accepted** by the project owner on 2026-11-21; released with placeholders |
 | Video posts are not supported (images up to 5 MB); NFR-03 not met | Minor (documented limitation) | Accepted for the beta; outside the user stories |
 | Performance and usability targets (NFR-01, -02, -06) not measured formally | Minor | Accepted for the beta |
-| One old CI run (pull request #7, run 44891545923) is still shown as in progress although `ci.yml` was removed | Process, not product | Cancel it in GitHub → Actions |
+| One old CI run (pull request #7, run 44891545923) was shown as in progress although `ci.yml` was removed | Process, not product | Resolved: the run has completed |
 
 ## 4. Critical and Major release blockers
 
@@ -79,7 +79,9 @@ word "password" in the generic error message.
 
 The production release is held back by setup, not by defects (section 5).
 
-## 5. Beta release readiness
+## 5. Beta release readiness (before the release)
+
+*This section records the state before the release; the outcome is in [section 8](#8-release-result).*
 
 **Code and staging: ready.** Every QA case run passed and no defect is open above Minor.
 
@@ -104,18 +106,15 @@ git tag -a v0.9.0 -m "CopyMyLife 0.9.0 beta"
 git push origin v0.9.0     # only after the one-time setup in DEPLOY.md
 ```
 
-## 6. Remaining manual actions
+## 6. Manual actions
 
-1. **Review and merge** this pull request (documentation only).
-2. **Cancel** the stuck run 44891545923 (GitHub → Actions → the run → *Cancel workflow run*).
-3. **Halloween images:** decide (section 3).
-4. **Release setup** ([DEPLOY.md → One-time setup](DEPLOY.md#one-time-setup-before-the-first-release)):
-   - Railway project token for `production`;
-   - GitHub environment `production` with the secret `RAILWAY_TOKEN`.
-5. **Tag and push `v0.9.0`**, then watch the *Release* run: tests, deploy, smoke test.
-6. **Only after it succeeds:** disconnect the old `Elsico12/CopyMyLife` source from the production
-   services in Railway.
-7. **Optional:**
+Done on 2026-11-21: this pull request merged (#8); the stuck run finished; Halloween placeholders
+accepted; release setup (Railway project token, GitHub environment `production` with `RAILWAY_TOKEN`);
+`v0.9.0` tagged and released; the old `Elsico12/CopyMyLife` source disconnected from production.
+
+Still open (none blocks the beta):
+
+1. **Optional:**
    - approve applying `users_email_lower_uq` on staging;
    - remove the staging QA accounts (`*@invalid.test`) with an administrator account;
    - repository owner: protect `main` (require a pull request; no status check, since PR CI was removed).
@@ -134,3 +133,60 @@ git push origin v0.9.0     # only after the one-time setup in DEPLOY.md
 | Requirements and implementation status | [SRS.md](SRS.md) |
 | Deployment, release and rollback | [DEPLOY.md](DEPLOY.md) |
 | Release notes | [RELEASE_NOTES.md](RELEASE_NOTES.md) |
+| Week 13 QA and release preparation (PR #8) | https://github.com/DDulat5SD/Copy-my-life/pull/8 |
+| Release workflow fixes (PR #9) | https://github.com/DDulat5SD/Copy-my-life/pull/9 |
+| Release run for `v0.9.0` | https://github.com/DDulat5SD/Copy-my-life/actions/runs/44900413857 |
+| Beta release | https://github.com/DDulat5SD/Copy-my-life/releases/tag/v0.9.0 |
+
+## 8. Release result
+
+**`v0.9.0` is live on production (2026-11-21).**
+
+| | |
+|---|---|
+| Tag | `v0.9.0` (annotated) → `2ad3722` on `main` (merge of pull request #9) |
+| Release run | [44900413857](https://github.com/DDulat5SD/Copy-my-life/actions/runs/44900413857): **success** |
+| GitHub release | https://github.com/DDulat5SD/Copy-my-life/releases/tag/v0.9.0 (pre-release) |
+
+**Workflow jobs** (all success): tagged commit verified (on `main`) · AI service tests (1 min) ·
+backend build and full test suite with no skipped test classes (52 min) · AI service deployed and
+waited for until live · backend and frontend deployed, waited for until live, smoke test passed.
+
+Pull request #9 fixed two gaps found during the preflight: `railway up` now names the Railway project
+explicitly (a fresh runner has no linked project), and each deploy job waits for Railway to report the
+new deployment `SUCCESS`, so the backend never deploys before the AI service is live and the smoke test
+cannot pass against the previous deployment.
+
+**Railway production after the release**
+
+| Service | Deployment | Before |
+|---|---|---|
+| `CopyMyLife` (backend and frontend) | `4e49fe67` SUCCESS; started in 6.2 s; no schema change, no data change, no errors in the startup log | `a473aefb` (`0790137`) |
+| `copymylife-ai` | `328f88fe` SUCCESS; model loaded (revision `e8f8c211`); `/health` 200 | `cc48b292` (`38ad257`) |
+
+**Verification** (read-only; no account created, no data changed):
+
+- All 8 pages 200; `/routines/built-in` 200 (43 routines), `/routines/public` 200 (4), `/site-stats`,
+  `/categories` and `/top-routines` 200; `/users/me`, `/admin-api/reports` and `/progress` 403 without a token.
+- `/img/halloween/01-billy.jpg` is now 404, as expected; the Halloween routines show letter placeholders.
+- The PostgreSQL volume (`/var/lib/postgresql/data`, 118 MB) and the uploads volume (`/app/uploads`,
+  32 MB) are the same volumes as before and still attached.
+- Railway variables of the production backend (14), the AI service (2) and staging are unchanged
+  (compared by fingerprint, without printing values). No database credentials were changed.
+- Staging is unaffected: its own database, volume, variables and private network; it still deploys
+  `main` automatically (now `2ad3722`).
+
+**Deployment sources.** The first Railway token, exposed in a screenshot, no longer exists; the only
+project token was created after it, is scoped to `production`, and is the one the release used. After
+the verification the old `Elsico12/CopyMyLife` GitHub source was disconnected from both production
+services (settings such as the AI service's root directory `/ai` and its health check kept; nothing
+redeployed). Production now changes only through a tested version tag; staging keeps its
+`DDulat5SD/Copy-my-life` triggers.
+
+**Known limitations** are listed in [RELEASE_NOTES.md](RELEASE_NOTES.md#known-limitations).
+
+**Rollback.** Railway → production → the service → **Deployments** → the previous good deployment →
+**Redeploy**, the backend and, if needed, the AI service (before `v0.9.0`: backend `a473aefb`, AI
+`cc48b292`). Or tag the last good commit on `main` as the next patch version (for example `v0.9.1`);
+the workflow tests it again before deploying. A rollback needs no database step. See
+[DEPLOY.md](DEPLOY.md#rollback).

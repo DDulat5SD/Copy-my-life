@@ -1,13 +1,14 @@
 # CopyMyLife 0.9.0 beta — Release Notes
 
-**Status: prepared, not yet published.** The tag `v0.9.0` has not been pushed and production has not
-been redeployed from this repository yet. See [WEEK13_RELEASE.md](WEEK13_RELEASE.md#5-beta-release-readiness)
-for what remains.
+**Status: released on 2026-11-21.** Tag `v0.9.0` on commit `2ad3722` passed the release workflow
+([run 44900413857](https://github.com/DDulat5SD/Copy-my-life/actions/runs/44900413857)) and is live on production. Details are in
+[WEEK13_RELEASE.md](WEEK13_RELEASE.md#8-release-result).
 
 | | |
 |---|---|
 | Version | 0.9.0 (first public beta) |
-| Planned tag | `v0.9.0` on `main` |
+| Tag | `v0.9.0` → `2ad3722` on `main` |
+| GitHub release | https://github.com/DDulat5SD/Copy-my-life/releases/tag/v0.9.0 (pre-release) |
 | Production | https://copymylife-production.up.railway.app |
 | Staging | https://copymylife-staging-staging.up.railway.app |
 
@@ -40,8 +41,8 @@ through the tag-based release workflow.
 
 Final QA on 2026-11-21 ([details and evidence](WEEK13_RELEASE.md#2-final-qa-results)):
 **14 PASS · 0 FAIL · 8 NOT VERIFIED.** All NOT VERIFIED cases are on production, where only read-only
-checks were allowed. Before deploying, the release workflow runs the full automated suite
-(about 1,000 tests) on the tagged commit.
+checks were allowed. The release workflow then ran the full backend suite (about 1,000 tests) and the
+AI service tests on the tagged commit: all passed, with no skipped test classes ([run 44900413857](https://github.com/DDulat5SD/Copy-my-life/actions/runs/44900413857)).
 
 ## Resolved bugs
 
@@ -58,7 +59,7 @@ checks were allowed. Before deploying, the release workflow runs the full automa
 - E-mail is used only for password reset; staging has mail disabled on purpose.
 - AI features need the separate AI service; without it the rest of the site works.
 - The ten built-in Halloween routines have no cover images in this repository, so they show letter
-  placeholders. Production loses its current images with this release unless licensed ones are added.
+  placeholders (accepted for the beta). Since this release production no longer serves the old images.
 - Performance and usability targets in the SRS have not been measured formally.
 
 ## Unresolved issues
@@ -74,14 +75,15 @@ git tag -a v0.9.0 -m "CopyMyLife 0.9.0 beta"
 git push origin v0.9.0
 ```
 
-Before the first release, complete the one-time setup in
-[DEPLOY.md](DEPLOY.md#one-time-setup-before-the-first-release): a Railway token, the GitHub
-environment `production` with the secret `RAILWAY_TOKEN`, and the Halloween image decision.
+The one-time setup in [DEPLOY.md](DEPLOY.md#one-time-setup-before-the-first-release) is done: a
+Railway project token for `production` is stored as `RAILWAY_TOKEN` on the GitHub environment
+`production`. Production now deploys only from tested version tags.
 
 ## Rollback
 
 - **Fastest:** Railway → production → the service → **Deployments** → the previous good deployment →
-  **Redeploy**. Do it for the backend and, if it was released, the AI service.
+  **Redeploy**. Do it for the backend and, if it was released, the AI service. Before `v0.9.0` the
+  backend ran deployment `a473aefb` (commit `0790137`) and the AI service `cc48b292` (`38ad257`).
 - **From Git:** tag the last good commit on `main` with a new patch version (for example `v0.9.1`); the
   release workflow tests it again before deploying.
 - Releases do not change the database, volumes or Railway variables, so a code rollback needs no
