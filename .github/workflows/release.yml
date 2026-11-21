@@ -26,6 +26,8 @@ concurrency:
 
 env:
   RAILWAY_CLI_VERSION: "5.71.0"
+  # melodious-illumination. Named explicitly: a fresh runner has no linked project.
+  RAILWAY_PROJECT_ID: 4d7e6c71-5e3f-44c6-b7ff-cf035e706243
   RAILWAY_ENVIRONMENT: production
   BACKEND_SERVICE: CopyMyLife
   AI_SERVICE: copymylife-ai
@@ -268,9 +270,22 @@ jobs:
       - name: Install the Railway CLI
         run: npm install --global "@railway/cli@$RAILWAY_CLI_VERSION"
 
+      - name: List the current deployments
+        run: >-
+          railway deployment list --json --limit 20 --project "$RAILWAY_PROJECT_ID"
+          --service "$AI_SERVICE" --environment "$RAILWAY_ENVIRONMENT" > "$RUNNER_TEMP/before.json"
+
       # The whole repository is uploaded; the service's root directory (/ai) picks the Dockerfile.
       - name: Upload and deploy
-        run: railway up --ci --service "$AI_SERVICE" --environment "$RAILWAY_ENVIRONMENT" --message "Release $GITHUB_REF_NAME"
+        run: >-
+          railway up --ci --project "$RAILWAY_PROJECT_ID" --service "$AI_SERVICE"
+          --environment "$RAILWAY_ENVIRONMENT" --message "Release $GITHUB_REF_NAME"
+
+      # `railway up --ci` returns when the build ends; the backend waits until the AI service is live.
+      - name: Wait for the deployment to go live
+        run: >-
+          python3 .github/scripts/wait_for_deployment.py "$RUNNER_TEMP/before.json"
+          --project "$RAILWAY_PROJECT_ID" --service "$AI_SERVICE" --environment "$RAILWAY_ENVIRONMENT"
 
   deploy-backend:
     name: Deploy backend and frontend
@@ -304,8 +319,21 @@ jobs:
       - name: Install the Railway CLI
         run: npm install --global "@railway/cli@$RAILWAY_CLI_VERSION"
 
+      - name: List the current deployments
+        run: >-
+          railway deployment list --json --limit 20 --project "$RAILWAY_PROJECT_ID"
+          --service "$BACKEND_SERVICE" --environment "$RAILWAY_ENVIRONMENT" > "$RUNNER_TEMP/before.json"
+
       - name: Upload and deploy
-        run: railway up --ci --service "$BACKEND_SERVICE" --environment "$RAILWAY_ENVIRONMENT" --message "Release $GITHUB_REF_NAME"
+        run: >-
+          railway up --ci --project "$RAILWAY_PROJECT_ID" --service "$BACKEND_SERVICE"
+          --environment "$RAILWAY_ENVIRONMENT" --message "Release $GITHUB_REF_NAME"
+
+      # Without this the smoke test could pass against the previous deployment.
+      - name: Wait for the deployment to go live
+        run: >-
+          python3 .github/scripts/wait_for_deployment.py "$RUNNER_TEMP/before.json"
+          --project "$RAILWAY_PROJECT_ID" --service "$BACKEND_SERVICE" --environment "$RAILWAY_ENVIRONMENT"
 
       # Read-only checks against the public site; they create no data.
       - name: Smoke test

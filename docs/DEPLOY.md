@@ -151,8 +151,12 @@ before merging risky changes.
 1. checks the tag points at a commit on `main`;
 2. runs the full backend test suite on that exact commit, and the AI tests when `ai/` changed since
    the previous release tag; any failure stops the release before anything is deployed;
-3. deploys the AI service with `railway up` when `ai/` changed;
-4. deploys the backend with `railway up`, then checks the login page and built-in routines answer.
+3. deploys the AI service with `railway up` when `ai/` changed, and waits until Railway reports the
+   new deployment `SUCCESS`;
+4. deploys the backend the same way, then checks the login page and built-in routines answer.
+
+Both uploads name the Railway project explicitly (`RAILWAY_PROJECT_ID`), because a fresh runner has no
+linked project.
 
 The database, volumes and Railway variables are never changed by a release.
 
