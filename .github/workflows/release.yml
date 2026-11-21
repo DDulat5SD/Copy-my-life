@@ -1,0 +1,163 @@
+# Production release: runs only when a version tag such as v1.2.0 is pushed.
+#
+# A tag is released only if it points at a commit on main whose CI run (the push run of
+# ci.yml) passed. The workflow then uploads that exact commit to Railway production with
+# the Railway CLI: the AI service first when ai/ changed since the previous release tag,
+# then the backend. Databases, volumes and variables in Railway are not touched.
+#
+# Needs the RAILWAY_TOKEN secret on the "production" GitHub environment: a Railway project
+# token scoped to the production environment. See docs/DEPLOY.md.
+
+name: Release
+
+on:
+  push:
+    tags: ["v[0-9]+.[0-9]+.[0-9]+"]
+
+permissions:
+  contents: read
+  actions: read
+
+# One production release at a time, in tag order; never cancel one that has started.
+concurrency:
+  group: release-production
+  cancel-in-progress: false
+
+env:
+  RAILWAY_CLI_VERSION: "5.71.0"
+  RAILWAY_ENVIRONMENT: production
+  BACKEND_SERVICE: CopyMyLife
+  AI_SERVICE: copymylife-ai
+  PRODUCTION_URL: https://copymylife-production.up.railway.app
+
+jobs:
+  verify:
+    name: Verify the tagged commit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      sha: ${{ steps.commit.outputs.sha }}
+      ai: ${{ steps.scope.outputs.ai }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - id: commit
+        name: The tag must point at a commit on main
+        run: |
+          sha=$(git rev-parse "${GITHUB_REF_NAME}^{commit}")
+          git fetch --no-tags origin main
+          if ! git merge-base --is-ancestor "$sha" origin/main; then
+            echo "::error::$GITHUB_REF_NAME points at $sha, which is not on main."
+            exit 1
+          fi
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+
+      - name: CI must have passed on that exact commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ steps.commit.outputs.sha }}
+        run: |
+          passed=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/ci.yml/runs?head_sha=$SHA&event=push&per_page=20" \
+            --jq '[.workflow_runs[] | select(.conclusion == "success")] | length')
+          if [ "$passed" -lt 1 ]; then
+            echo "::error::No successful CI run on main for $SHA. Wait for CI to pass (or fix it) and tag again."
+            exit 1
+          fi
+          echo "CI passed on $SHA ($passed successful run(s))."
+
+      - id: scope
+        name: Decide whether the AI service changed
+        env:
+          SHA: ${{ steps.commit.outputs.sha }}
+        run: |
+          previous=$(git describe --tags --abbrev=0 --match 'v[0-9]*.[0-9]*.[0-9]*' "$SHA^" 2>/dev/null || true)
+          if [ -z "$previous" ]; then
+            echo "No earlier release tag: releasing the AI service too."
+            echo "ai=true" >> "$GITHUB_OUTPUT"
+          elif git diff --quiet "$previous" "$SHA" -- ai/; then
+            echo "ai/ unchanged since $previous: the AI service is not redeployed."
+            echo "ai=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ai/ changed since $previous: releasing the AI service."
+            echo "ai=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  deploy-ai:
+    name: Deploy AI service
+    needs: verify
+    if: ${{ needs.verify.outputs.ai == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    environment: production
+    env:
+      RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.verify.outputs.sha }}
+
+      - name: Check the deployment secret
+        run: |
+          if [ -z "$RAILWAY_TOKEN" ]; then
+            echo "::error::The RAILWAY_TOKEN secret is not set on the production environment. Nothing was deployed."
+            exit 1
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install the Railway CLI
+        run: npm install --global "@railway/cli@$RAILWAY_CLI_VERSION"
+
+      # The whole repository is uploaded; the service's root directory (/ai) picks the Dockerfile.
+      - name: Upload and deploy
+        run: railway up --ci --service "$AI_SERVICE" --environment "$RAILWAY_ENVIRONMENT" --message "Release $GITHUB_REF_NAME"
+
+  deploy-backend:
+    name: Deploy backend and frontend
+    needs: [verify, deploy-ai]
+    if: ${{ !cancelled() && needs.verify.result == 'success' && needs.deploy-ai.result != 'failure' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    environment:
+      name: production
+      url: ${{ env.PRODUCTION_URL }}
+    env:
+      RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.verify.outputs.sha }}
+
+      - name: Check the deployment secret
+        run: |
+          if [ -z "$RAILWAY_TOKEN" ]; then
+            echo "::error::The RAILWAY_TOKEN secret is not set on the production environment. Nothing was deployed."
+            exit 1
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install the Railway CLI
+        run: npm install --global "@railway/cli@$RAILWAY_CLI_VERSION"
+
+      - name: Upload and deploy
+        run: railway up --ci --service "$BACKEND_SERVICE" --environment "$RAILWAY_ENVIRONMENT" --message "Release $GITHUB_REF_NAME"
+
+      # Read-only checks against the public site; they create no data.
+      - name: Smoke test
+        run: |
+          for attempt in $(seq 1 30); do
+            if curl -fsS -o /dev/null "$PRODUCTION_URL/login.html" && curl -fsS -o /dev/null "$PRODUCTION_URL/routines/built-in"; then
+              echo "Production answers: login page and built-in routines are up."
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::Production did not answer after the deploy. Roll back as described in docs/DEPLOY.md."
+          exit 1

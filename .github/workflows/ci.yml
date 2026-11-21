@@ -1,4 +1,7 @@
-# Continuous integration for pull requests into main.
+# Continuous integration for pull requests into main and for every commit that lands on main.
+#
+# The push run tests the merged commit itself. Railway's "Wait for CI" holds the staging
+# deployment until it passes, and the release workflow only ships commits it has passed.
 #
 # Every value below is test-only: the database is a throwaway PostgreSQL container
 # that exists for one job, and no production credential or Railway token is used.
@@ -8,13 +11,17 @@ name: CI
 on:
   pull_request:
     branches: [main]
+  push:
+    branches: [main]
 
 permissions:
   contents: read
 
+# A new push to a pull request cancels its older run. Runs on main are never cancelled:
+# each merged commit needs its own result before it can deploy or be released.
 concurrency:
-  group: ci-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
+  group: ci-${{ github.event_name }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   backend:
@@ -106,7 +113,8 @@ jobs:
     outputs:
       ai: ${{ steps.diff.outputs.ai }}
     steps:
-      # The pull_request checkout is a merge commit whose first parent is main.
+      # On a pull request the checkout is a merge commit whose first parent is main;
+      # on a push to main the first parent is the previous main commit.
       - uses: actions/checkout@v4
         with:
           fetch-depth: 2
